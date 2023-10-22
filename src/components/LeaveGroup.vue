@@ -1,27 +1,27 @@
 <template>
-    <button id = "join" type = "button" @click="joinGroup"> Join Group</button>
+    <button id = "leave" type = "button" @click="leaveGroup"> Leave Group</button>
 </template>
 
 <script>
 import firebaseApp from '../firebase.js'
 import {getFirestore} from "firebase/firestore"
-import {doc, setDoc, updateDoc, arrayUnion} from "firebase/firestore";
+import {doc, setDoc, updateDoc, arrayRemove} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
     methods: {
-        async joinGroup() {
+        async leaveGroup() {
             console.log("IN AC")
 
             try {
                 const docRef = await updateDoc(doc(db, "Group", "BT3103"), {
-                    Requests: arrayUnion("brandonlsl010911@gmail.com")
+                    Members: arrayRemove("e0735448@u.nus.edu")
                 })
                 console.log(docRef)
-                alert("Joined successfully!")
+                alert("Leaved group successfully!")
             }
             catch(error) {
-                console.error("Error joining group: ", error);
+                console.error("Error leaving group: ", error);
             }
         }
     }
