@@ -7,8 +7,8 @@ import LeaveGroup from '@/components/LeaveGroup.vue'
 const routes = [
   {
      path: "/",
-     name: "Leave Group",
-     component: LeaveGroup
+     name: "Test",
+     component: Login
   },
   {
     path: '/about',
