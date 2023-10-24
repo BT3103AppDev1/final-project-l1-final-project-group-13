@@ -3,12 +3,17 @@ import About from '@/views/About.vue'
 import Login from '@/components/Login.vue'
 import JoinGroup from '@/components/JoinGroup.vue'
 import LeaveGroup from '@/components/LeaveGroup.vue'
+import StudyGroupNavBar from '@/components/StudyGroupNavBar.vue'
+import TheStudyGroupPage from '@/views/TheStudyGroupPage.vue'
+import TheHomePage from '@/views/TheHomePage.vue'
+import StudyGroupWidget from '@/components/StudyGroupWidget.vue'
+
 
 const routes = [
   {
      path: "/",
-     name: "Test",
-     component: Login
+     name: "TheHomePage",
+     component: StudyGroupWidget
   },
   {
     path: '/about',

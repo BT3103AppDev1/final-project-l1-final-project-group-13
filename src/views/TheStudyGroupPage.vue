@@ -4,16 +4,16 @@
     </div>
   
     <div id="studygroupnavbar">
-    <button id="homepagebutton">
+    <button id="homepagebutton" type="button" @click="test">
           Home Page
       </button>
-      <button id="calendarbutton">
+      <button id="calendarbutton" type="button" @click="test">
           Calendar
       </button>
-      <button id="filesbutton">
+      <button id="filesbutton" type="button" @click="test">
           Files 
       </button>
-      <button id="requestsbutton">
+      <button id="requestsbutton" type="button" @click="test">
           Requests
       </button>
     </div>
@@ -36,6 +36,11 @@
         memberLimit : 6,
       }
     },
+    methods: {
+      test() {
+        console.log('Hello');
+      }
+    }
   };
   </script>
   

@@ -1,8 +1,6 @@
 <template>
-    <h1>Test</h1>
-    <div id="title">
-        <h1>Welcome : {{ name }}</h1>
-        <img src="src/assets/logo.PNG" alt="Logo" width="300" height="300">
+    <div id="group">
+        <h1>Group Name</h1>
     </div>
 </template>
   

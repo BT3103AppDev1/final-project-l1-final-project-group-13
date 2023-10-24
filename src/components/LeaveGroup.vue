@@ -1,5 +1,6 @@
 <template>
     <button id = "leave" type = "button" @click="leaveGroup"> Leave Group</button>
+    <h1> test</h1>
 </template>
 
 <script>
