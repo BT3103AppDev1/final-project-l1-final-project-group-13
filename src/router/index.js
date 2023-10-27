@@ -4,12 +4,13 @@ import Login from '@/components/Login.vue'
 import JoinGroup from '@/components/JoinGroup.vue'
 import LeaveGroup from '@/components/LeaveGroup.vue'
 import ReviewRequest from '@/components/ReviewRequest.vue'
+import RequestPage from '@/views/RequestPage.vue'
 
 const routes = [
   {
      path: "/",
      name: "Review Request",
-     component: ReviewRequest
+     component: RequestPage
   },
   {
     path: '/about',

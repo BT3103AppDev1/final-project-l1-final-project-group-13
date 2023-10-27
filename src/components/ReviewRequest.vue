@@ -1,27 +1,47 @@
 <template>
   <div id="requests">
-    <h4>{{ num }} request(s) to join the group</h4> <br>
-    <table id = "table">
+    <h3>{{ num }} request(s) to join the group:</h3>
+    <br />
+    <table id="table">
       <tr v-for="(row, rowIndex) in groupedUsers" :key="rowIndex">
         <td v-for="(user, userIndex) in row" :key="user.Email">
           <div class="card">
-            <div class = "profile"> 
-              <div class = "picture">
-                <img class = "img" src="@/assets/profileIcon.png" alt="Profile picture">
+            <div class="profile">
+              <div class="picture">
+                <img
+                  class="img"
+                  src="@/assets/profileIcon.png"
+                  alt="Profile picture"
+                />
               </div>
-              <div class = "account">
-                <h3> <strong>{{ user.Name }} </strong></h3>
-            <p> {{ user.Email }}</p>
-            <p> {{ user.TelegramHandle }}</p>
+              <div class="account">
+                <h3>
+                  <strong>{{ user.Name }} </strong>
+                </h3>
+                <p>{{ user.Email }}</p>
+                <p>{{ user.TelegramHandle }}</p>
               </div>
             </div>
-            <p> {{ formatCourses(user.Major) }}</p>
-            <p> {{ formatCourses(user.Courses) }}</p>
-            <p> {{ formatCourses(user.StudyTiming) }}</p>
-            <p> {{ formatCourses(user.Location) }}</p>
-            <br><br>
-            <button id="acceptButton" type="button" @click="accept(user.Email)">Accept</button>
-            <button style="margin-left: 1em;" id="rejectButton" type="button" @click="reject(user.Email)">Reject</button> <br>
+            <p>{{ formatCourses(user.Major) }}</p>
+            <p>{{ formatCourses(user.Courses) }}</p>
+            <p>{{ formatCourses(user.StudyTiming) }}</p>
+            <p>{{ formatCourses(user.Location) }}</p>
+            <br />
+            <div id="buttons">
+              <img
+                id="accept"
+                src="@/assets/acceptIcon.png"
+                alt="Accept Request"
+                @click="accept(user.Email)"
+              />
+              <img
+                style="margin-left: 2em"
+                id="reject"
+                src="@/assets/rejectIcon.png"
+                alt="Reject Request"
+                @click="reject(user.Email)"
+              />
+            </div>
           </div>
         </td>
       </tr>
@@ -37,8 +57,8 @@ import {
   updateDoc,
   arrayRemove,
   arrayUnion,
+  doc,
 } from "firebase/firestore";
-import { doc } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
@@ -81,14 +101,15 @@ export default {
       console.log(email);
       if (email) {
         try {
-          const docS = await getDoc(doc(db, "Group", this.group))
-          console.log(docS.data().NumberOfMembers)
+          const docS = await getDoc(doc(db, "Group", this.group));
+          console.log(docS.data().NumberOfMembers);
           const docRef = await updateDoc(doc(db, "Group", this.group), {
             Members: arrayUnion(email),
             Requests: arrayRemove(email),
-            NumberOfMembers: docS.data().Members.length + 1
+            NumberOfMembers: docS.data().Members.length + 1,
           });
           alert("Accepted!");
+          this.$emit("reviewed");
         } catch (error) {
           console.error("Error accepting request: ", error);
         }
@@ -106,6 +127,7 @@ export default {
             Requests: arrayRemove(email),
           });
           alert("Rejected!");
+          this.$emit("reviewed");
         } catch (error) {
           console.error("Error rejecting request: ", error);
         }
@@ -116,60 +138,86 @@ export default {
 
     formatCourses(value) {
       return value.filter(Boolean).join(", ");
-    }
+    },
   },
 };
 </script>
 
 <style>
-  .card {
-    border: 1px solid #ccc;
-    padding: 30px;
-    border-radius: 5px;
-    margin: 20px;
-    width: 320px; /* Adjust the width as needed */
-    height: 350px;
-    text-align: left;
-  }
 
-  #acceptButton,
-  #rejectButton {
-    margin-top: 10px;
-  }
+.card {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 20px;
+  width: 340px; 
+  height: 320px;
+  text-align: left;
+  background-color: #FFDE59;
+}
 
-  td,tr {
-    text-align: center;
-  }
+td,
+tr {
+  text-align: center;
+}
 
-  .table-cell {
-    vertical-align: middle;
-  }
+.table-cell {
+  vertical-align: middle;
+}
 
-  .img {
-    height: 80px;
-    width: 80px;
-  }
+.img {
+  height: 80px;
+  width: 80px;
+}
 
-  .profile {
-    display: flex;
-    align-items: center;
-  }
+.profile {
+  display: flex;
+  align-items: center;
+}
 
-  .picture {
-    margin-right: 20px;
-  }
+.picture {
+  margin-right: 20px;
+}
 
-  .account{
-    text-align: left;
-  }
+.account {
+  text-align: left;
+}
 
-  #request {
-    text-align: center;
-    margin: auto;
-  }
+#requests {
+  text-align: center;
+  margin: auto;
+  background-color: white;
+  font-family: 'AbeeZee', Helvetica;
+  font-weight: 400;
+}
 
-  #table {
-    margin-left: auto;
-    margin-right: auto;
-  }
+#table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#accept,
+#reject {
+  height: 40px;
+  width: 40px;
+}
+
+#buttons{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+  bottom: 5px;
+}
+
+p{
+  font-size: 14px;
+  font-family: 'AbeeZee', Helvetica;
+  font-weight: 400;
+  color: black;
+}
+
+h3 {
+  color: black;
+}
 </style>
