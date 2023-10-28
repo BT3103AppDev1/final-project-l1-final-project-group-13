@@ -92,10 +92,7 @@ async mounted() {
             }
         })
     this.search_By_text();
-    // console.log("mounted running")
-
-
-    
+    // console.log("mounted running") 
 },
 methods: {
     //this function is to search when the user press the search button. 

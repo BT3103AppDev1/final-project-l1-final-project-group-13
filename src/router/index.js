@@ -7,16 +7,16 @@ import SearchBar from '@/components/SearchBar.vue'
 import testing from '@/components/testing.vue'
 
 const routes = [
+  // {
+  //    path: "/",
+  //    name: "SearchBar",
+  //    component: SearchBar
+  // },
   {
-     path: "/",
-     name: "SearchBar",
-     component: SearchBar
-  },
-//   {
-//     path: "/",
-//     name: "testing",
-//     component: testing
-//  },
+    path: "/",
+    name: "testing",
+    component: testing
+ },
   {
     path: '/about',
     name: 'About',

@@ -1,27 +1,50 @@
 <template>
-    <div>
       <Multiselect
-        v-model="value"
+        v-model="value4"
         mode="tags"
-        placeholder="Select your characters"
+        placeholder="location"
         :options="options"
-        :search="true"
+        class="multiselect"
+        :searchable="true"
+        :groups="true"
+        :close-on-select="false"
       />
-    </div>
-  </template>
-  
-  <script>
-    import Multiselect from '@vueform/multiselect'
+</template>
+
+<script>
+import firebaseApp from '../firebase.js'
+import {getFirestore} from "firebase/firestore"
+import {getDoc, doc, setDoc, updateDoc, arrayUnion, getDocs,collection} from "firebase/firestore";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import Multiselect from '@vueform/multiselect'
+const db = getFirestore(firebaseApp);
   
     export default {
       components: { Multiselect },
       data() {
         return {
-          value: [],
-          options: ['Batman', 'Robin', 'Joker']
+          value4: [],
+          options: []
         }
-      }
+      },
+      async mounted() {
+        const docRef = doc(db, "Preference_info_instances", "Course");
+        const docSnap = await getDoc(docRef);
+        let data = docSnap.data();
+        console.log(data.BT);
+        // this.options = concat(concat(data.BT, data.IS),data.CS)
+        Object.keys(data).forEach(key => {
+            let values = data[key];
+            let obj = {label:key,options:values}
+            this.options.push(obj)
+            // console.log(`Key: ${key}, Value: ${data[key]}`);
+            // this.options = this.options.concat(values).sort();
+
+        });
+        // data.forEach((k, v) => console.log(`Key is ${k} and value is ${v}`));
+        
     }
-  </script>
+}
+ </script>
   
   <style src="@vueform/multiselect/themes/default.css"></style>
