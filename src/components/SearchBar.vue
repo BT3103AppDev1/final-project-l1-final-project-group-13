@@ -5,47 +5,58 @@
     id="text_tobe_searched" 
     name="text_tobe_searched"
     placeholder="Search for groups">
+    <!-- <Vueform>
+    <TextElement name="text"/>
+    </Vueform> -->
     <button id = "search" type = "button" @click="search_By_text">search</button>
     <br><br>
     <div class="dropdowns_container">
     <div class="dropdown_list">
       <Multiselect
-        v-model="value1"
+        v-model="selected_major"
         mode="tags"
         placeholder="major"
-        :options="options"
+        :options="options_major"
         class="multiselect"
         :searchable="true"
+        :groups="true"
+        :close-on-select="false"
       />
     </div>
     <div class="dropdown_list">
       <Multiselect
-        v-model="value2"
+        v-model="selected_course"
         mode="tags"
         placeholder="course"
-        :options="options"
+        :options="options_course"
         class="multiselect"
         :searchable="true"
+        :groups="true"
+        :close-on-select="false"
       />
     </div>
     <div class="dropdown_list">
       <Multiselect
-        v-model="value3"
+        v-model="selected_timing"
         mode="tags"
         placeholder="timing"
-        :options="options"
+        :options="options_timing"
         class="multiselect"
         :searchable="true"
+        :groups="true"
+        :close-on-select="false"
       />
     </div>
     <div class="dropdown_list">
       <Multiselect
-        v-model="value4"
+        v-model="selected_location"
         mode="tags"
         placeholder="location"
-        :options="options"
+        :options="options_location"
         class="multiselect"
         :searchable="true"
+        :groups="true"
+        :close-on-select="false"
       />
     </div>
     </div>
@@ -60,37 +71,79 @@
 <script>
 import firebaseApp from '../firebase.js'
 import {getFirestore} from "firebase/firestore"
-import {doc, setDoc, updateDoc, arrayUnion, getDocs,collection} from "firebase/firestore";
+import {getDoc,doc, setDoc, updateDoc, arrayUnion, getDocs,collection} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import Multiselect from '@vueform/multiselect'
+// import en from '@vueform/vueform/locales/en'
+// import vueform from '@vueform/vueform/themes/vueform'
+// import '@vueform/vueform/themes/vueform/css/index.min.css';
+// import Vueform from '@vueform/vueform'
+// import Builder from '@vueform/builder'
+
 const db = getFirestore(firebaseApp);
 
 export default {
     components: {
-        Multiselect
+        Multiselect,
+        // Vueform,
+        // // Builder,
+        // vueform
   },
     data() { 
     return { 
         user: false,
         useremail: '',
-        value1: [],
-        value2: [],
-        value3: [],
-        value4: [],
-        options: ['Batman', 'Robin', 'Joker']
+        selected_major: [],
+        selected_course: [],
+        selected_timing: [],
+        selected_location: [],
+        options_major: [],
+        options_course: [],
+        options_timing: [],
+        options_location: []
     } 
 },
 
 async mounted() {
-    //get user and credentials, probably dont need this bc search dont require user, filter need it. 
-    const auth = getAuth();
+    // populate major list
+    let docRef = doc(db, "Preference_info_instances", "Major");
+    let docSnap = await getDoc(docRef);
+    let data = docSnap.data();
+    Object.keys(data).forEach(key => {
+        let values = data[key];
+        let obj = {label:key,options:values}
+        this.options_major.push(obj)
+    });
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                this.user = user;
-                this.useremail = user.email;
-            }
-        })
+    // populate course list
+    docRef = doc(db, "Preference_info_instances", "Course");
+    docSnap = await getDoc(docRef);
+    data = docSnap.data();
+    Object.keys(data).forEach(key => {
+        let values = data[key];
+        let obj = {label:key,options:values}
+        this.options_course.push(obj)
+    });
+
+    // populate timing list
+    docRef = doc(db, "Preference_info_instances", "Timing");
+    docSnap = await getDoc(docRef);
+    data = docSnap.data();
+    Object.keys(data).forEach(key => {
+        let values = data[key];
+        let obj = {label:key,options:values}
+        this.options_timing.push(obj)
+    }); 
+
+    // populate location list
+    docRef = doc(db, "Preference_info_instances", "Location");
+    docSnap = await getDoc(docRef);
+    data = docSnap.data();
+    Object.keys(data).forEach(key => {
+        let values = data[key];
+        let obj = {label:key,options:values}
+        this.options_location.push(obj)
+    });  
     this.search_By_text();
     // console.log("mounted running") 
 },

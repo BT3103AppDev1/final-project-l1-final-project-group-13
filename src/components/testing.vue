@@ -31,18 +31,11 @@ const db = getFirestore(firebaseApp);
         const docRef = doc(db, "Preference_info_instances", "Course");
         const docSnap = await getDoc(docRef);
         let data = docSnap.data();
-        console.log(data.BT);
-        // this.options = concat(concat(data.BT, data.IS),data.CS)
         Object.keys(data).forEach(key => {
             let values = data[key];
             let obj = {label:key,options:values}
             this.options.push(obj)
-            // console.log(`Key: ${key}, Value: ${data[key]}`);
-            // this.options = this.options.concat(values).sort();
-
-        });
-        // data.forEach((k, v) => console.log(`Key is ${k} and value is ${v}`));
-        
+        });        
     }
 }
  </script>
