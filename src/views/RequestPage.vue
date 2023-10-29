@@ -1,4 +1,7 @@
 <template>
+  <div class = "sidebar">
+  <Sidebar/>
+  </div>
     <div class ="request">
   <h1>{{ group.Name }}</h1>
   <ReviewRequest :key = "refreshComp" @reviewed = "change"/>
@@ -17,6 +20,7 @@ import {
   doc,
 } from "firebase/firestore";
 import ReviewRequest from "@/components/ReviewRequest.vue";
+import Sidebar from "@/components/Sidebar.vue"
 
 const db = getFirestore(firebaseApp);
 
@@ -24,6 +28,7 @@ export default {
   name: "RequestPage",
   components: {
     ReviewRequest,
+    Sidebar
   },
   data() {
     return {
@@ -55,5 +60,13 @@ export default {
 .request{
     font-family: 'AbeeZee';
     color:black;
+    background-color: #F5F5F5;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sidebar{
+  float: left;
+  height: 100%;
 }
 </style>

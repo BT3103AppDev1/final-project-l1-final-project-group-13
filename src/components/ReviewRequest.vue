@@ -16,9 +16,9 @@
                 />
               </div>
               <div class="account">
-                <h3>
+                <h4>
                   <strong>{{ user.Name }} </strong>
-                </h3>
+                </h4>
                 <p>{{ user.Email }}</p>
                 <p>{{ user.TelegramHandle }}</p>
               </div>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebaseApp from "../firebase.js";
 import {
   getDoc,
@@ -67,6 +68,7 @@ export default {
   data() {
     return {
       num: 0,
+      user: false,
       request: [],
       users: [],
       group: "BT3103",
@@ -74,7 +76,13 @@ export default {
   },
 
   async mounted() {
-    let document = await getDoc(doc(db, "Group", "BT3103"));
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+    let document = await getDoc(doc(db, "Group", this.group));
     let documentRequest = document.data().Requests;
     this.num = documentRequest.length;
     this.request = documentRequest;
@@ -148,14 +156,15 @@ export default {
 
 .card {
   border: 1px solid #ccc;
-  padding: 5px 10px 40px 40px;
   border-radius: 20px;
-  width: 380px; 
-  height: 400px;
+  padding:3px 10px 3px 10px;
+  width: 320px; 
+  height: 300px;
   text-align: left;
   background-color: #FFDE59;
   margin-left: auto;
   margin-right: auto;
+  margin: 15px;
 }
 
 td,
@@ -213,14 +222,19 @@ tr {
 }
 
 p{
-  font-size: 20px;
+  font-size: 12px;
   font-family: 'AbeeZee', Helvetica;
-  font-weight: 400;
+  font-weight: 100;
   color: black;
 }
 
 h3 {
   color: black;
   font-size: 24px;
+}
+
+h3 {
+  color: black;
+  font-size: 16px;
 }
 </style>
