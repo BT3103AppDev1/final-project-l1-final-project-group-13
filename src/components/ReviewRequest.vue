@@ -8,6 +8,7 @@
           <div class="card">
             <div class="profile">
               <div class="picture">
+                <br>
                 <img
                   class="img"
                   src="@/assets/profileIcon.png"
@@ -147,13 +148,14 @@ export default {
 
 .card {
   border: 1px solid #ccc;
-  padding: 20px;
+  padding: 5px 10px 40px 40px;
   border-radius: 20px;
-  margin: 20px;
-  width: 340px; 
-  height: 320px;
+  width: 380px; 
+  height: 400px;
   text-align: left;
   background-color: #FFDE59;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 td,
@@ -211,7 +213,7 @@ tr {
 }
 
 p{
-  font-size: 14px;
+  font-size: 20px;
   font-family: 'AbeeZee', Helvetica;
   font-weight: 400;
   color: black;
@@ -219,5 +221,6 @@ p{
 
 h3 {
   color: black;
+  font-size: 24px;
 }
 </style>
