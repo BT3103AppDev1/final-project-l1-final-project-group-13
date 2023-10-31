@@ -6,6 +6,7 @@ import LeaveGroup from '@/components/LeaveGroup.vue'
 import ReviewRequest from '@/components/ReviewRequest.vue'
 import RequestPage from '@/views/RequestPage.vue'
 
+
 const routes = [
   {
     path: "/",

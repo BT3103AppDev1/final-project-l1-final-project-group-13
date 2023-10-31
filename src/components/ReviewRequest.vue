@@ -25,7 +25,7 @@
             </div>
             <p>{{ formatCourses(user.Major) }}</p>
             <p>{{ formatCourses(user.Courses) }}</p>
-            <p>{{ formatCourses(user.StudyTiming) }}</p>
+            <p>{{ formatCourses(user.Timing) }}</p>
             <p>{{ formatCourses(user.Location) }}</p>
             <br />
             <div id="buttons">
@@ -117,6 +117,10 @@ export default {
             Requests: arrayRemove(email),
             NumberOfMembers: docS.data().Members.length + 1,
           });
+
+          await updateDoc(doc(db, "User", email), {
+            Groups: arrayUnion(this.group)
+          })
           alert("Accepted!");
           this.$emit("reviewed");
         } catch (error) {

@@ -17,7 +17,7 @@ export default {
     return {
       user: false,
       group: "BT3103",
-      email: ""
+      email: "brandonlsl010911@gmail.com"
     };
   },
    mounted() {
@@ -35,15 +35,21 @@ export default {
             console.log("IN AC")
 
             try {
+              if (confirm("Confirm leaving group?")){
                 const docS = await getDoc(doc(db, "Group", this.group));
                 console.log(docS.data().NumberOfMembers);
                 const docRef = await updateDoc(doc(db, "Group", this.group), {
-                    Members: arrayRemove("e0735448@u.nus.edu"), //this.email
+                    Members: arrayRemove(this.email), //this.email
                     NumberOfMembers: docS.data().Members.length - 1,
                 })
+                await updateDoc(doc(db, "User", this.email), {
+                  Groups: arrayRemove(this.group)
+                })
                 console.log(docRef)
-                alert("Leaved group successfully!")
+                alert("Left group successfully!")
                 this.$emit("leaved");
+                //router.push(homepage)
+              }
             }
             catch(error) {
                 console.error("Error leaving group: ", error);
