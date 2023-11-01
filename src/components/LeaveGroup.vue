@@ -1,13 +1,14 @@
 <template>
-    <div class = leave>
-    <span class="material-icons" id = "icon">exit_to_app</span>
-    <button class = "leaveButton" type = "button" @click="leaveGroup"> Leave Group</button>
-    </div>
+  <div class="leave" @click="leaveGroup">
+    <span class="material-icons" id="icon">exit_to_app</span>
+    <button class="leaveButton" type="button">Leave Group</button>
+  </div>
 </template>
+
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import firebaseApp from '../firebase.js'
+import {firebaseApp} from '../firebase.js'
 import {getFirestore} from "firebase/firestore"
 import {doc, getDoc, setDoc, updateDoc, arrayRemove} from "firebase/firestore";
 const db = getFirestore(firebaseApp);
@@ -89,6 +90,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin: auto;
+  cursor: pointer;
 }
 </style>
 

@@ -10,7 +10,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import firebaseApp from "../firebase.js";
+import {firebaseApp} from "../firebase.js";
 import {
   getDoc,
   getFirestore,
