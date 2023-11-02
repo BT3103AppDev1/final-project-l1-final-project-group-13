@@ -13,7 +13,7 @@
 
   <div>
     <h2>Image URLs:</h2>
-    <div v-for="[key, value] in imageUrls" :key="name">
+    <div v-for="[key, value] in imageUrls" :key="key">
       <a :href="value" target="_blank">{{ key.name }}</a>
     </div>
   </div>
@@ -26,6 +26,8 @@ import {
   uploadBytesResumable,
   getDownloadURL,
   listAll,
+  updateMetadata,
+  getMetadata
 } from "firebase/storage";
 import { firebaseApp, storage } from "../firebase.js";
 import { arrayUnion, getFirestore } from "firebase/firestore";
@@ -60,7 +62,13 @@ export default {
     async onFileChange($event) {
       const file = $event.target.files[0];
       const fileRef = ref(storage, this.group + "/" + file.name);
-      const uploadTask = uploadBytesResumable(fileRef, file);
+      const newMetadata = {
+        customMetadata: {
+        'uploadedBy': "brandon"//this.user.name
+        }
+      }
+      const uploadTask = uploadBytesResumable(fileRef, file, newMetadata);
+      
       uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -94,13 +102,23 @@ export default {
               break;
           }
         },
+
+        
         () => {
           // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
+            
+      getMetadata(fileRef).then((metadata) => {
+        const size = metadata.size
+        console.log(size)
+        const custome = metadata.customMetadata.uploadedBy
+        console.log(custome)
+      })
           });
         }
       );
+
       await updateDoc(doc(db, "Group", this.group), {
         Files: arrayUnion(file.name),
       });
@@ -128,8 +146,8 @@ export default {
           res.items.map(async (itemRef) => {
             console.log("File:", itemRef.name);
             const u = await getDownloadURL(itemRef);
-this.imageUrls.set(itemRef, u)
-            console.log(u);
+            this.imageUrls.set(itemRef, u)
+            console.log(itemRef);
           })
         );
       } catch (error) {
