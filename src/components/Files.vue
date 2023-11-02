@@ -10,12 +10,27 @@
       @change="onFileChange($event)"
     />
   </div>
+  <br>
 
   <div>
-    <h2>Image URLs:</h2>
-    <div v-for="[key, value] in imageUrls" :key="key">
-      <a :href="value" target="_blank">{{ key.name }}</a>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Size</th>
+          <th>Date Created</th>
+          <th>Uploaded By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="file in files" :key="file.name">
+          <td><a :href="file.url" target="_blank"> {{ file.name }} </a>  </td>
+          <td>{{ file.size }}</td>
+          <td>{{ file.timeCreated }}</td>
+          <td>{{ file.customMetadata.uploadedBy }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -46,7 +61,7 @@ export default {
     return {
       user: false,
       group: "BT3103",
-      imageUrls: new Map(),
+      files: []
     };
   },
   mounted() {
@@ -145,8 +160,13 @@ export default {
         await Promise.all(
           res.items.map(async (itemRef) => {
             console.log("File:", itemRef.name);
-            const u = await getDownloadURL(itemRef);
-            this.imageUrls.set(itemRef, u)
+            const downloadURL = await getDownloadURL(itemRef);
+            const metadata = await getMetadata(itemRef)
+             const sizeInMB = (metadata.size / (1024 * 1024)).toFixed(2) + " MB";
+             const date = new Date(metadata.timeCreated);
+          date.setHours(date.getHours() + 8);
+          const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+            this.files.push({name: itemRef.name, size: sizeInMB, timeCreated: formattedDate, customMetadata: metadata.customMetadata, url: downloadURL})
             console.log(itemRef);
           })
         );
@@ -207,4 +227,28 @@ export default {
   color: black;
   margin-right: 2px;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a {
+    color:black;
+    text-decoration: none;
+  }
 </style>
