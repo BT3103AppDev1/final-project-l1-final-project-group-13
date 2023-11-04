@@ -5,11 +5,17 @@ import RegistrationForm from "@/components/RegistrationForm.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
 import LeaveGroup from "@/components/LeaveGroup.vue";
 import TestPage from "@/views/TestPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
 import Sidebar from "@/components/Sidebar.vue";
 
 const routes = [
   {
     path: "/",
+    name: "Log In",
+    component: LoginPage,
+  },
+  {
+    path: "/signup",
     name: "Sign Up",
     component: RegistrationForm,
   },

@@ -1,61 +1,65 @@
 <template>
-  <div class="main">
-    <!-- <form @submit.prevent="register" class="register-child">
+  <body>
+    <div class="body">
+      <div class="main">
+        <!-- <form @submit.prevent="register" class="register-child">
       <input type="email" placeholder="Email address..." v-model="email" />
       <input type="password" placeholder="password..." v-model="password" />
       <button type="submit">Register</button>
     </form> -->
-    <br />
-    <div class="firstcontainer">
-      <h1 class="titleOfDiv">
-        Sign up with<br />
-        <span id="StudyText">Study</span>
-        <span id="HiveText">Hive</span>
-      </h1>
-    </div>
-    <div class="secondcontainer">
-      <form id="userForm">
-        <label for="email">Email: </label>
-        <input
-          type="text"
-          id="email"
-          required="yes"
-          placeholder="e.g. johndoe@gmail.com"
-          v-model="email"
-        />
-        <br /><br /><br />
-        <label for="password">Password: </label>
-        <input
-          type="password"
-          id="password"
-          required="yes"
-          v-model="password"
-        />
-        <br /><br />
-        <p>
-          Your password must contain a minimum of 6 characters with no space
-        </p>
         <br />
+        <div class="firstcontainer">
+          <h1 class="titleOfDiv">
+            Sign up with<br />
+            <span id="StudyText">Study</span>
+            <span id="HiveText">Hive</span>
+          </h1>
+        </div>
+        <div class="secondcontainer">
+          <form id="userForm">
+            <label for="email">Email: </label>
+            <input
+              type="text"
+              id="email"
+              required="yes"
+              placeholder="e.g. johndoe@gmail.com"
+              v-model="email"
+            />
+            <br /><br /><br />
+            <label for="password">Password: </label>
+            <input
+              type="password"
+              id="password"
+              required="yes"
+              v-model="password"
+            />
+            <br /><br />
+            <p>
+              Your password must contain a minimum of 6 characters with no space
+            </p>
+            <br />
 
-        <label for="confirmpassword">Confirm Password: </label>
-        <input
-          type="password"
-          id="confirmpassword"
-          required="yes"
-          v-model="confirmPassword"
-          @input="validateForm"
-        />
-        <br /><br />
-        <p v-if="passwordErrorMessage" style="color: red">
-          {{ passwordErrorMessage }}
-        </p>
-        <br /><br /><br /><br />
-        <button id="submitbutton" type="button" @click="testAlert">
-          Sign Up
-        </button>
-      </form>
+            <label for="confirmpassword">Confirm Password: </label>
+            <input
+              type="password"
+              id="confirmpassword"
+              required="yes"
+              v-model="confirmPassword"
+              @input="validateForm"
+            />
+            <br /><br />
+            <p v-if="passwordErrorMessage" style="color: red">
+              {{ passwordErrorMessage }}
+            </p>
+            <br /><br /><br /><br />
+            <button id="submitbutton" type="button" @click="register">
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-  </div>
+  </body>
 </template>
 
 <script>
@@ -86,25 +90,25 @@ export default {
       this.passwordErrorMessage = "";
       return true;
     },
-  },
-  testAlert() {
-    alert("test is working");
-  },
-  register() {
-    const auth = getAuth();
-    console.log("Registering...");
-    createUserWithEmailAndPassword(auth, this.email, this.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        this.$router.push("/home");
-        console.log("Registered successfully");
-      })
-      .catch((error) => {
-        console.log("Register failed!");
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert("Error " + errorCode + ": " + errorMessage);
-      });
+    testAlert() {
+      alert("test is working");
+    },
+    register() {
+      const auth = getAuth();
+      console.log("Registering...");
+      createUserWithEmailAndPassword(auth, this.email, this.password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          this.$router.push("/home");
+          console.log("Registered successfully");
+        })
+        .catch((error) => {
+          console.log("Register failed!");
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert("Error " + errorCode + ": " + errorMessage);
+        });
+    },
   },
 
   // mounted() {
@@ -126,12 +130,35 @@ export default {
 </script>
 
 <style scoped>
+body {
+  background: var(
+    --background-color,
+    linear-gradient(
+      180deg,
+      #ffb904 0%,
+      rgba(255, 218, 79, 0.86) 52.08%,
+      rgba(255, 201, 0, 0.24) 97.4%
+    )
+  );
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  margin-left: 0px;
+}
+.body {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 .main {
   width: 700px;
   height: 550px;
   border-radius: 20px;
   background: var(--offwhite-background, #f5f5f5);
-  margin: auto;
+  /* margin: auto; */
   position: relative;
 }
 
