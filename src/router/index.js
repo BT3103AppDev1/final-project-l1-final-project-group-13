@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import About from "@/views/About.vue";
-import Login from "@/components/Login.vue";
+import LoginForm from "@/components/LoginForm.vue";
+import RegistrationForm from "@/components/RegistrationForm.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
 import LeaveGroup from "@/components/LeaveGroup.vue";
 import TestPage from "@/views/TestPage.vue";
@@ -9,18 +10,13 @@ import Sidebar from "@/components/Sidebar.vue";
 const routes = [
   {
     path: "/",
-    name: "TestPage",
+    name: "Sign Up",
+    component: RegistrationForm,
+  },
+  {
+    path: "/home",
+    name: "Home",
     component: TestPage,
-  },
-  {
-    path: "/",
-    name: "Leave Group",
-    component: LeaveGroup,
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: About,
   },
 ];
 
