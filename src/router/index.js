@@ -6,6 +6,8 @@ import LeaveGroup from '@/components/LeaveGroup.vue'
 import ReviewRequest from '@/components/ReviewRequest.vue'
 import RequestPage from '@/views/RequestPage.vue'
 import FilesPage from '@/views/FilesPage.vue'
+import FilesTable from "@/components/FilesTable.vue"
+
 
 
 const routes = [

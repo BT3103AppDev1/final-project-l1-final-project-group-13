@@ -42,7 +42,7 @@ aside {
   width: 180px;
 
   background-image: linear-gradient(#ffb904, #ffda4f);
-  height: 100vh;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
