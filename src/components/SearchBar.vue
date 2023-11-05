@@ -1,14 +1,16 @@
 <template>
     <!-- length and size to be decided afterwards -->
-    <input class = "search_bar" 
-    type="text" 
-    id="text_tobe_searched" 
-    name="text_tobe_searched"
-    placeholder="Search for groups">
-    <!-- <Vueform>
-    <TextElement name="text"/>
-    </Vueform> -->
-    <button id = "search" type = "button" @click="search_By_text">search</button>
+    <div class="search-container">
+      <img alt="search button" src="@/components/search.png" @click="search_By_text"/>
+    <input class="search_bar" 
+           type="text" 
+           id="text_tobe_searched" 
+           name="text_tobe_searched"
+           placeholder="Search for groups"
+           @keyup.enter="search_By_text">
+    <button class="create-group-button" @click="createGroup">Create group</button>
+
+</div>
     <br><br>
     <div class="dropdowns_container">
     <div class="dropdown_list">
@@ -59,6 +61,7 @@
         :close-on-select="false"
       />
     </div>
+    <!-- create a button here to apply filter -->
     </div>
     <br><br>
     <div id = "displayer"></div>
@@ -93,6 +96,7 @@ export default {
     return { 
         user: false,
         useremail: '',
+        valid_groups:[],
         selected_major: [],
         selected_course: [],
         selected_timing: [],
@@ -175,6 +179,8 @@ methods: {
             }
             
         })
+        // console.log(valid_groups)
+        this.valid_groups = valid_groups;
     }
 }
 }
@@ -208,12 +214,61 @@ methods: {
     margin-right: 0; /* Ensure the last dropdown doesn't have a right margin */
 }
 
-.search_bar {
-    width: 1249px;
-    height: 40px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid rgb(82, 77, 77);
-    background: #FFF;
+.search-container {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
+
+.search_bar {
+  height: 40px;
+  padding-left: 50px;
+  padding-right: 10px; 
+  font-size: 16px;
+  width: 200px; /* or any desired width */
+  border-radius: 10px;
+  border: 1px solid rgb(82, 77, 77);
+  background: #FFF;
+  flex-grow: 1; /* Add this line */
+  width: auto; /* Change this line from a fixed width to auto */
+}
+
+.search-container img {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+.create-group-button {
+  background-color: #FFDE59;
+  border: none;
+  border-radius: 10px;
+  color: #000000;
+  padding: 8px 16px; /* Adjust padding to match the button height with the input field */
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: background-color 0.3s ease;
+}
+
+.create-group-button:hover {
+  background-color: darken(#FFDE59, 10%);
+}
+
+.create-group-button:before {
+  content: '+';
+  margin-right: 5px;
+  font-size: 20px; /* Adjust to match the size in the image */
+  vertical-align: middle;
+}
+
 </style>
