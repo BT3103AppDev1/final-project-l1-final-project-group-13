@@ -14,14 +14,19 @@ import TheCreateGroupPage from '@/views/TheCreateGroupPage.vue'
 const routes = [
   {
      path: "/",
-     name: "TheHomePage",
+     name: "TheStudyGroupPage",
      component: TheStudyGroupPage // TheNavPage// TheHomePage TheCreateGroupPage TheStudyGroupPage
 
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About
+    path: '/TheHomePage',
+    name: 'TheHomePage',
+    component: TheHomePage
+    },
+  {
+    path: '/TheCreateGroupPage',
+    name: 'TheCreateGroupPage',
+    component: TheCreateGroupPage
     }
   ]
 
