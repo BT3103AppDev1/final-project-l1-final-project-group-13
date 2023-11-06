@@ -126,20 +126,6 @@ export default {
       return true;
     },
     async addDetails() {
-      //   const auth = getAuth();
-      //   console.log("Registering...");
-      //   createUserWithEmailAndPassword(auth, this.email, this.password)
-      //     .then((userCredential) => {
-      //       const user = userCredential.user;
-      //       this.$router.push("/home");
-      //       console.log("Registered successfully");
-      //     })
-      //     .catch((error) => {
-      //       console.log("Register failed!");
-      //       const errorCode = error.code;
-      //       const errorMessage = error.message;
-      //       alert("Error " + errorCode + ": " + errorMessage);
-      //     });
       if (!this.name || !this.dob || !this.telegram || !this.gender) {
         alert("Please fill in all required fields");
         return false;

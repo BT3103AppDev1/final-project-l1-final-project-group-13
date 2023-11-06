@@ -71,18 +71,6 @@ export default {
           const errorMessage = error.message;
           alert(error);
         });
-      // createUserWithEmailAndPassword(auth, this.email, this.password)
-      //   .then(async (userCredential) => {
-      //     const user = userCredential.user;
-      //     this.$router.push("/createaccount1");
-      //     console.log("Registered successfully");
-      //   })
-      //   .catch((error) => {
-      //     console.log("Register failed!");
-      //     const errorCode = error.code;
-      //     const errorMessage = error.message;
-      //     alert("Error " + errorCode + ": " + errorMessage);
-      //   });
     },
   },
 

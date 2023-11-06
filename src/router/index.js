@@ -15,8 +15,15 @@ import ResetComplete from "@/views/ResetComplete.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import UserProfilePage from "@/views/UserProfilePage.vue";
 import PreferencesPage from "@/views/PreferencesPage.vue";
+import ResetPassword from "@/components/ResetPassword.vue";
+import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
 
 const routes = [
+  {
+    path: "/resetpassword",
+    name: "Reset Password",
+    component: ResetPasswordPage,
+  },
   {
     path: "/preferences",
     name: "Preferences",

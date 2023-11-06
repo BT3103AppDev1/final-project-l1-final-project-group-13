@@ -23,7 +23,7 @@
           </div>
         </button></router-link
       >
-      <router-link class="button" to="/editemail">
+      <!-- <router-link class="button" to="/editemail">
         <button>
           <span class="material-icons">email</span>
           <div class="text">
@@ -32,8 +32,8 @@
             <span class="description">Change your email</span>
           </div>
         </button></router-link
-      >
-      <router-link class="button" to="/editpassword"
+      > -->
+      <router-link class="button" to="/resetpassword"
         ><button>
           <span class="material-icons">security</span>
           <div class="text">
@@ -98,8 +98,9 @@ export default {
 <style scoped>
 main {
   background: var(--background-color, #f5f5f5);
-  height: 100vh;
+  /* height: 100vh; */
   width: 100vw;
+  height: 96.6vh;
   position: relative;
   margin-left: 0px;
 }

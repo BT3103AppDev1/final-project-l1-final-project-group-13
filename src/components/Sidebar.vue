@@ -8,15 +8,15 @@
         <span class="material-icons">home</span>
         <span class="text">Home</span>
       </router-link>
-      <router-link class="button" to="/home">
+      <router-link class="button" to="/browsegroups">
         <span class="material-icons">hive</span>
         <span class="text">Browse Groups</span>
       </router-link>
-      <router-link class="button" to="/home">
+      <router-link class="button" to="/profile">
         <span class="material-icons">person</span>
         <span class="text">Profile</span>
       </router-link>
-      <router-link class="button" to="/home">
+      <router-link class="button" to="/faq">
         <span class="material-icons">help</span>
         <span class="text">FAQ</span>
       </router-link>

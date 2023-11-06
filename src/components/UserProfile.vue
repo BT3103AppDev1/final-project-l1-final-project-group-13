@@ -124,11 +124,9 @@ export default {
         );
         alert("Personal details successfully updated!");
       } catch (error) {
-        alert("Error adding document: ", error);
-      }
-      if (!this.name || !this.dob || !this.telegram || !this.gender) {
-        alert("Please fill in all required fields");
-        return false;
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert("Error " + errorCode + ": " + errorMessage);
       }
     },
   },

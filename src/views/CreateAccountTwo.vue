@@ -117,10 +117,10 @@ export default {
     validateFields() {
       //   console.log(this.gender);
       if (
-        !this.selected_major ||
-        !this.selected_course ||
-        !this.selected_timing ||
-        !this.selected_location
+        !this.selected_major.length ||
+        !this.selected_course.length ||
+        !this.selected_timing.length ||
+        !this.selected_location.length
       ) {
         this.errorMessage = "Please fill in all required fields";
         return false;
@@ -130,10 +130,10 @@ export default {
     },
     async addDetails() {
       if (
-        !this.selected_major ||
-        !this.selected_course ||
-        !this.selected_timing ||
-        !this.selected_location
+        !this.selected_major.length ||
+        !this.selected_course.length ||
+        !this.selected_timing.length ||
+        !this.selected_location.length
       ) {
         alert("Please fill in all required fields");
         return false;

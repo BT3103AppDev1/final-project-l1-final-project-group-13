@@ -1,16 +1,21 @@
 <template>
-  <body>
+  <main>
+    <h1 id="mainHead">Profile</h1>
+    <br /><br /><br />
+    <p id="nav">
+      <router-link style="color: #000000; text-decoration: none" to="/profile"
+        >Profile</router-link
+      >
+      > Reset Email
+    </p>
+    <br /><br />
     <div class="body">
       <div class="main">
         <br />
         <div class="firstcontainer">
-          <h1 class="titleOfDiv">
-            <span class="material-icons">lock</span>
-            <br />
-            <span>Enter New Password</span>
-            <br />
-            <p id="description">Please enter a new password for your account</p>
-          </h1>
+          <h2 class="titleOfDiv">Reset Password</h2>
+          <p>Please enter a new password for your account</p>
+          <br />
         </div>
         <div class="secondcontainer">
           <form id="userForm">
@@ -23,7 +28,7 @@
               v-model="password"
             />
             <br /><br />
-            <p>
+            <p class="requirement">
               Your password must contain a minimum of 6 characters with no space
             </p>
             <br />
@@ -37,47 +42,51 @@
               @input="validateForm"
             />
             <br /><br />
-            <p v-if="passwordErrorMessage" style="color: red">
+            <p
+              class="requirement"
+              v-if="passwordErrorMessage"
+              style="color: red"
+            >
               {{ passwordErrorMessage }}
             </p>
             <br /><br /><br /><br />
             <button id="submitbutton" type="button" @click="resetPassword">
               Reset Password
             </button>
+            <br /><br /><br /><br />
           </form>
         </div>
       </div>
     </div>
-  </body>
+  </main>
 </template>
 
 <script>
-import firebase from "@/uifire.js";
 import "firebase/compat/auth";
-import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import {
   getAuth,
-  sendPasswordResetEmail,
+  updateEmail,
   onAuthStateChanged,
+  updatePassword,
 } from "firebase/auth";
-import { getDoc, doc, getFirestore } from "firebase/firestore";
+import { getDoc, doc, updateDoc, getFirestore } from "firebase/firestore";
 import firebaseApp from "../firebase.js";
-import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 
 const db = getFirestore(firebaseApp);
 
 export default {
-  name: "EnterNewPassword",
+  name: "ResetEmail",
 
   data() {
     return {
-      email: "",
+      user: false,
       password: "",
       confirmPassword: "",
       passwordErrorMessage: "",
     };
   },
+
   methods: {
     validateForm() {
       if (this.password !== this.confirmPassword) {
@@ -87,7 +96,7 @@ export default {
       this.passwordErrorMessage = "";
       return true;
     },
-    resetPassword() {
+    async resetPassword() {
       if (this.password !== this.confirmPassword) {
         alert("Passwords do not match");
         return false;
@@ -96,55 +105,13 @@ export default {
         alert("Please fill in the required fields");
         return false;
       }
-
-      const auth = getAuth();
-      // TODO: Implement getParameterByName()
-      function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-        var regexS = "[\\?&]" + name + "=([^&#]*)";
-        var regex = new RegExp(regexS);
-        var results = regex.exec(window.location.href);
-        if (results == null) return "";
-        else return decodeURIComponent(results[1].replace(/\+/g, " "));
-      }
-
-      // Get the action to complete.
-      const mode = getParameterByName("mode");
-      // Get the one-time code from the query parameter.
-      const actionCode = getParameterByName("oobCode");
-
-      verifyPasswordResetCode(auth, actionCode)
-        .then((email) => {
-          const accountEmail = email;
-          console.log(accountEmail);
-
-          // TODO: Show the reset screen with the user's email and ask the user for
-          // the new password.
-          const newPassword = this.password;
-
-          // Save the new password.
-          confirmPasswordReset(auth, actionCode, newPassword)
-            .then((resp) => {
-              // Password reset has been confirmed and new password updated.
-              // TODO: Display a link back to the app, or sign-in the user directly
-              // if the page belongs to the same domain as the app:
-              // auth.signInWithEmailAndPassword(accountEmail, newPassword);
-              // TODO: If a continue URL is available, display a button which on
-              // click redirects the user back to the app via continueUrl with
-              // additional state determined from that URL's parameters.
-              this.$router.push("/resetcomplete");
-            })
-            .catch((error) => {
-              // Error occurred during confirmation. The code might have expired or the
-              // password is too weak.
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              alert("Error " + errorCode + ": " + errorMessage);
-            });
+      updatePassword(this.user, this.password)
+        .then(() => {
+          // Update successful.
+          alert("Password successfully updated!");
         })
         .catch((error) => {
-          // Invalid or expired action code. Ask user to try to reset the password
-          // again.
+          // An error ocurred
           const errorCode = error.code;
           const errorMessage = error.message;
           alert("Error " + errorCode + ": " + errorMessage);
@@ -155,10 +122,9 @@ export default {
   async mounted() {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
-      //already logged in
       if (user) {
         this.user = user;
-        console.log(user.email);
+        this.email = user.email;
 
         const docRef = await getDoc(doc(db, "User", String(user.email)));
 
@@ -169,16 +135,15 @@ export default {
           if (!data.Major) {
             this.$router.push("/createaccount2");
           }
-          // Completed account creation
+          // Correct page -> Populate data
           else {
-            this.$router.push("/home");
+            return false;
           }
         } else {
           this.$router.push("/createaccount1");
         }
-        // not logged in
       } else {
-        return false;
+        this.$router.push("/login");
       }
     });
   },
@@ -186,57 +151,108 @@ export default {
 </script>
 
 <style scoped>
-body {
-  background: var(
-    --background-color,
-    linear-gradient(
-      180deg,
-      #ffb904 0%,
-      rgba(255, 218, 79, 0.86) 52.08%,
-      rgba(255, 201, 0, 0.24) 97.4%
-    )
-  );
-  height: 100vh;
+main {
+  background: var(--background-color, #f5f5f5);
+  height: 96.6vh;
   width: 100vw;
   position: relative;
-  margin-left: 0px;
 }
-.body {
+
+/* .body {
   margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-.main {
-  width: 800px;
-  height: 580px;
-  border-radius: 20px;
-  background: var(--offwhite-background, #f5f5f5);
-  /* margin: auto; */
-  position: relative;
-}
+} */
 
 h1 {
   color: #000;
-  text-align: center;
   font-family: ABeeZee;
-  font-size: 35px;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  float: left;
+  margin: 0px;
+}
+
+.pageTitle {
+  color: #000;
+  font-family: ABeeZee;
+  font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
 
+.description {
+  color: #000;
+  font-family: ABeeZee;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text {
+  float: left;
+  text-align: left;
+  margin-left: 45px;
+}
+
+#pagecontent {
+  width: 700px;
+  height: 550px;
+  border-radius: 20px;
+  background: white;
+  /* margin: auto; */
+  position: relative;
+}
+
+.main {
+  width: 700px;
+  /* height: 550px; */
+  border-radius: 20px;
+  background: white;
+  /* margin: auto; */
+  position: relative;
+}
+
+h2 {
+  color: #000;
+  text-align: left;
+  font-family: ABeeZee;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-left: 45px;
+  /* padding-top: 10px; */
+}
+
+p {
+  color: #000;
+  text-align: left;
+  font-family: ABeeZee;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-left: 45px;
+}
+
 label {
-  width: 300px;
+  width: 265px;
   float: left;
   text-align: right;
   padding: 8px;
   color: #5a5a5a;
-  font-size: 20px;
+  font-size: 18px;
 }
-input {
+input,
+select {
   border-radius: 8px;
   border: 1px solid #968888;
   background: #fff;
@@ -253,6 +269,7 @@ input {
   font-weight: 400;
   line-height: normal;
 }
+
 input::placeholder {
   color: #645b5b;
   font-family: ABeeZee;
@@ -262,21 +279,16 @@ input::placeholder {
   /* padding: 10px; */
 }
 
-#description {
-  color: var(--grey-helper-text, #645b5b);
+#nav {
+  color: #000;
   font-family: ABeeZee;
-  font-size: 15px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-}
-p {
-  color: var(--grey-helper-text, #645b5b);
-  font-family: ABeeZee;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  float: left;
+  margin: 0px;
+  padding: 0;
 }
 
 button {
@@ -294,16 +306,25 @@ button {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  position: absolute;
-  left: 35%;
-  bottom: 10%;
 }
 
-.material-icons {
-  font-size: 50px;
-  /* line-height: 23px; */
-  color: #000000;
-  /* margin-right: 1rem;
-  vertical-align: bottom; */
+#error {
+  color: red;
+  font-family: ABeeZee;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+
+.requirement {
+  color: var(--grey-helper-text, #645b5b);
+  font-family: ABeeZee;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
 }
 </style>
