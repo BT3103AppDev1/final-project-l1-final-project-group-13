@@ -19,11 +19,11 @@
     </h2>
   </div>
 
-  <div id="getMembers">
+  <!-- <div id="getMembers">
     <button id="filesbutton" type="button" @click="getMemberData">
       getMembers
     </button>
-  </div>
+  </div> -->
 
   <div id="displayGroupMembers">
   </div>
@@ -61,6 +61,55 @@ export default {
       memberLimit: 6,
       members : [],
     };
+  },
+  async mounted() {
+    let userEmails = [];
+        let groupName = this.groupName;
+        const groups = await getDocs(collection(db, "Group"));
+        let displayGroupMembers = document.getElementById("displayGroupMembers");
+        console.log("test run");
+        groups.forEach((group) => {
+          let groupData = group.data();
+          let members = groupData.Members;
+          let group_name = groupData.Name;
+          this.groupDescription = groupData.Description;
+          this.memberCount = groupData.NumberOfMembers;
+          this.memberLimit = groupData.Size;
+          if (group_name == groupName) {
+            members.forEach((member) => {
+              this.members.push(member);
+              console.log(member);
+            });
+          }
+        });
+
+        const memberDetails = await getDocs(collection(db, "User"));
+        memberDetails.forEach((user) => {
+          let groupData = user.data();
+          let user_name = groupData.Name;
+          let user_email = groupData.Email;
+          let user_telegramHandle = groupData.TelegramHandle;
+          let user_major = groupData.Major;
+          let user_courses = groupData.Courses;
+          let user_timing = groupData.Timing;
+          let user_location = groupData.Location;
+
+          if (this.members.includes(user_email)) {
+            console.log(
+              "Displaying: ",
+              user_name,
+              user_email,
+              user_telegramHandle,
+              user_major
+            );
+            let newDiv = document.createElement("div");
+            newDiv.id = user_email;
+            newDiv.innerHTML = 
+            `<button><h3 class='contacts'>${user_name}<br>${user_email}<br>${user_telegramHandle}</h3><h4>${user_major}<br>${user_courses}<br>${user_timing}<br>${user_location}</h4></button>`;
+            newDiv.className = "groupDisplay";
+            displayGroupMembers.appendChild(newDiv);
+          }
+        });
   },
   methods: {
     test() {

@@ -44,7 +44,9 @@ const db = getFirestore(firebaseApp);
 console.log("in App");
 export default {
   data() {
-    this.myName = "brandonlsl010911@gmail.com";
+    return {
+      myName : "brandonlsl010911@gmail.com",
+    };
   },
   methods: {
     test() {
