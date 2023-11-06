@@ -8,15 +8,15 @@
         <span class="material-icons">home</span>
         <span class="text">Home</span>
       </router-link>
-      <router-link class="button" to="/about">
+      <router-link class="button" to="/home">
         <span class="material-icons">hive</span>
         <span class="text">Browse Groups</span>
       </router-link>
-      <router-link class="button" to="/about">
+      <router-link class="button" to="/home">
         <span class="material-icons">person</span>
         <span class="text">Profile</span>
       </router-link>
-      <router-link class="button" to="/about">
+      <router-link class="button" to="/home">
         <span class="material-icons">help</span>
         <span class="text">FAQ</span>
       </router-link>
@@ -64,6 +64,7 @@ export default {
 <style scoped>
 aside {
   width: 180px;
+  min-width: 180px;
 
   background: var(
     --background-color,

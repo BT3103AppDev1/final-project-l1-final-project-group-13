@@ -39,7 +39,9 @@ export default {
   },
 
   data() {
-    user: false;
+    return {
+      user: false,
+    };
   },
 
   async mounted() {

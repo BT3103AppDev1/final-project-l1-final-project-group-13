@@ -1,12 +1,19 @@
 <template>
-  <body>
+  <main>
+    <h1 id="mainHead">Profile</h1>
+    <br /><br /><br />
+    <p id="nav">
+      <router-link style="color: #000000; text-decoration: none" to="/profile"
+        >Profile</router-link
+      >
+      > User Profile
+    </p>
+    <br /><br />
     <div class="body">
       <div class="main">
         <br />
         <div class="firstcontainer">
-          <h1 class="titleOfDiv">
-            <span class="material-icons">looks_one</span>Personal Details
-          </h1>
+          <h2 class="titleOfDiv">Personal Details</h2>
           <br /><br />
         </div>
         <div class="secondcontainer">
@@ -22,16 +29,6 @@
             />
             <br /><br /><br />
             <label for="gender">Gender: </label>
-            <!-- <Vueform
-              ><SelectElement
-                id="name"
-                required="yes"
-                v-model="gender"
-                :native="false"
-                :items="options_gender"
-                :searchable="true"
-                @input="validateFields"
-            /></Vueform> -->
             <select v-model="gender" id="gender" style="width: 276px">
               <option v-for="(gender, key) in options_gender" v-bind:key="key">
                 {{ gender.label }}
@@ -59,51 +56,32 @@
               placeholder="e.g. @johndoe"
             />
             <br /><br /><br />
-            <p v-if="errorMessage" style="color: red">
+            <p id="error" v-if="errorMessage" style="color: red">
               {{ errorMessage }}
             </p>
             <br /><br /><br /><br />
-            <button id="submitbutton" type="button" @click="addDetails">
-              Continue
+            <button id="submitbutton" type="button" @click="updateDetails">
+              Update
             </button>
           </form>
         </div>
       </div>
     </div>
-  </body>
+  </main>
 </template>
 
 <script>
-import firebase from "@/uifire.js";
-import firebaseApp from "../firebase.js";
 import "firebase/compat/auth";
-import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { Vueform, useVueform } from "@vueform/vueform";
-import {
-  getDoc,
-  doc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  getDocs,
-  collection,
-  getFirestore,
-} from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDoc, doc, updateDoc, getFirestore } from "firebase/firestore";
+import firebaseApp from "../firebase.js";
 
 const db = getFirestore(firebaseApp);
 
 export default {
-  name: "CreateAccountOne",
-  components: {
-    Vueform,
-    useVueform,
-  },
+  name: "UserProfile",
+
   data() {
     return {
       user: false,
@@ -115,6 +93,7 @@ export default {
       options_gender: [],
     };
   },
+
   methods: {
     validateFields() {
       //   console.log(this.gender);
@@ -125,40 +104,31 @@ export default {
       this.errorMessage = "";
       return true;
     },
-    async addDetails() {
-      //   const auth = getAuth();
-      //   console.log("Registering...");
-      //   createUserWithEmailAndPassword(auth, this.email, this.password)
-      //     .then((userCredential) => {
-      //       const user = userCredential.user;
-      //       this.$router.push("/home");
-      //       console.log("Registered successfully");
-      //     })
-      //     .catch((error) => {
-      //       console.log("Register failed!");
-      //       const errorCode = error.code;
-      //       const errorMessage = error.message;
-      //       alert("Error " + errorCode + ": " + errorMessage);
-      //     });
+    async updateDetails() {
       if (!this.name || !this.dob || !this.telegram || !this.gender) {
+        console.log("Not all fields populated");
         alert("Please fill in all required fields");
         return false;
       }
-
-      console.log(this.user.email);
       try {
         console.log("Adding personal details");
-
-        const docRef = await setDoc(doc(db, "User", String(this.user.email)), {
-          Name: this.name,
-          DOB: this.dob,
-          Gender: this.gender,
-          TelegramHandle: this.telegram,
-        });
-        console.log(docRef);
-        this.$router.push("/createaccount2");
+        console.log(this.user.email);
+        const docRef = await updateDoc(
+          doc(db, "User", String(this.user.email)),
+          {
+            Name: this.name,
+            Gender: this.gender,
+            DOB: this.dob,
+            TelegramHandle: this.telegram,
+          }
+        );
+        alert("Personal details successfully updated!");
       } catch (error) {
         alert("Error adding document: ", error);
+      }
+      if (!this.name || !this.dob || !this.telegram || !this.gender) {
+        alert("Please fill in all required fields");
+        return false;
       }
     },
   },
@@ -168,7 +138,6 @@ export default {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
-        // console.log(this.user.email);
 
         const docRef = await getDoc(doc(db, "User", String(user.email)));
 
@@ -179,77 +148,132 @@ export default {
           if (!data.Major) {
             this.$router.push("/createaccount2");
           }
-          // Completed account creation
+          // Correct page -> Populate data
           else {
-            this.$router.push("/home");
+            //get genders
+            let docRef = doc(db, "Preference_info_instances", "Gender");
+            let docSnap = await getDoc(docRef);
+            let data = docSnap.data();
+            Object.keys(data).forEach((key) => {
+              let values = data[key];
+              let obj = { label: key, options: values };
+              //   console.log(obj);
+              this.options_gender.push(obj);
+              //   console.log(this.options_gender);
+              //   console.log(firebase.auth().currentUser);
+            });
+
+            //get user info
+            docRef = doc(db, "User", String(user.email));
+            docSnap = await getDoc(docRef);
+            data = docSnap.data();
+            this.name = data.Name;
+            this.dob = data.DOB;
+            this.gender = data.Gender;
+            this.telegram = data.TelegramHandle;
           }
         } else {
-          return false;
+          this.$router.push("/createaccount1");
         }
       } else {
         this.$router.push("/login");
       }
-    });
-
-    //get genders
-    let docRef = doc(db, "Preference_info_instances", "Gender");
-    let docSnap = await getDoc(docRef);
-    let data = docSnap.data();
-    Object.keys(data).forEach((key) => {
-      let values = data[key];
-      let obj = { label: key, options: values };
-      //   console.log(obj);
-      this.options_gender.push(obj);
-      //   console.log(this.options_gender);
-      //   console.log(firebase.auth().currentUser);
     });
   },
 };
 </script>
 
 <style scoped>
-body {
-  background: var(
-    --background-color,
-    linear-gradient(
-      180deg,
-      #ffb904 0%,
-      rgba(255, 218, 79, 0.86) 52.08%,
-      rgba(255, 201, 0, 0.24) 97.4%
-    )
-  );
-  height: 100vh;
+main {
+  background: var(--background-color, #f5f5f5);
+  height: 96.6vh;
   width: 100vw;
   position: relative;
-  margin-left: 0px;
 }
-.body {
+
+/* .body {
   margin: 0;
   position: absolute;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-}
-.main {
-  width: 700px;
-  height: 550px;
-  border-radius: 20px;
-  background: var(--offwhite-background, #f5f5f5);
-  /* margin: auto; */
-  position: relative;
-}
+} */
 
 h1 {
   color: #000;
-  text-align: left;
+  font-family: ABeeZee;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  float: left;
+  margin: 0px;
+}
+
+.pageTitle {
+  color: #000;
   font-family: ABeeZee;
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  padding-left: 50px;
-  padding-top: 10px;
+}
+
+.description {
+  color: #000;
+  font-family: ABeeZee;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.text {
+  float: left;
+  text-align: left;
+  margin-left: 45px;
+}
+
+button {
+  border-radius: 12px;
+  border: 1px solid #000;
+  background: #fff;
+  width: 220px;
+  height: 55px;
+  flex-shrink: 0;
+  margin: 20px;
+  float: left;
+}
+
+#pagecontent {
+  width: 700px;
+  height: 550px;
+  border-radius: 20px;
+  background: white;
+  /* margin: auto; */
+  position: relative;
+}
+
+.main {
+  width: 700px;
+  height: 550px;
+  border-radius: 20px;
+  background: white;
+  /* margin: auto; */
+  position: relative;
+}
+
+h2 {
+  color: #000;
+  text-align: left;
+  font-family: ABeeZee;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-left: 45px;
+  /* padding-top: 10px; */
 }
 
 label {
@@ -258,7 +282,7 @@ label {
   text-align: right;
   padding: 8px;
   color: #5a5a5a;
-  font-size: 20px;
+  font-size: 18px;
 }
 input,
 select {
@@ -288,13 +312,15 @@ input::placeholder {
   /* padding: 10px; */
 }
 
-p {
-  color: var(--grey-helper-text, #645b5b);
+#nav {
+  color: #000;
   font-family: ABeeZee;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  float: left;
+  margin: 0px;
 }
 
 button {
@@ -317,11 +343,13 @@ button {
   bottom: 10%;
 }
 
-.material-icons {
-  font-size: 30px;
-  line-height: 23px;
-  color: #000000;
-  margin-right: 1rem;
-  vertical-align: bottom;
+#error {
+  color: red;
+  font-family: ABeeZee;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
 }
 </style>
