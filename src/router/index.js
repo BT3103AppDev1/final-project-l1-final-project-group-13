@@ -7,6 +7,7 @@ import ReviewRequest from '@/components/ReviewRequest.vue'
 import RequestPage from '@/views/RequestPage.vue'
 import FilesPage from '@/views/FilesPage.vue'
 import FilesTable from "@/components/FilesTable.vue"
+import Notification from "@/components/Notification.vue"
 
 
 
@@ -14,7 +15,7 @@ const routes = [
   {
     path: "/",
     name: "Review Request",
-    component: FilesPage
+    component: JoinGroup
  },
   {
     path: "/about",
