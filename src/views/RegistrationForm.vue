@@ -67,7 +67,15 @@ import firebase from "@/uifire.js";
 import "firebase/compat/auth";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { getDoc, doc, getFirestore } from "firebase/firestore";
+import firebaseApp from "../firebase.js";
+
+const db = getFirestore(firebaseApp);
 
 export default {
   name: "RegistrationForm",
@@ -90,16 +98,13 @@ export default {
       this.passwordErrorMessage = "";
       return true;
     },
-    testAlert() {
-      alert("test is working");
-    },
     register() {
       const auth = getAuth();
       console.log("Registering...");
       createUserWithEmailAndPassword(auth, this.email, this.password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const user = userCredential.user;
-          this.$router.push("/home");
+          this.$router.push("/createaccount1");
           console.log("Registered successfully");
         })
         .catch((error) => {
@@ -111,6 +116,36 @@ export default {
     },
   },
 
+  async mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      //already logged in
+      if (user) {
+        this.user = user;
+        console.log(user.email);
+
+        const docRef = await getDoc(doc(db, "User", String(user.email)));
+
+        if (docRef.exists()) {
+          let data = docRef.data();
+
+          // HAVE NOT COMPLETED STEP 2 OF ACCOUNT CREATION
+          if (!data.Major) {
+            this.$router.push("/createaccount2");
+          }
+          // Completed account creation
+          else {
+            this.$router.push("/home");
+          }
+        } else {
+          this.$router.push("/createaccount1");
+        }
+        // not logged in
+      } else {
+        return false;
+      }
+    });
+  },
   // mounted() {
   //   var ui = firebaseui.auth.AuthUI.getInstance();
   //   if (!ui) {
@@ -207,6 +242,11 @@ input {
   flex-shrink: 0;
   padding: 12px 12px;
   font-size: 15px;
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 input::placeholder {
   color: #645b5b;

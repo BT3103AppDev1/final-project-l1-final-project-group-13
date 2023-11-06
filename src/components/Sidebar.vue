@@ -4,7 +4,7 @@
       <img src="@/assets/logo.png" alt="Logo" />
     </div>
     <div class="menu">
-      <router-link class="button" to="/">
+      <router-link class="button" to="/home">
         <span class="material-icons">home</span>
         <span class="text">Home</span>
       </router-link>
@@ -23,17 +23,41 @@
     </div>
     <div class="flex"></div>
     <div class="menu">
-      <router-link class="button" to="/about">
+      <div class="button" @click="signout">
         <span class="material-icons">logout</span>
         <span class="text">Log out</span>
-      </router-link>
+      </div>
     </div>
   </aside>
 </template>
 
 <script>
+import { getAuth, signOut } from "firebase/auth";
+import firebase from "@/uifire.js";
+import "firebase/compat/auth";
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
+
 export default {
   name: "Sidebar",
+
+  methods: {
+    signout() {
+      const auth = getAuth();
+      signOut(auth)
+        .then(() => {
+          // Sign-out successful.
+          this.$router.push("/login");
+        })
+        .catch((error) => {
+          // An error happened.
+          console.log("Sign out failed!");
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert("Error " + errorCode + ": " + errorMessage);
+        });
+    },
+  },
 };
 </script>
 

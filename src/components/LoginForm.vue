@@ -54,26 +54,56 @@ import firebase from "@/uifire.js";
 import "firebase/compat/auth";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import {
+  getDoc,
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  getDocs,
+  collection,
+  getFirestore,
+} from "firebase/firestore";
+import firebaseApp from "../firebase.js";
+
+const db = getFirestore(firebaseApp);
 
 export default {
   name: "LoginForm",
   data() {
     return {
+      user: false,
       email: "",
       password: "",
     };
   },
   methods: {
-    testAlert() {
-      alert("test is working");
-    },
-    login() {
+    async login() {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, this.email, this.password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           const user = userCredential.user;
-          this.$router.push("/home");
+          const docRef = await getDoc(doc(db, "User", String(user.email)));
+
+          if (docRef.exists()) {
+            let data = docRef.data();
+
+            // HAVE NOT COMPLETED STEP 2 OF ACCOUNT CREATION
+            if (!data.Major) {
+              this.$router.push("/createaccount2");
+            }
+            // Completed account creation
+            else {
+              this.$router.push("/home");
+            }
+          } else {
+            this.$router.push("/createaccount1");
+          }
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -83,21 +113,35 @@ export default {
     },
   },
 
-  // mounted() {
-  //   var ui = firebaseui.auth.AuthUI.getInstance();
-  //   if (!ui) {
-  //     ui = new firebaseui.auth.AuthUI(firebase.auth());
-  //   }
+  async mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      // alr logged in
+      if (user) {
+        this.user = user;
 
-  //   var uiConfig = {
-  //     signInSuccessUrl: "about",
-  //     signInOptions: [
-  //       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  //       firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  //     ],
-  //   };
-  //   ui.start("#firebaseui-auth-container", uiConfig);
-  // },
+        const docRef = await getDoc(doc(db, "User", String(user.email)));
+
+        if (docRef.exists()) {
+          let data = docRef.data();
+
+          // HAVE NOT COMPLETED STEP 2 OF ACCOUNT CREATION
+          if (!data.Major) {
+            this.$router.push("/createaccount2");
+          }
+          // Completed account creation
+          else {
+            this.$router.push("/home");
+          }
+        } else {
+          this.$router.push("/createaccount1");
+        }
+        // not logged in
+      } else {
+        return false;
+      }
+    });
+  },
 };
 </script>
 
@@ -148,6 +192,11 @@ input {
   flex-shrink: 0;
   padding: 12px 12px;
   font-size: 15px;
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 input::placeholder {
   color: #645b5b;
