@@ -1,6 +1,10 @@
 <template>
     <div id="group">
-        <h1>Group Name</h1>
+        <button id="studyGroup">
+            <h1 id="title">Group Name</h1>
+            <h4 class="description">duifhas aidahsjdbahksd asdihasdba</h4>
+            <h4 class="member">Member: {{ groupMemberCount }} / {{ groupMemberLimit }}</h4>
+        </button>
     </div>
 </template>
   
@@ -11,7 +15,8 @@
     data() {
       return {
         name : 'Jason',
-        memberLimit : 6,
+        groupMemberLimit : 6,
+        groupMemberCount : 3,
       }
     },
     methods: {

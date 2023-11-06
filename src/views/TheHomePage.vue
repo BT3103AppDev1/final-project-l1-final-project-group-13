@@ -4,9 +4,12 @@
         <h1>Welcome : {{ name }}</h1>
         <img src="src/assets/logo.PNG" alt="Logo" width="300" height="300">
     </div>
+
 </template>
   
   <script>
+  import JoinGroup from '@/components/JoinGroup.vue'
+  
   console.log("in App");
   export default {
     name: "TheHomePage",

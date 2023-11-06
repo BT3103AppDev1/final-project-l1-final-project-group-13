@@ -7,13 +7,16 @@ import StudyGroupNavBar from '@/components/StudyGroupNavBar.vue'
 import TheStudyGroupPage from '@/views/TheStudyGroupPage.vue'
 import TheHomePage from '@/views/TheHomePage.vue'
 import StudyGroupWidget from '@/components/StudyGroupWidget.vue'
+import TheNavPage from '@/views/TheNavPage.vue'
+import TheCreateGroupPage from '@/views/TheCreateGroupPage.vue'
 
 
 const routes = [
   {
      path: "/",
      name: "TheHomePage",
-     component: StudyGroupWidget
+     component:   TheCreateGroupPage // TheNavPage//
+
   },
   {
     path: '/about',

@@ -24,12 +24,21 @@
       </h2>
       <h2 id="membercount">Team Members : {{ memberCount }} / {{ memberLimit }}</h2>
     </div>
+
+    <div id="joinGroup">
+      <JoinGroup/>
+    </div>
   </template>
   
   <script>
+  import JoinGroup from '@/components/JoinGroup.vue'
+
   console.log("in App");
   export default {
     name: "TheStudyGroupPage",
+    components() {
+      JoinGroup
+    },
     data() {
       return {
         memberCount : 3,
