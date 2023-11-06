@@ -3,15 +3,23 @@
     <div id="title">
         <h1>Welcome : {{ name }}</h1>
         <img src="src/assets/logo.PNG" alt="Logo" width="300" height="300">
+        <h2 id="myGroups">My Groups</h2>
     </div>
-
+    <div id="studyGroups">
+      <StudyGroupWidget/>
+      <StudyGroupWidget/>
+      <StudyGroupWidget/>
+      <StudyGroupWidget/>
+    </div>
 </template>
   
   <script>
   import JoinGroup from '@/components/JoinGroup.vue'
+  import StudyGroupWidget from '@/components/StudyGroupWidget.vue'
   
   console.log("in App");
   export default {
+  components: { StudyGroupWidget },
     name: "TheHomePage",
     data() {
       return {

@@ -15,7 +15,7 @@ const routes = [
   {
      path: "/",
      name: "TheHomePage",
-     component:   TheCreateGroupPage // TheNavPage//
+     component: TheStudyGroupPage // TheNavPage// TheHomePage TheCreateGroupPage TheStudyGroupPage
 
   },
   {

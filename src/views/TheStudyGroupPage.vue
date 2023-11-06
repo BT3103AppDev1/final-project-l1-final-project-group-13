@@ -25,20 +25,27 @@
       <h2 id="membercount">Team Members : {{ memberCount }} / {{ memberLimit }}</h2>
     </div>
 
-    <div id="joinGroup">
-      <JoinGroup/>
+    <div id="test">
+      <group-member-widget/>
+      <group-member-widget/>
+      <group-member-widget/>
     </div>
+
+    <div id="joinGroup">
+      <join-group/>
+    </div>
+
   </template>
   
   <script>
-  import JoinGroup from '@/components/JoinGroup.vue'
+  import GroupMemberWidget from '../components/GroupMemberWidget.vue';
+  import JoinGroup from '../components/JoinGroup.vue';
+  import StudyGroupWidget from '../components/StudyGroupWidget.vue';
 
   console.log("in App");
   export default {
+  components: { StudyGroupWidget, JoinGroup, GroupMemberWidget },
     name: "TheStudyGroupPage",
-    components() {
-      JoinGroup
-    },
     data() {
       return {
         memberCount : 3,
