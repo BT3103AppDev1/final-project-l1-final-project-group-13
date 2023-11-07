@@ -49,7 +49,7 @@
                   console.log(docRef)
                   alert("Left group successfully!")
                   this.$emit("leaved");
-                  //router.push(homepage)
+                  this.$router.push("/home");
                 }
               }
               catch(error) {

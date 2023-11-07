@@ -23,7 +23,7 @@
   <table id="table">
       <tr v-for="(row, rowIndex) in groupedGroups" :key="rowIndex">
         <td v-for="(group, groupIndex) in row" :key="group.Name">
-          <div class="card" @click = "gotoStudyPage(group.name)">
+          <div class="card" @click = "gotoStudyPage(group.Name)">
             <p> {{  group.Name }}</p>
             <p> {{  group.Description }}</p>
             <p> {{  group.NumberOfMembers }} / {{ group.Size }}</p>
@@ -102,8 +102,8 @@ export default {
             //   gotoStudyPage();
             // });
             // displayStudyGroups.appendChild(newDiv);
-      gotoStudyPage(link) {
-        this.$router.push({ path: `/TheStudyGroupPage/${link}` });
+      gotoStudyPage(name) {
+        this.$router.push({ name: 'StudyGroupPage', params: { groupName: name } });
     },
   },
 

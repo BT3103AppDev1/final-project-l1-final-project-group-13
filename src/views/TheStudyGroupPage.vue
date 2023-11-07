@@ -1,4 +1,8 @@
 <template>
+    <div class = "sidebar">
+  <Sidebar/>
+  </div>
+  <Notification/>
   <div id="studyPageEverything">
     <div id="title">
       <h1>{{ groupName }}</h1>
@@ -9,9 +13,6 @@
         ><button id="homepagebutton">HomePage</button></router-link
       >
       <router-link to="/TheHomePage"
-        ><button id="calendarbutton">Calendar</button></router-link
-      >
-      <router-link to="/TheHomePage"
         ><button id="filesbutton">Files</button></router-link
       >
       <router-link to="/TheHomePage"
@@ -20,40 +21,47 @@
     </div>
 
     <div id="studygroupinfo">
-      <h2 id="description" class="description">
-        Descrptiusgdbofs sdfsdsdsdnsd
-      </h2>
+      <h4 id="description" class="description">
+        {{groupDescription}}
+      </h4>
       <h2 id="membercount">
-        Team Members : {{ memberCount }} / {{ memberLimit }}
+        Members : {{ groupMember }} / {{ groupSize }}
       </h2>
     </div>
 
-    <div id="displayGroups">
-      <div
-        class="displayGroupMembers"
-        v-for="groupMember in memberDetails"
-        :key="groupMember.email"
-      >
-        <div class="groups">
-          {{ groupMember.name }} <br />
-          {{ groupMember.email }} <br />
-          {{ groupMember.telegramHandle }} <br />
-          {{ groupMember.major }} <br />
-          <br />
-          {{ groupMember.courses }} <br />
-          {{ groupMember.timing }} <br />
-          {{ groupMember.location }}
-        </div>
-      </div>
-    </div>
+    <table id="table">
+      <tr v-for="(row, rowIndex) in groupedMembers" :key="rowIndex">
+        <td v-for="(member, memberIndex) in row" :key="member.Email">
+          <div class="card">
+            <div class="profile">
+              <div class="picture">
+                <br />
+                <img
+                  class="img"
+                  src="@/assets/profileIcon.png"
+                  alt="Profile picture"
+                />
+              </div>
+              <div class="account">
+                <h4>
+                  <strong>{{ member.Name }} </strong>
+                </h4>
+                <p>{{ member.Email }}</p>
+                <p>{{ member.TelegramHandle }}</p>
+              </div>
+            </div>
+            <p>{{ formatCourses(member.Major) }}</p>
+            <p>{{ formatCourses(member.Courses) }}</p>
+            <p>{{ formatCourses(member.Timing) }}</p>
+            <p>{{ formatCourses(member.Location) }}</p>
+            <br />
+            </div>
+            </td>
+            </tr>
+            </table>
 
-    <div id="gotoHomePage">
-      <router-link to="/TheHomePage"><button>HomePage</button></router-link>
-    </div>
-
-    <div id="leaveGroupButton">
-      <button @click="leaveGroup">Leave Group</button>
-    </div>
+<br>
+<LeaveGroup/>
 
     <!-- <div id="joinGroup">
     <join-group />
@@ -73,113 +81,65 @@ import LeaveGroup from "@/components/LeaveGroup.vue";
 import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
 import { firebaseApp } from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
-import { getDocs, collection, updateDoc, doc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { getDoc, collection, updateDoc, doc, arrayUnion, arrayRemove, getDocs } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import TheVisitorStudyGroup from "./TheVisitorStudyGroup.vue";
+import Sidebar from "@/components/Sidebar.vue";
+import Notification from "@/components/Notification.vue"
 const db = getFirestore(firebaseApp);
 
 console.log("in App");
 export default {
-  components: { StudyGroupWidget, JoinGroup, GroupMemberWidget, LeaveGroup },
+  components: { StudyGroupWidget, JoinGroup, GroupMemberWidget, LeaveGroup, Sidebar, Notification },
   name: "TheStudyGroupPage",
   data() {
     return {
-      groupName: "BT1101",
+      user: false,
+      email: "",
+      groupName: "",
       groupDescription: "",
-      memberCount: 3,
-      memberLimit: 6,
+      groupMember: 0,
+      groupSize: 0,
       members: [],
-      memberDetails: [],
+      membersEmail: []
     };
   },
-  created() {
-    this.groupName = this.$route.params.groupName;
-    console.log(this.groupName);
-  },
+
   async mounted() {
-    await this.getMemberData();
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.user = user;
+        this.email = user.email;
+    this.group = (await getDoc(doc(db, "Group", this.$route.params.groupName))).data()
+    console.log(this.group)
+    this.groupName = this.group.Name
+    this.groupDescription = this.group.Description
+    this.groupMember=this.group.NumberOfMembers
+    this.groupSize = this.group.Size
+    this.membersEmail = this.group.Members
+
+    for (let i = 0; i < this.membersEmail.length; i++) {
+      let a = (await getDoc(doc(db, "User", this.membersEmail[i]))).data();
+      this.members.push(a);
+    }
+  }
+})
   },
   methods: {
-    test() {
-      console.log("Hello");
+    formatCourses(value) {
+      return value.filter(Boolean).join(", ");
     },
-    async getMemberData() {
-      console.log("IN AC");
+  },
 
-      try {
-        let userEmails = [];
-        let groupName = this.groupName;
-        const groups = await getDocs(collection(db, "Group"));
-        let displayGroupMembers = document.getElementById(
-          "displayGroupMembers"
-        );
-        console.log("test run");
-        groups.forEach((group) => {
-          let groupData = group.data();
-          let members = groupData.Members;
-          let group_name = groupData.Name;
-          this.groupDescription = groupData.Description;
-          this.memberCount = groupData.NumberOfMembers;
-          this.memberLimit = groupData.Size;
-          if (group_name == groupName) {
-            members.forEach((member) => {
-              this.members.push(member);
-              console.log(member);
-            });
-          }
-        });
-
-        const memberDetails = await getDocs(collection(db, "User"));
-        memberDetails.forEach((user) => {
-          let groupData = user.data();
-          let user_name = groupData.Name;
-          let user_email = groupData.Email;
-          let user_telegramHandle = groupData.TelegramHandle;
-          let user_major = groupData.Major;
-          let user_courses = groupData.Courses;
-          let user_timing = groupData.Timing;
-          let user_location = groupData.Location;
-
-          if (this.members.includes(user_email)) {
-            console.log(
-              "Displaying: ",
-              user_name,
-              user_email,
-              user_telegramHandle,
-              user_major
-            );
-            this.memberDetails.push({
-              name: user_name,
-              email: user_email,
-              telegramHandle: user_telegramHandle,
-              major: user_major,
-              courses: user_courses,
-              timing: user_timing,
-              location: user_location,
-            });
-            // let newDiv = document.createElement("div");
-            // newDiv.id = user_email;
-            // newDiv.innerHTML =
-            // `<button><h3 class='contacts'>${user_name}<br>${user_email}<br>${user_telegramHandle}</h3><h4>${user_major}<br>${user_courses}<br>${user_timing}<br>${user_location}</h4></button>`;
-            // newDiv.className = "groupDisplay";
-            // displayGroupMembers.appendChild(newDiv);
-          }
-        });
-      } catch (error) {
-        console.error("Error joining group: ", error);
+  computed: {
+    groupedMembers() {
+      const result = [];
+      const chunkSize = 3;
+      for (let i = 0; i < this.members.length; i += chunkSize) {
+        result.push(this.members.slice(i, i + chunkSize));
       }
-    },
-    async leaveGroup() {
-      console.log("IN AC");
-
-      try {
-        const docRef = await updateDoc(doc(db, "Group", "BT3103"), {
-          Members: arrayRemove("e0735448@u.nus.edu"),
-        });
-        console.log(docRef);
-        alert("Leaved group successfully!");
-      } catch (error) {
-        console.error("Error leaving group: ", error);
-      }
+      return result;
     },
   },
 };
@@ -209,14 +169,15 @@ h1 {
   align-items: left; /* Center children vertically in the container */
 }
 #studyPageEverything {
-  display: inline-block;
   text-align: center;
   border-radius: 10px;
   border: 1px solid #968888;
   padding: 10px;
-  margin: 20px;
   height: 600px;
-  width: 1500px;
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+  color: black;
 }
 #title {
   display: inline-block;
