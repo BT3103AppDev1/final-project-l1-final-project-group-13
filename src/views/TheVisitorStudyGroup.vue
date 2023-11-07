@@ -55,7 +55,7 @@
   import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
   import firebaseApp from "../firebase.js";
   import { getFirestore } from "firebase/firestore";
-  import { getDocs, collection } from "firebase/firestore";
+  import { getDocs, collection, updateDoc, doc, arrayUnion } from "firebase/firestore";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   const db = getFirestore(firebaseApp);
   

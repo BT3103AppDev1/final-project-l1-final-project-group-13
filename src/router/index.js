@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import About from "@/views/About.vue";
-import Login from "@/components/Login.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
 import LeaveGroup from "@/components/LeaveGroup.vue";
 import StudyGroupNavBar from "@/components/StudyGroupNavBar.vue";
