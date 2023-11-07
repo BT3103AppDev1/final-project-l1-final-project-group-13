@@ -1,6 +1,6 @@
 <template>
   <div id="title">
-    <h1>BT3103 Team 13</h1>
+    <h1>{{groupName}}</h1>
   </div>
 
   <div id="studygroupnavbar">
@@ -19,22 +19,33 @@
     </h2>
   </div>
 
-  <!-- <div id="getMembers">
-    <button id="filesbutton" type="button" @click="getMemberData">
-      getMembers
-    </button>
-  </div> -->
-
   <div id="displayGroupMembers">
   </div>
 
-  <div id="joinGroup">
+  <div
+    id="testDisplayGroupMembers"
+    v-for="groupMember in memberDetails"
+    :key="groupMember.email"
+  >
+    <button>
+    {{ groupMember.name }} <br> {{ groupMember.email }} 
+    <br> {{ groupMember.telegramHandle }} <br> {{ groupMember.major }} <br>
+    <br> {{ groupMember.courses }} <br> {{ groupMember.timing }} <br>
+    {{ groupMember.location }}
+  </button>
+  </div>
+
+  <div id="gotoHomePage">
+    <router-link to="/TheHomePage"><button>HomePage</button></router-link>
+  </div>
+
+  <!-- <div id="joinGroup">
     <join-group />
   </div>
 
   <div id="deleteGroup">
     <leave-group />
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -60,56 +71,15 @@ export default {
       memberCount: 3,
       memberLimit: 6,
       members : [],
+      memberDetails : [],
     };
   },
+  created() {
+    this.groupName = this.$route.params.groupName;
+    console.log(this.groupName);
+  },
   async mounted() {
-    let userEmails = [];
-        let groupName = this.groupName;
-        const groups = await getDocs(collection(db, "Group"));
-        let displayGroupMembers = document.getElementById("displayGroupMembers");
-        console.log("test run");
-        groups.forEach((group) => {
-          let groupData = group.data();
-          let members = groupData.Members;
-          let group_name = groupData.Name;
-          this.groupDescription = groupData.Description;
-          this.memberCount = groupData.NumberOfMembers;
-          this.memberLimit = groupData.Size;
-          if (group_name == groupName) {
-            members.forEach((member) => {
-              this.members.push(member);
-              console.log(member);
-            });
-          }
-        });
-
-        const memberDetails = await getDocs(collection(db, "User"));
-        memberDetails.forEach((user) => {
-          let groupData = user.data();
-          let user_name = groupData.Name;
-          let user_email = groupData.Email;
-          let user_telegramHandle = groupData.TelegramHandle;
-          let user_major = groupData.Major;
-          let user_courses = groupData.Courses;
-          let user_timing = groupData.Timing;
-          let user_location = groupData.Location;
-
-          if (this.members.includes(user_email)) {
-            console.log(
-              "Displaying: ",
-              user_name,
-              user_email,
-              user_telegramHandle,
-              user_major
-            );
-            let newDiv = document.createElement("div");
-            newDiv.id = user_email;
-            newDiv.innerHTML = 
-            `<button><h3 class='contacts'>${user_name}<br>${user_email}<br>${user_telegramHandle}</h3><h4>${user_major}<br>${user_courses}<br>${user_timing}<br>${user_location}</h4></button>`;
-            newDiv.className = "groupDisplay";
-            displayGroupMembers.appendChild(newDiv);
-          }
-        });
+    await this.getMemberData();
   },
   methods: {
     test() {
@@ -158,12 +128,21 @@ export default {
               user_telegramHandle,
               user_major
             );
-            let newDiv = document.createElement("div");
-            newDiv.id = user_email;
-            newDiv.innerHTML = 
-            `<button><h3 class='contacts'>${user_name}<br>${user_email}<br>${user_telegramHandle}</h3><h4>${user_major}<br>${user_courses}<br>${user_timing}<br>${user_location}</h4></button>`;
-            newDiv.className = "groupDisplay";
-            displayGroupMembers.appendChild(newDiv);
+            this.memberDetails.push({
+              name : user_name,
+              email : user_email,
+              telegramHandle : user_telegramHandle,
+              major : user_major,
+              courses : user_courses,
+              timing : user_timing,
+              location : user_location,
+            })
+            // let newDiv = document.createElement("div");
+            // newDiv.id = user_email;
+            // newDiv.innerHTML = 
+            // `<button><h3 class='contacts'>${user_name}<br>${user_email}<br>${user_telegramHandle}</h3><h4>${user_major}<br>${user_courses}<br>${user_timing}<br>${user_location}</h4></button>`;
+            // newDiv.className = "groupDisplay";
+            // displayGroupMembers.appendChild(newDiv);
           }
         });
 
