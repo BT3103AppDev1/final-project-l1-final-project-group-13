@@ -75,7 +75,7 @@
 
 <script>
 import firebase from "@/uifire.js";
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 import "firebase/compat/auth";
 import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";

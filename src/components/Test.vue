@@ -1,7 +1,5 @@
-<template> 
-<h1>
-    Test test
-</h1>
+<template>
+    <h1> test</h1>
 </template>
 
 <script>
@@ -12,3 +10,4 @@ export default {
 
 <style scoped>
 </style>
+

@@ -75,7 +75,7 @@ aside {
       rgba(255, 201, 0, 0.24) 97.4%
     )
   );
-  height: 100vh;
+  height: 100%;
 
   display: flex;
   flex-direction: column;

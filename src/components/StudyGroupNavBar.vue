@@ -1,6 +1,6 @@
 <template>
     <div style = "text-align:center;">
-    <h1 id = "mainHead">{{ studyGroupName }}</h1>
+    <h1 id = "mainHead">{{ this.studyGroupName }}</h1>
     <button id="homepagebutton">
         Home Page
     </button>
@@ -31,9 +31,9 @@ export default {
     name: "StudyGroupNavBar",
 
     data() {
-        this.studyGroupName = studyGroupName;
-        this.studyGroupDesc = studyGroupDesc;
-        this.studyGroupMembers = studyGroupMembers;
+        this.studyGroupName = 'test123';
+        this.studyGroupDesc = 'studyGroupDesc';
+        this.studyGroupMembers = 'studyGroupMembers';
     },
 
     mounted() {

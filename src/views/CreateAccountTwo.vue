@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 import "firebase/compat/auth";
 import "firebaseui/dist/firebaseui.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";

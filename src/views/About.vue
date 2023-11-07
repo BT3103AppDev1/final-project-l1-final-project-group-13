@@ -1,16 +1,20 @@
 <template>
-    <div style = "text-align: center;" v-if="user">
-    <h3> This is About Page</h3>
-    <h2> Welcome to CPP</h2>
-    <h3> Crypto Paper Portfolio (CPP) is an app to track your crypto portfolio</h3>
-    </div>
+    <br>
+   <JoinGroup/>
 </template>
 
 <script>
 import {getAuth, onAuthStateChanged} from "firebase/auth";
+import LeaveGroup from "@/components/LeaveGroup.vue";
+import JoinGroup from "@/components/JoinGroup.vue";
 
 export default {
     name: "About",
+    components: {
+    JoinGroup,
+    LeaveGroup
+},
+
     data() {
         return {
             user: false

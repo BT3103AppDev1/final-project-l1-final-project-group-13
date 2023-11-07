@@ -69,7 +69,7 @@ import {
   collection,
   getFirestore,
 } from "firebase/firestore";
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 
 const db = getFirestore(firebaseApp);
 
