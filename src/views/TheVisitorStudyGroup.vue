@@ -52,7 +52,6 @@
   import GroupMemberWidget from "../components/GroupMemberWidget.vue";
   import JoinGroup from "@/components/JoinGroup.vue";
   import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
-  import Group from "@/components/LeaveGroup.vue";
   import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
   import firebaseApp from "../firebase.js";
   import { getFirestore } from "firebase/firestore";
@@ -62,7 +61,7 @@
   
   console.log("in App");
   export default {
-    components: { StudyGroupWidget, JoinGroup, GroupMemberWidget, LeaveGroup },
+    components: {JoinGroup},
     name: "TheStudyGroupPage",
     data() {
       return {
@@ -75,7 +74,7 @@
       };
     },
     created() {
-      this.groupName = this.$route.params.groupName;
+    //   this.groupName = this.$route.params.groupName;
       console.log(this.groupName);
     },
     async mounted() {

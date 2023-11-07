@@ -9,12 +9,13 @@ import TheHomePage from "@/views/TheHomePage.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
 import TheNavPage from "@/views/TheNavPage.vue";
 import TheCreateGroupPage from "@/views/TheCreateGroupPage.vue";
+import TheVisitorStudyGroup from "@/views/TheVisitorStudyGroup.vue";
 
 const routes = [
   {
     path: "/",
-    name: "TheNavPage",
-    component: TheNavPage, // TheNavPage// TheHomePage TheCreateGroupPage TheStudyGroupPage
+    name: "TheVisitorStudyGroup",
+    component: TheVisitorStudyGroup, // TheNavPage// TheHomePage TheCreateGroupPage TheStudyGroupPage
   },
   {
     path: "/TheHomePage",

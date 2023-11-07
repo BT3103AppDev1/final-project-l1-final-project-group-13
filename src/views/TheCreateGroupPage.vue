@@ -2,7 +2,7 @@
   <h1 class="createGroupMsg">Create Group</h1>
   <div id="everything">
     <div class="groupDetails">
-      <label for="groupName">Group Name:   </label>
+      <label for="groupName">Group Name: </label>
       <input
         type="text"
         id="groupName"
@@ -11,7 +11,7 @@
       />
       <br />
       <br />
-      <label for="groupMemberLimit">Group Size:    </label>
+      <label for="groupMemberLimit">Group Size: </label>
       <input
         type="number"
         id="groupMemberLimit"
@@ -20,7 +20,7 @@
       />
       <br />
       <br />
-      <label for="groupDetails">Group Description:    </label>
+      <label for="groupDetails">Group Description: </label>
       <input
         type="text"
         id="groupDetails"
@@ -128,9 +128,9 @@ input {
   display: inline-block;
   text-align: left;
   border-radius: 10px;
-border: 1px solid #968888;
-padding: 10px;
-margin: 0px;
+  border: 1px solid #968888;
+  padding: 10px;
+  margin: 0px;
 }
 .createGroupMsg {
   font-size: 40px;
