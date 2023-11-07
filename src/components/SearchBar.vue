@@ -1,5 +1,5 @@
 <template>
-    <!-- length and size to be decided afterwards -->
+  <h1 style="text-align: left;">Browse groups</h1>
     <div class="search-container">
       <img alt="search button" src="@/components/search.png" @click="search_By_text"/>
     <input class="search_bar" 
@@ -62,9 +62,21 @@
       />
     </div>
     <!-- create a button here to apply filter -->
+    <img
+        src="@/components/filter.png" 
+        alt="Apply Filters" 
+        @click="applyFilters"
+        class="clickable-image"
+      />
     </div>
     <br><br>
-    <div id = "displayer"></div>
+    <div id = "displayer" class="groupss"></div>
+    <div v-if="isPopupVisible" class="overlay" @click="closePopup"></div>
+    <div v-if="isPopupVisible" class="popup">
+      <p>{{ selectedGroup.Name }}</p>
+      <button @click="closePopup">Close</button>
+    </div>
+
 
 </template>
 
@@ -77,26 +89,21 @@ import {getFirestore} from "firebase/firestore"
 import {getDoc,doc, setDoc, updateDoc, arrayUnion, getDocs,collection} from "firebase/firestore";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import Multiselect from '@vueform/multiselect'
-// import en from '@vueform/vueform/locales/en'
-// import vueform from '@vueform/vueform/themes/vueform'
-// import '@vueform/vueform/themes/vueform/css/index.min.css';
-// import Vueform from '@vueform/vueform'
-// import Builder from '@vueform/builder'
 
 const db = getFirestore(firebaseApp);
 
 export default {
     components: {
         Multiselect,
-        // Vueform,
-        // // Builder,
-        // vueform
+
   },
     data() { 
     return { 
         user: false,
         useremail: '',
         valid_groups:[],
+        isPopupVisible: false,
+        selectedGroup: {},
         selected_major: [],
         selected_course: [],
         selected_timing: [],
@@ -153,6 +160,15 @@ async mounted() {
 },
 methods: {
     //this function is to search when the user press the search button. 
+    // openPopup(group) {
+    //   this.selectedGroup = group; // Store the clicked group's data
+    //   this.isPopupVisible = true; // Show the popup
+    // },
+
+    closePopup() {
+      this.isPopupVisible = false; // Hide the popup
+    },
+
     async search_By_text() {
         let valid_groups = []
         let text = document.getElementById("text_tobe_searched").value.toLowerCase()
@@ -175,12 +191,52 @@ methods: {
                 newDiv.innerHTML = 
                 `<strong>${group_name}</strong><br>${description}<br>Members: ${num_of_member}/${size}`;
                 newDiv.className = 'groupDisplay';
-                displayer.appendChild(newDiv)
+                newDiv.addEventListener('click', function() {
+                  this.selectedGroup = groupData; // Store the clicked group's data
+                  this.isPopupVisible = true; // Show the popup
+                  console.log('Group clicked: ' + group_name + this.isPopupVisible);
+                  console.log(this.selectedGroup.Name);
+
+            });
+                displayer.appendChild(newDiv);
             }
             
         })
-        // console.log(valid_groups)
+        console.log(valid_groups)
         this.valid_groups = valid_groups;
+    },
+
+    async applyFilters() {
+      let filtered_groups = []
+      // let filtered_groups = [...this.valid_groups]
+      let filters = [this.selected_major,
+        this.selected_course,
+        this.selected_timing,
+        this.selected_location];
+      for (let filter of filters) {
+        for (let filter_unit of filter) {
+          for (let group of this.valid_groups) {
+            let group_validity = true;
+            for (let member of group.Members) {
+              let docRef = doc(db, "User", member);
+              let docSnap = await getDoc(docRef);
+              let member_data = docSnap.data();
+              let member_preference = [...member_data.Courses, ...member_data.Location, ...member_data.Major, ...member_data.Timing]
+              group_validity = member_preference.includes(filter_unit);
+            }
+          }
+        }
+
+      }
+      
+      // 4 filters in total:
+      // for each filter(one of the for, eg major):
+      //  for each valid group
+      //    for each members
+      //      get the members preference (should be an dictionary)
+      //      extract that particular member's 
+      //      if any one of the filter_values is contained in the member's instances:
+      //        
     }
 }
 }
@@ -188,6 +244,10 @@ methods: {
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 <style>
+body {
+  background-color: #F5F5F5; /* Light grey background */
+}
+
 .multiselect {
   --ms-tag-bg: #ffde59;
   --ms-tag-color: #000000;
@@ -195,10 +255,6 @@ methods: {
   --ms-radius: 10px;
   --ms-dropdown-radius: 10px;
 }
-.dropdown_list {
-            width: 400px;
-            /* height: 200px; */
-        }
 
 .dropdowns_container {
     display: flex;
@@ -212,6 +268,14 @@ methods: {
 
 .dropdown_list:last-child {
     margin-right: 0; /* Ensure the last dropdown doesn't have a right margin */
+}
+
+.clickable-image {
+  height: 40px;
+  width: 40px;
+  cursor: pointer; /* Makes the cursor indicate clickable */
+  align-self: center; /* Aligns the image vertically inside the flex container */
+  margin-left: auto; /* Pushes the image to the right */
 }
 
 .search-container {
@@ -245,7 +309,7 @@ methods: {
 }
 
 .create-group-button {
-  background-color: #FFDE59;
+  background-color: #FFB904;
   border: none;
   border-radius: 10px;
   color: #000000;
@@ -271,4 +335,53 @@ methods: {
   vertical-align: middle;
 }
 
+
+.groupss {
+  display: flex; /* Use flexbox to lay out children */
+  flex-wrap: wrap; /* Allow children to wrap to next line */
+  gap: 10px; /* Optional: adds space between children */
+  justify-content: center; /* Center children horizontally in the container */
+  align-items: center; /* Center children vertically in the container */
+}
+
+
+.groupDisplay {
+  border-radius: 10px; /* Rounded corners */
+  background-color: #FFDE59; /* Background color */
+  padding: 20px; /* Space inside the rectangle */
+  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
+  box-sizing: border-box; /* Include padding and border in the width and height totals */
+  flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
+  cursor: pointer;
+  width: 300px; /* You can set a specific width or use a percentage */
+  height: auto; /* Height will be determined by the content size */
+  /* font-family: Inter; */
+}
+
+
+.groupDisplay:hover {
+  background-color: #ffca2c; /* Slightly lighter shade when hovered */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  z-index: 10; /* Ensure it's above other content */
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  z-index: 20; /* Ensure the popup is above the overlay */
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
 </style>
