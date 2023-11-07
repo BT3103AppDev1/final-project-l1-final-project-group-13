@@ -1,5 +1,5 @@
 <template>
-  <div id="everything">
+  <div id="studyPageEverything">
     <div id="title">
       <h1>{{ groupName }}</h1>
     </div>
@@ -8,9 +8,15 @@
       <router-link to="/TheHomePage"
         ><button id="homepagebutton">HomePage</button></router-link
       >
-      <button id="calendarbutton" type="button" @click="test">Calendar</button>
-      <button id="filesbutton" type="button" @click="test">Files</button>
-      <button id="requestsbutton" type="button" @click="test">Requests</button>
+      <router-link to="/TheHomePage"
+        ><button id="calendarbutton">Calendar</button></router-link
+      >
+      <router-link to="/TheHomePage"
+        ><button id="filesbutton">Files</button></router-link
+      >
+      <router-link to="/TheHomePage"
+        ><button id="requestsbutton">Requests</button></router-link
+      >
     </div>
 
     <div id="studygroupinfo">
@@ -41,9 +47,9 @@
       </div>
     </div>
 
-    <!-- <div id="gotoHomePage">
+    <div id="gotoHomePage">
       <router-link to="/TheHomePage"><button>HomePage</button></router-link>
-    </div> -->
+    </div>
 
     <div id="leaveGroupButton">
       <button @click="leaveGroup">Leave Group</button>
@@ -202,12 +208,18 @@ h1 {
   justify-content: left; /* Center children horizontally in the container */
   align-items: left; /* Center children vertically in the container */
 }
-#everything {
+#studyPageEverything {
   display: inline-block;
   text-align: center;
   border-radius: 10px;
   border: 1px solid #968888;
   padding: 10px;
   margin: 20px;
+  height: 600px;
+  width: 1500px;
+}
+#title {
+  display: inline-block;
+  text-align: center;
 }
 </style>

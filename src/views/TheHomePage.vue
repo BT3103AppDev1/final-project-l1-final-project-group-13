@@ -1,45 +1,41 @@
 <template>
-  <div id="everything">
-    <div id="title">
-      <h1 class="welcomeMsg">
-        Welcome,
-        <h1 class="name">
-          <strong>{{ name }}</strong>
-        </h1>
+  <div id="homepageTitle">
+    <h1 class="welcomeMsg">
+      Welcome,
+      <h1 class="name">
+        <strong>{{ name }}</strong>
       </h1>
-      <img src="src/assets/logo.PNG" alt="Logo" width="100" height="100" />
-    </div>
-    <h2 id="myGroups">My Groups</h2>
+    </h1>
+    <img src="src/assets/logo.PNG" alt="Logo" width="100" height="100" />
+  </div>
+  <h2 id="myGroups">My Groups</h2>
 
-    <!-- <div id="studyGroups">
+  <!-- <div id="studyGroups">
     <button id="filesbutton" type="button" @click="getGroupData">
       displayGroup
     </button>
   </div> -->
 
-    <div id="displayGroups">
-      <div
-        class="groupDisplay"
-        v-for="studyGroup in studyGroups"
-        :key="studyGroup.name"
-      >
-        <router-link :to="`/TheStudyGroupPage/${studyGroup.name}`">
-          <button>
-            <h3>{{ studyGroup.name }}</h3>
-            <br />
-            <p>{{ studyGroup.description }}</p>
-            <br />
-            <p>{{ studyGroup.num_of_member }}/{{ studyGroup.size }} Members</p>
-          </button>
-        </router-link>
-      </div>
+  <div id="displayGroups">
+    <div
+      class="groupDisplay"
+      v-for="studyGroup in studyGroups"
+      :key="studyGroup.name"
+    >
+      <router-link :to="`/TheStudyGroupPage/${studyGroup.name}`">
+        <button>
+          <h3> {{ studyGroup.name }} </h3> <br /> 
+          <p>{{ studyGroup.description }}</p> <br /> 
+          <p>{{ studyGroup.num_of_member }}/{{ studyGroup.size }} Members</p>
+        </button>
+      </router-link>
     </div>
+  </div>
 
-    <!-- <div id="testRouter"><button @click="gotoStudyPage">TestRouter</button></div>
+  <!-- <div id="testRouter"><button @click="gotoStudyPage">TestRouter</button></div>
   <router-link :to="`/TheStudyGroupPage/${this.userGroups[1]}`" id="testRouter"
     ><button>TestRouterParam</button></router-link
   > -->
-  </div>
 </template>
 
 <script>
@@ -160,7 +156,7 @@ img {
   display: flex;
   margin-left: 10px;
 }
-#title {
+#homepageTitle {
   display: flex;
   align-items: center;
 }
@@ -169,9 +165,7 @@ img {
   margin-left: 50px;
   margin-top: -20px;
 }
-h1,
-h3,
-p {
+h1, h3, p {
   margin: 0px;
   padding: 0px;
 }
@@ -190,7 +184,7 @@ p {
   box-sizing: border-box; /* Include padding and border in the width and height totals */
   flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
   cursor: pointer;
-  width: 383px; /* You can set a specific width or use a percentage */
+  width: 380px; /* You can set a specific width or use a percentage */
   height: 250px; /* Height will be determined by the content size */
   /* font-family: Inter; */
 }
