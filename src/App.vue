@@ -14,21 +14,28 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: ABeeZee;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 30px;
+  color: #000000;
+  width: 100vw;
+  height: 100vh;
+  margin-top: -8px;
+  margin-left: -8px;
 }
-#nav {
-  padding: 30px;
+
+main {
+  flex: 1 1 0;
+  padding: 2rem;
+
+  /* @media (max-width: 768px) {
+    margin-left: -1000px;
+    position: fixed;
+  } */
 }
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #0f56c7;
+
+.PageBody {
+  display: flex;
 }
 </style>

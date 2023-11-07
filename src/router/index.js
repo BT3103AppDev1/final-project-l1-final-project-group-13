@@ -9,6 +9,11 @@ import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
 import TheNavPage from "@/views/TheNavPage.vue";
 import TheCreateGroupPage from "@/views/TheCreateGroupPage.vue";
 import TheVisitorStudyGroup from "@/views/TheVisitorStudyGroup.vue";
+import ReviewRequest from '@/components/ReviewRequest.vue'
+import RequestPage from '@/views/RequestPage.vue'
+import FilesPage from '@/views/FilesPage.vue'
+import FilesTable from "@/components/FilesTable.vue"
+import Notification from "@/components/Notification.vue"
 
 const routes = [
   {
