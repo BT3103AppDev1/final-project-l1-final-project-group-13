@@ -1,37 +1,58 @@
 <template>
      <span class="material-icons" id = "bell-icon" @click="toggleNotification">notifications</span>
    <div :class="['notification-bar', { show: showNotification }]">
+    <div id="header" class="header-container">
+  <h3 class="notification-header">Notifications</h3>
     <span class="material-icons" id = "close-icon" @click="toggleNotification">close</span> <br>
+    </div>
   <div v-for="notification in notifications" :key="notification.id" class="notification-item">
-    <h3>{{ notification.title }}</h3>
-    <p>{{ notification.content }}</p>
-    <span>{{ notification.time }}</span>
+    <div id = "info">
+    <span class="material-symbols-outlined" id = "info-icon">info</span>
+    </div>
+    <div id = "noti">
+    <h5>{{ notification.title }}</h5>
+    <h6>{{ notification.time }}</h6>
+    </div>
   </div>
 </div>
   </template>
   
   <script>
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {firebaseApp} from "../firebase.js";
+import {
+  getDoc,
+  getFirestore,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+  doc,
+} from "firebase/firestore";
+
+const db = getFirestore(firebaseApp);
   export default {
+   async mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+        this.email = user.email
+      }
+    })
+    this.notifications = (await getDoc(doc(db, "User", this.email))).data().Notifications.sort((a, b) => {
+        return new Date(b.time) - new Date(a.time);
+      });
+},
+
     data() {
       return {
         showNotification: false,
-        notifications: [
-      {
-        id: 1,
-        title: "New Message",
-        content: "You have a new message from John Doe.",
-        time: "12:30 PM"
-      },
-      {
-        id: 2,
-        title: "Reminder",
-        content: "Your appointment is scheduled for tomorrow.",
-        time: "9:00 AM"
-      },
-      // Add more notification objects as needed
-    ]
+        notifications: [],
+        user: false,
+        email: "brandonlsl010911@gmail.com"
       };
     },
+
     methods: {
       toggleNotification() {
         this.showNotification = !this.showNotification;
@@ -66,7 +87,23 @@
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
 
+#info-icon {
+    font-size: 2rem;
+  color: #000000;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.notification-header {
+margin-left: 20px;
+  float: left;
+  margin-top: 10px;
 }
 
 #close-icon {
@@ -84,4 +121,17 @@
   padding: 20px;
   border-bottom: 1px solid #ccc;
 }
+
+#info {
+  height: 60px;
+  width:40px;
+  float:left;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+#noti {
+  text-align: left;
+}
 </style>
+

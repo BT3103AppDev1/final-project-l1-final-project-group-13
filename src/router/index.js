@@ -15,7 +15,7 @@ const routes = [
   {
     path: "/",
     name: "Review Request",
-    component: JoinGroup
+    component: FilesPage
  },
   {
     path: "/about",

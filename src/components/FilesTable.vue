@@ -71,6 +71,7 @@ export default {
         this.email = user.email;
       }
     });
+    this.fetchData()
   },
   methods: {
     async fetchData() {
@@ -99,6 +100,9 @@ export default {
             console.log(itemRef);
           })
         );
+        this.files.sort((a, b) => {
+          return new Date(a.timeCreated) - new Date(b.timeCreated);
+        });
       } catch (error) {
         console.error("Error listing files:", error);
       }
@@ -120,10 +124,8 @@ export default {
         console.error("Error deleting file: ", error);
       }
     },
-  },
 
-  mounted() {
-    this.fetchData();
+    
   },
 };
 </script>

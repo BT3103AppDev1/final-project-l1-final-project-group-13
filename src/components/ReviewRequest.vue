@@ -8,7 +8,7 @@
           <div class="card">
             <div class="profile">
               <div class="picture">
-                <br>
+                <br />
                 <img
                   class="img"
                   src="@/assets/profileIcon.png"
@@ -52,7 +52,7 @@
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {firebaseApp} from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 import {
   getDoc,
   getFirestore,
@@ -119,9 +119,25 @@ export default {
           });
 
           await updateDoc(doc(db, "User", email), {
-            Groups: arrayUnion(this.group)
-          })
+            Groups: arrayUnion(this.group),
+          });
           alert("Accepted!");
+          const noti = {
+            title:
+              email /*this.user.name*/ +
+              " has joined " +
+              this.group +
+              " study group",
+            time: this.formatDate(new Date()),
+          };
+          const member = (await getDoc(doc(db, "Group", this.group))).data()
+            .Members;
+          console.log(5);
+          for (let i = 0; i < member.length; i++) {
+            await updateDoc(doc(db, "User", member[i]), {
+              Notifications: arrayUnion(noti),
+            });
+          }
           this.$emit("reviewed");
         } catch (error) {
           console.error("Error accepting request: ", error);
@@ -152,20 +168,48 @@ export default {
     formatCourses(value) {
       return value.filter(Boolean).join(", ");
     },
+
+    formatDate(date) {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      let hours = date.getHours();
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours %= 12;
+      hours = hours ? hours : 12;
+
+      const formattedDate = `${day} ${month} ${year} ${hours}:${minutes} ${ampm}`;
+      return formattedDate;
+    },
   },
 };
 </script>
 
 <style>
-
 .card {
   border: 1px solid #ccc;
   border-radius: 20px;
-  padding:3px 10px 3px 10px;
-  width: 320px; 
+  padding: 3px 10px 3px 10px;
+  width: 320px;
   height: 300px;
   text-align: left;
-  background-color: #FFDE59;
+  background-color: #ffde59;
   margin-left: auto;
   margin-right: auto;
   margin: 15px;
@@ -202,7 +246,7 @@ tr {
   text-align: center;
   margin: auto;
   background-color: white;
-  font-family: 'AbeeZee', Helvetica;
+  font-family: "AbeeZee", Helvetica;
   font-weight: 400;
 }
 
@@ -215,9 +259,10 @@ tr {
 #reject {
   height: 40px;
   width: 40px;
+  cursor: pointer;
 }
 
-#buttons{
+#buttons {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -225,9 +270,9 @@ tr {
   bottom: 5px;
 }
 
-p{
+p {
   font-size: 12px;
-  font-family: 'AbeeZee', Helvetica;
+  font-family: "AbeeZee", Helvetica;
   font-weight: 100;
   color: black;
 }

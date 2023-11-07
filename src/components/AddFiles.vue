@@ -34,6 +34,7 @@ export default {
     return {
       user: false,
       group: "BT3103",
+      email: "brandon"
     };
   },
   mounted() {
@@ -47,49 +48,93 @@ export default {
   },
   methods: {
     async onFileChange($event) {
-  try {
-    const file = $event.target.files[0];
-    const fileRef = ref(storage, `${this.group}/${file.name}`);
-    const newMetadata = {
-      customMetadata: {
-        uploadedBy: "brandon", // Replace with this.user.name if available
-      },
-    };
+      try {
+        const file = $event.target.files[0];
+        const fileRef = ref(storage, `${this.group}/${file.name}`);
+        const newMetadata = {
+          customMetadata: {
+            uploadedBy: "brandon", // Replace with this.user.name if available
+          },
+        };
 
-    const uploadTask = uploadBytesResumable(fileRef, file, newMetadata);
+        const uploadTask = uploadBytesResumable(fileRef, file, newMetadata);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Handle progress
-      },
-      (error) => {
-        // Handle error
-      },
-      () => {
-        // Handle successful upload
-        getMetadata(fileRef).then((metadata) => {
-          const size = metadata.size;
-          console.log(size);
-          const custom = metadata.customMetadata.uploadedBy;
-          console.log(custom);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Handle progress
+          },
+          (error) => {
+            // Handle error
+          },
+          () => {
+            // Handle successful upload
+            getMetadata(fileRef).then((metadata) => {
+              const size = metadata.size;
+              console.log(size);
+              const custom = metadata.customMetadata.uploadedBy;
+              console.log(custom);
+            });
+            alert("File uploaded successfully!");
+            this.$emit("uploaded");
+          }
+        );
+
+        await new Promise((resolve) => {
+          uploadTask.on("state_changed", resolve);
         });
-        this.$emit("uploaded");
-        alert("File uploaded successfully!");
+
+        await updateDoc(doc(db, "Group", this.group), {
+          Files: arrayUnion(file.name),
+        });
+
+        const noti = {
+          title:
+            this.email /*this.user.name*/ +
+            " has uploaded " +
+            file.name + " in " + this.group + 
+            " study group",
+          time: this.formatDate(new Date()),
+        };
+        const member = (await getDoc(doc(db, "Group", this.group))).data().Members;
+        console.log(4);
+        for (let i = 0; i < member.length; i++) {
+          await updateDoc(doc(db, "User", member[i]), {
+            Notifications: arrayUnion(noti),
+          });
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
       }
-    );
+    },
+    formatDate(date) {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
 
-    await new Promise((resolve) => {
-      uploadTask.on("state_changed", resolve);
-    });
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      let hours = date.getHours();
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+      hours %= 12;
+      hours = hours ? hours : 12;
 
-    await updateDoc(doc(db, "Group", this.group), {
-      Files: arrayUnion(file.name),
-    });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-  }
-}
+      const formattedDate = `${day} ${month} ${year} ${hours}:${minutes} ${ampm}`;
+      return formattedDate;
+    },
   },
 };
 </script>
