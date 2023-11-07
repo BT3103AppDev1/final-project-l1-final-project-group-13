@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueform/vueform": "^1.5.4",
     "firebase": "^10.5.0",
     "firebaseui": "^6.1.0",
     "vue": "^3.3.4",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.3.4",
-    "vite": "^4.5.0"
+    "sass": "^1.69.5",
+    "vite": "^4.4.9"
   }
 }
