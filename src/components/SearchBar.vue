@@ -70,12 +70,16 @@
       />
     </div>
     <br><br>
-    <div id = "displayer" class="groupss"></div>
-    <div v-if="isPopupVisible" class="overlay" @click="closePopup"></div>
+    <div id = "displayer" class="groupss">
+      <!-- <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name">
+        <strong>{{ group.Name }}</strong><br>{{ group.Description }}<br>Members: {{ group.NumberOfMembers }}/{{ group.Size }}
+      </div> -->
+    </div>
+    <!-- <div v-if="isPopupVisible" class="overlay" @click="closePopup"></div>
     <div v-if="isPopupVisible" class="popup">
       <p>{{ selectedGroup.Name }}</p>
       <button @click="closePopup">Close</button>
-    </div>
+    </div> -->
 
 
 </template>
@@ -185,7 +189,7 @@ methods: {
             let not_full = num_of_member != size;
             if ((description.toLowerCase().includes(text) || group_name.toLowerCase().includes(text))&&not_full) {
                 valid_groups.push(groupData)
-                console.log("Displaying: " + group_name)
+                // console.log("Displaying: " + group_name)
                 let newDiv = document.createElement('div');
                 newDiv.id = group_name;
                 newDiv.innerHTML = 
@@ -194,49 +198,53 @@ methods: {
                 newDiv.addEventListener('click', function() {
                   this.selectedGroup = groupData; // Store the clicked group's data
                   this.isPopupVisible = true; // Show the popup
-                  console.log('Group clicked: ' + group_name + this.isPopupVisible);
-                  console.log(this.selectedGroup.Name);
+                  // console.log('Group clicked: ' + group_name + this.isPopupVisible);
+                  // console.log(this.selectedGroup.Name);
 
             });
                 displayer.appendChild(newDiv);
             }
             
         })
-        console.log(valid_groups)
+
         this.valid_groups = valid_groups;
+        console.log(this.valid_groups[0])
     },
+
+    hasCommonElement(array1, array2) {
+      let set1 = new Set(array1);
+      for (let element of array2) {
+        if (set1.has(element)) {
+          return true;
+        }
+      }
+      return false;
+},
 
     async applyFilters() {
       let filtered_groups = []
-      // let filtered_groups = [...this.valid_groups]
-      let filters = [this.selected_major,
-        this.selected_course,
-        this.selected_timing,
-        this.selected_location];
-      for (let filter of filters) {
-        for (let filter_unit of filter) {
-          for (let group of this.valid_groups) {
-            let group_validity = true;
-            for (let member of group.Members) {
-              let docRef = doc(db, "User", member);
-              let docSnap = await getDoc(docRef);
-              let member_data = docSnap.data();
-              let member_preference = [...member_data.Courses, ...member_data.Location, ...member_data.Major, ...member_data.Timing]
-              group_validity = member_preference.includes(filter_unit);
-            }
+      // first of all, filter all group by a single filter (eg:major)
+      for(let group of this.valid_groups) {
+        let group_valid = true;
+        for (let member of group.Members) {
+          let docRef = doc(db, "User", member);
+          let docSnap = await getDoc(docRef);
+          let member_data = docSnap.data();
+          let major = member_data.Major;
+          if (!this.hasCommonElement(this.selected_major, major)) {
+           // this is not a valid group, stop checking members by breaking this loop
+           group_valid = false;
+           break
           }
         }
-
+        if (group_valid) {
+          filtered_groups.push(group)
+        }
       }
       
-      // 4 filters in total:
-      // for each filter(one of the for, eg major):
-      //  for each valid group
-      //    for each members
-      //      get the members preference (should be an dictionary)
-      //      extract that particular member's 
-      //      if any one of the filter_values is contained in the member's instances:
-      //        
+      this.valid_groups = filtered_groups
+      console.log(filtered_groups)
+
     }
 }
 }
