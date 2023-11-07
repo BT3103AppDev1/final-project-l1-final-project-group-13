@@ -81,10 +81,17 @@ const routes = [
     component: CreateAccountOne,
   },
   {
+    path: "/",
+    name: "Log In",
+    component: LoginPage,
+  },
+
+  {
     path: "/login",
     name: "Log In",
     component: LoginPage,
   },
+
   {
     path: "/signup",
     name: "Sign Up",
@@ -106,7 +113,7 @@ const routes = [
     component: BrowseGroupsPage
   },
   {
-    path: "/TheHomePage",
+    path: "/home",
     name: "TheHomePage",
     component: TheHomePage,
   },

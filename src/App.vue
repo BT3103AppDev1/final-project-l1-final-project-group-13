@@ -1,7 +1,4 @@
 <template>
-  <router-link to="/">TheStudyGroupPage</router-link> <br>
-  <router-link to="/TheHomePage">TheHomePage</router-link> <br>
-  <router-link to="/TheCreateGroupPage">TheCreateGroupPage</router-link> <br>
   <router-view />
 </template>
 
