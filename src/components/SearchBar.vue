@@ -370,7 +370,7 @@ body {
 
 .search-container img {
     position: absolute;
-    left: 10px;
+    left: 20px;
     top: 50%;
     transform: translateY(-50%);
     height: 20px;
