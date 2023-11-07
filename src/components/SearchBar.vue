@@ -1,13 +1,13 @@
 <template>
   <main><h1 style="text-align: left;">Browse groups</h1>
     <div class="search-container">
-      <img alt="search button" src="@/components/search.png" @click="search_By_text"/>
+      <img alt="search button" src="@/assets/search.png" @click="applyFilters"/>
     <input class="search_bar" 
            type="text" 
            id="text_tobe_searched" 
            name="text_tobe_searched"
            placeholder="Search for groups"
-           @keyup.enter="search_By_text">
+           @keyup.enter="applyFilters">
     <button class="create-group-button" @click="createGroup">Create group</button>
 
 </div>
@@ -63,23 +63,19 @@
     </div>
     <!-- create a button here to apply filter -->
     <img
-        src="@/components/filter.png" 
+        src="@/assets/filter.png" 
         alt="Apply Filters" 
         @click="applyFilters"
         class="clickable-image"
       />
     </div>
     <br><br>
-    <div id = "displayer" class="groupss">
-      <!-- <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name">
+    <div id = "displayer" class="groupss" v-if="valid_groups.length != 0">
+      <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name">
         <strong>{{ group.Name }}</strong><br>{{ group.Description }}<br>Members: {{ group.NumberOfMembers }}/{{ group.Size }}
-      </div> -->
+      </div>
     </div>
-    <!-- <div v-if="isPopupVisible" class="overlay" @click="closePopup"></div>
-    <div v-if="isPopupVisible" class="popup">
-      <p>{{ selectedGroup.Name }}</p>
-      <button @click="closePopup">Close</button>
-    </div> --></main>
+  </main>
   
 
 
@@ -179,8 +175,6 @@ methods: {
         let text = document.getElementById("text_tobe_searched").value.toLowerCase()
         const groups = await getDocs(collection(db, "Group"))
         let displayer = document.getElementById('displayer');
-        // console.log("search_By_text running");
-        displayer.innerHTML = '';
         groups.forEach((group)=> {
             let groupData = group.data();
             let description = groupData.Description;
@@ -190,26 +184,9 @@ methods: {
             let not_full = num_of_member != size;
             if ((description.toLowerCase().includes(text) || group_name.toLowerCase().includes(text))&&not_full) {
                 valid_groups.push(groupData)
-                // console.log("Displaying: " + group_name)
-                let newDiv = document.createElement('div');
-                newDiv.id = group_name;
-                newDiv.innerHTML = 
-                `<strong>${group_name}</strong><br>${description}<br>Members: ${num_of_member}/${size}`;
-                newDiv.className = 'groupDisplay';
-                newDiv.addEventListener('click', function() {
-                  this.selectedGroup = groupData; // Store the clicked group's data
-                  this.isPopupVisible = true; // Show the popup
-                  // console.log('Group clicked: ' + group_name + this.isPopupVisible);
-                  // console.log(this.selectedGroup.Name);
-
-            });
-                displayer.appendChild(newDiv);
-            }
-            
+            }       
         })
-
         this.valid_groups = valid_groups;
-        console.log(this.valid_groups[0])
     },
 
     hasCommonElement(array1, array2) {
@@ -223,28 +200,105 @@ methods: {
 },
 
     async applyFilters() {
+      await this.search_By_text();
+      let all_filters_empty = (this.selected_major.length+this.selected_course.length+this.selected_timing.length+this.selected_location.length) === 0
       let filtered_groups = []
+      let inter_groups = this.valid_groups
+      // check if the filters is empty
       // first of all, filter all group by a single filter (eg:major)
-      for(let group of this.valid_groups) {
-        let group_valid = true;
-        for (let member of group.Members) {
-          let docRef = doc(db, "User", member);
-          let docSnap = await getDoc(docRef);
-          let member_data = docSnap.data();
-          let major = member_data.Major;
-          if (!this.hasCommonElement(this.selected_major, major)) {
-           // this is not a valid group, stop checking members by breaking this loop
-           group_valid = false;
-           break
+      if (this.selected_major.length!=0) {
+        for(let group of inter_groups) {
+          let group_valid = true;
+          for (let member of group.Members) {
+            let docRef = doc(db, "User", member);
+            let docSnap = await getDoc(docRef);
+            let member_data = docSnap.data();
+            let major = member_data.Major;
+            if (!this.hasCommonElement(this.selected_major, major)) {
+            // this is not a valid group, stop checking members by breaking this loop
+            group_valid = false;
+            break
+            }
+          }
+          if (group_valid) {
+            filtered_groups.push(group)
           }
         }
-        if (group_valid) {
-          filtered_groups.push(group)
+        inter_groups = filtered_groups
+    }
+      
+      if(this.selected_course.length!=0) {
+        filtered_groups = []
+        for(let group of inter_groups) {
+          let group_valid = true;
+          for (let member of group.Members) {
+            let docRef = doc(db, "User", member);
+            let docSnap = await getDoc(docRef);
+            let member_data = docSnap.data();
+            let courses = member_data.Courses;
+            if (!this.hasCommonElement(this.selected_course, courses)) {
+            // this is not a valid group, stop checking members by breaking this loop
+            group_valid = false;
+            break
+            }
+          }
+          if (group_valid) {
+            filtered_groups.push(group)
+          }
         }
+        inter_groups = filtered_groups
       }
       
-      this.valid_groups = filtered_groups
-      console.log(filtered_groups)
+
+      if(this.selected_timing.length!=0) {
+        filtered_groups = []
+        for(let group of inter_groups) {
+          let group_valid = true;
+          for (let member of group.Members) {
+            let docRef = doc(db, "User", member);
+            let docSnap = await getDoc(docRef);
+            let member_data = docSnap.data();
+            let timings = member_data.Timing;
+            if (!this.hasCommonElement(this.selected_timing, timings)) {
+            group_valid = false;
+            break
+            }
+          }
+          if (group_valid) {
+            filtered_groups.push(group)
+          }
+        }
+        inter_groups = filtered_groups
+      }
+
+      if(this.selected_location.length!=0) {
+        filtered_groups = []
+        for(let group of inter_groups) {
+          let group_valid = true;
+          for (let member of group.Members) {
+            let docRef = doc(db, "User", member);
+            let docSnap = await getDoc(docRef);
+            let member_data = docSnap.data();
+            let locations = member_data.Location;
+            if (!this.hasCommonElement(this.selected_location, locations)) {
+            // this is not a valid group, stop checking members by breaking this loop
+            group_valid = false;
+            break
+            }
+          }
+          if (group_valid) {
+            filtered_groups.push(group)
+            // console.log(group.Name)
+          }
+        }
+        inter_groups = filtered_groups
+      }
+      console.log(inter_groups.length)
+      for (let left_group of inter_groups) {
+        console.log(left_group.Name)
+      }
+      
+      this.valid_groups = inter_groups
 
     }
 }
