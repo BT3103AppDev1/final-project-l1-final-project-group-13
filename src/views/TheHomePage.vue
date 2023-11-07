@@ -41,7 +41,7 @@
 <script>
 import JoinGroup from "@/components/JoinGroup.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
 import { getDocs, collection } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";

@@ -39,7 +39,7 @@
 
 <script>
 import JoinGroup from "@/components/JoinGroup.vue";
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
