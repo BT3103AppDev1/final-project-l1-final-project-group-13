@@ -1,54 +1,62 @@
 <template>
-  <div id="title">
-    <h1>{{ groupName }}</h1>
-  </div>
-
-  <div id="studygroupnavbar">
-    <button id="homepagebutton" type="button" @click="gotoHomePage">
-      Home Page
-    </button>
-    <button id="calendarbutton" type="button" @click="test">Calendar</button>
-    <button id="filesbutton" type="button" @click="test">Files</button>
-    <button id="requestsbutton" type="button" @click="test">Requests</button>
-  </div>
-
-  <div id="studygroupinfo">
-    <h2 id="description" class="description">Descrptiusgdbofs sdfsdsdsdnsd</h2>
-    <h2 id="membercount">
-      Team Members : {{ memberCount }} / {{ memberLimit }}
-    </h2>
-  </div>
-
-  <div id="displayGroups">
-    <div
-      id="displayGroupMembers"
-      v-for="groupMember in memberDetails"
-      :key="groupMember.email"
-    >
-      <button class="groups">
-        {{ groupMember.name }} <br />
-        {{ groupMember.email }} <br />
-        {{ groupMember.telegramHandle }} <br />
-        {{ groupMember.major }} <br />
-        <br />
-        {{ groupMember.courses }} <br />
-        {{ groupMember.timing }} <br />
-        {{ groupMember.location }}
-      </button>
+  <div id="everything">
+    <div id="title">
+      <h1>{{ groupName }}</h1>
     </div>
-  </div>
 
-  <div id="gotoHomePage">
-    <router-link to="/TheHomePage"><button>HomePage</button></router-link>
-  </div>
+    <div id="studygroupnavbar">
+      <router-link to="/TheHomePage"
+        ><button id="homepagebutton">HomePage</button></router-link
+      >
+      <button id="calendarbutton" type="button" @click="test">Calendar</button>
+      <button id="filesbutton" type="button" @click="test">Files</button>
+      <button id="requestsbutton" type="button" @click="test">Requests</button>
+    </div>
 
-  <!-- <div id="joinGroup">
+    <div id="studygroupinfo">
+      <h2 id="description" class="description">
+        Descrptiusgdbofs sdfsdsdsdnsd
+      </h2>
+      <h2 id="membercount">
+        Team Members : {{ memberCount }} / {{ memberLimit }}
+      </h2>
+    </div>
+
+    <div id="displayGroups">
+      <div
+        class="displayGroupMembers"
+        v-for="groupMember in memberDetails"
+        :key="groupMember.email"
+      >
+        <div class="groups">
+          {{ groupMember.name }} <br />
+          {{ groupMember.email }} <br />
+          {{ groupMember.telegramHandle }} <br />
+          {{ groupMember.major }} <br />
+          <br />
+          {{ groupMember.courses }} <br />
+          {{ groupMember.timing }} <br />
+          {{ groupMember.location }}
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id="gotoHomePage">
+      <router-link to="/TheHomePage"><button>HomePage</button></router-link>
+    </div> -->
+
+    <div id="leaveGroupButton">
+      <button @click="leaveGroup">Leave Group</button>
+    </div>
+
+    <!-- <div id="joinGroup">
     <join-group />
   </div>
 
   <div id="deleteGroup">
     <leave-group />
   </div> -->
+  </div>
 </template>
 
 <script>
@@ -154,6 +162,19 @@ export default {
         console.error("Error joining group: ", error);
       }
     },
+    async leaveGroup() {
+      console.log("IN AC");
+
+      try {
+        const docRef = await updateDoc(doc(db, "Group", "BT3103"), {
+          Members: arrayRemove("e0735448@u.nus.edu"),
+        });
+        console.log(docRef);
+        alert("Leaved group successfully!");
+      } catch (error) {
+        console.error("Error leaving group: ", error);
+      }
+    },
   },
 };
 </script>
@@ -161,5 +182,32 @@ export default {
 <style>
 h1 {
   text-align: center;
+}
+.displayGroupMembers {
+  border-radius: 10px; /* Rounded corners */
+  background-color: #ffde59; /* Background color */
+  padding: 20px; /* Space inside the rectangle */
+  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
+  box-sizing: border-box; /* Include padding and border in the width and height totals */
+  flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
+  cursor: pointer;
+  width: 360px; /* You can set a specific width or use a percentage */
+  height: 250px; /* Height will be determined by the content size */
+  /* font-family: Inter; */
+}
+#displayGroups {
+  display: flex; /* Use flexbox to lay out children */
+  flex-wrap: wrap; /* Allow children to wrap to next line */
+  gap: 10px; /* Optional: adds space between children */
+  justify-content: left; /* Center children horizontally in the container */
+  align-items: left; /* Center children vertically in the container */
+}
+#everything {
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #968888;
+  padding: 10px;
+  margin: 20px;
 }
 </style>
