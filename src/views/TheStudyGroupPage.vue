@@ -1,6 +1,6 @@
 <template>
   <div id="title">
-    <h1>{{groupName}}</h1>
+    <h1>{{ groupName }}</h1>
   </div>
 
   <div id="studygroupnavbar">
@@ -19,20 +19,23 @@
     </h2>
   </div>
 
-  <div id="displayGroupMembers">
-  </div>
-
-  <div
-    id="testDisplayGroupMembers"
-    v-for="groupMember in memberDetails"
-    :key="groupMember.email"
-  >
-    <button>
-    {{ groupMember.name }} <br> {{ groupMember.email }} 
-    <br> {{ groupMember.telegramHandle }} <br> {{ groupMember.major }} <br>
-    <br> {{ groupMember.courses }} <br> {{ groupMember.timing }} <br>
-    {{ groupMember.location }}
-  </button>
+  <div id="displayGroups">
+    <div
+      id="displayGroupMembers"
+      v-for="groupMember in memberDetails"
+      :key="groupMember.email"
+    >
+      <button class="groups">
+        {{ groupMember.name }} <br />
+        {{ groupMember.email }} <br />
+        {{ groupMember.telegramHandle }} <br />
+        {{ groupMember.major }} <br />
+        <br />
+        {{ groupMember.courses }} <br />
+        {{ groupMember.timing }} <br />
+        {{ groupMember.location }}
+      </button>
+    </div>
   </div>
 
   <div id="gotoHomePage">
@@ -52,8 +55,8 @@
 import GroupMemberWidget from "../components/GroupMemberWidget.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
-import LeaveGroup from '@/components/LeaveGroup.vue'
-import TheStudyGroupPage from '@/views/TheStudyGroupPage.vue'
+import LeaveGroup from "@/components/LeaveGroup.vue";
+import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
 import firebaseApp from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
 import { getDocs, collection } from "firebase/firestore";
@@ -66,12 +69,12 @@ export default {
   name: "TheStudyGroupPage",
   data() {
     return {
-      groupName : 'BT1101',
-      groupDescription : '',
+      groupName: "BT1101",
+      groupDescription: "",
       memberCount: 3,
       memberLimit: 6,
-      members : [],
-      memberDetails : [],
+      members: [],
+      memberDetails: [],
     };
   },
   created() {
@@ -92,7 +95,9 @@ export default {
         let userEmails = [];
         let groupName = this.groupName;
         const groups = await getDocs(collection(db, "Group"));
-        let displayGroupMembers = document.getElementById("displayGroupMembers");
+        let displayGroupMembers = document.getElementById(
+          "displayGroupMembers"
+        );
         console.log("test run");
         groups.forEach((group) => {
           let groupData = group.data();
@@ -129,23 +134,22 @@ export default {
               user_major
             );
             this.memberDetails.push({
-              name : user_name,
-              email : user_email,
-              telegramHandle : user_telegramHandle,
-              major : user_major,
-              courses : user_courses,
-              timing : user_timing,
-              location : user_location,
-            })
+              name: user_name,
+              email: user_email,
+              telegramHandle: user_telegramHandle,
+              major: user_major,
+              courses: user_courses,
+              timing: user_timing,
+              location: user_location,
+            });
             // let newDiv = document.createElement("div");
             // newDiv.id = user_email;
-            // newDiv.innerHTML = 
+            // newDiv.innerHTML =
             // `<button><h3 class='contacts'>${user_name}<br>${user_email}<br>${user_telegramHandle}</h3><h4>${user_major}<br>${user_courses}<br>${user_timing}<br>${user_location}</h4></button>`;
             // newDiv.className = "groupDisplay";
             // displayGroupMembers.appendChild(newDiv);
           }
         });
-
       } catch (error) {
         console.error("Error joining group: ", error);
       }
@@ -155,22 +159,7 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+h1 {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 30px;
-}
-#nav {
-  padding: 30px;
-}
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #0f56c7;
 }
 </style>
