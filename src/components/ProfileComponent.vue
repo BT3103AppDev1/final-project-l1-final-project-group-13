@@ -52,7 +52,7 @@ import "firebase/compat/auth";
 import "firebaseui/dist/firebaseui.css";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDoc, doc, getFirestore } from "firebase/firestore";
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 
 const db = getFirestore(firebaseApp);
 

@@ -62,7 +62,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { getDoc, doc, getFirestore } from "firebase/firestore";
-import firebaseApp from "../firebase.js";
+import { firebaseApp } from "../firebase.js";
 import { verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 
 const db = getFirestore(firebaseApp);
