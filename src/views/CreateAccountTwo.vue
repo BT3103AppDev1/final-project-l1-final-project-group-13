@@ -14,6 +14,7 @@
             <label for="major">Your Major: </label>
             <div class="dropdown_list">
               <Multiselect
+                id="major"
                 v-model="selected_major"
                 mode="tags"
                 placeholder="major"
@@ -28,6 +29,7 @@
             <label for="courses">Your Current Courses: </label>
             <div class="dropdown_list">
               <Multiselect
+                id="courses"
                 v-model="selected_course"
                 mode="tags"
                 placeholder="course"
@@ -43,6 +45,7 @@
             <label for="studyTiming">Preferred Study Timings: </label>
             <div class="dropdown_list">
               <Multiselect
+                id="studyTiming"
                 v-model="selected_timing"
                 mode="tags"
                 placeholder="timing"
@@ -57,6 +60,7 @@
             <label for="location">Preferred Locations: </label>
             <div class="dropdown_list">
               <Multiselect
+                id="location"
                 v-model="selected_location"
                 mode="tags"
                 placeholder="location"
