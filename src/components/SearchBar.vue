@@ -1,5 +1,5 @@
 <template>
-  <h1 style="text-align: left;">Browse groups</h1>
+  <main><h1 style="text-align: left;">Browse groups</h1>
     <div class="search-container">
       <img alt="search button" src="@/components/search.png" @click="search_By_text"/>
     <input class="search_bar" 
@@ -79,7 +79,8 @@
     <div v-if="isPopupVisible" class="popup">
       <p>{{ selectedGroup.Name }}</p>
       <button @click="closePopup">Close</button>
-    </div> -->
+    </div> --></main>
+  
 
 
 </template>
@@ -252,6 +253,13 @@ methods: {
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 <style>
+main {
+  background: var(--background-color, #f5f5f5);
+  height: 96.6vh;
+  width: 100vw;
+  position: relative;
+}
+
 body {
   background-color: #F5F5F5; /* Light grey background */
 }

@@ -1,7 +1,18 @@
 <template>
     <div style = "text-align:center;">
-    <h1 id = "mainHead"> CRYPTO PAPER PORTFOLIO</h1>
-    <div id = "firebaseui-auth-container"></div>
+    <h1 id = "mainHead">{{ studyGroupName }}</h1>
+    <button id="homepagebutton">
+        Home Page
+    </button>
+    <button id="calendarbutton">
+        Calendar
+    </button>
+    <button id="filesbutton">
+        Files 
+    </button>
+    <button id="requestsbutton">
+        Requests
+    </button>
     <div id = "pagecontent">
         Crypto Paper Portfolio (CPP) is an app to track your crypto portfolio. <br>
         Enter coin details and get real time Profit and Loss update of your portfolio.
@@ -17,7 +28,13 @@ import * as firebaseui from 'firebaseui'
 import 'firebaseui/dist/firebaseui.css'
 
 export default {
-    name: "Login",
+    name: "StudyGroupNavBar",
+
+    data() {
+        this.studyGroupName = studyGroupName;
+        this.studyGroupDesc = studyGroupDesc;
+        this.studyGroupMembers = studyGroupMembers;
+    },
 
     mounted() {
         var ui = firebaseui.auth.AuthUI.getInstance();
