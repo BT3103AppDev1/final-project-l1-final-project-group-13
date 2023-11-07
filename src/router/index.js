@@ -20,9 +20,49 @@ import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
 
 const routes = [
   {
-     path: "/",
-     name: "Test",
-     component: Login
+    path: "/resetpassword",
+    name: "Reset Password",
+    component: ResetPasswordPage,
+  },
+  {
+    path: "/preferences",
+    name: "Preferences",
+    component: PreferencesPage,
+  },
+  {
+    path: "/userprofile",
+    name: "User Profile",
+    component: UserProfilePage,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: ProfilePage,
+  },
+  {
+    path: "/resetcomplete",
+    name: "Password Reset Complete",
+    component: ResetComplete,
+  },
+  {
+    path: "/enternewpassword",
+    name: "Enter New Password",
+    component: EnterNewPassword,
+  },
+  {
+    path: "/emailsent",
+    name: "Email Sent!",
+    component: EmailSent,
+  },
+  {
+    path: "/forgotpassword",
+    name: "Forgot Password",
+    component: ForgotPassword,
+  },
+  {
+    path: "/createaccount2",
+    name: "Create an Account (2)",
+    component: CreateAccountTwo,
   },
   {
     path: "/createaccount1",
