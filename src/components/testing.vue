@@ -1,83 +1,32 @@
 <template>
-    <div class="dropdowns_container">
-    <div class="dropdown_list">
-      <Multiselect
-        v-model="selected_major"
-        mode="tags"
-        placeholder="major"
-        :options="options_major"
-        class="multiselect"
-        :searchable="true"
-        :groups="true"
-        :close-on-select="false"
-      />
-    </div>
-    <div class="dropdown_list">
-      <Multiselect
-        v-model="selected_course"
-        mode="tags"
-        placeholder="course"
-        :options="options_course"
-        class="multiselect"
-        :searchable="true"
-        :groups="true"
-        :close-on-select="false"
-      />
-    </div>
-    <div class="dropdown_list">
-      <Multiselect
-        v-model="selected_timing"
-        mode="tags"
-        placeholder="timing"
-        :options="options_timing"
-        class="multiselect"
-        :searchable="true"
-        :groups="true"
-        :close-on-select="false"
-      />
-    </div>
-    <div class="dropdown_list">
-      <Multiselect
-        v-model="selected_location"
-        mode="tags"
-        placeholder="location"
-        :options="options_location"
-        class="multiselect"
-        :searchable="true"
-        :groups="true"
-        :close-on-select="false"
-      />
-    </div>
-    <!-- create a button here to apply filter -->
-    
+      <div id = "displayer" class="groupss" v-if="valid_groups.length != 0">
+      <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name">
+        <strong>{{ group.Name }}</strong><br>{{ group.Description }}<br>Members: {{ group.NumberOfMembers }}/{{ group.Size }}
+      </div>
     </div>
 </template>
 
 
 <style>
-.multiselect {
-  --ms-tag-bg: #ffde59;
-  --ms-tag-color: #000000;
-  --ms-ring-width: 0px;
-  --ms-radius: 10px;
-  --ms-dropdown-radius: 10px;
-}
-.dropdown_list {
-            width: 400px;
-            /* height: 200px; */
-        }
-
-.dropdowns_container {
-    display: flex;
-    justify-content: space-between;
+.groupss {
+  display: flex; /* Use flexbox to lay out children */
+  flex-wrap: wrap; /* Allow children to wrap to next line */
+  gap: 10px; /* Optional: adds space between children */
+  justify-content: center; /* Center children horizontally in the container */
+  align-items: center; /* Center children vertically in the container */
 }
 
-.dropdown_list {
-    width: calc(33.33% - 20px); /* Subtracting 20px to account for potential margins */
-    margin-right: 10px; /* Add a margin to the right of each dropdown list */
-}
 
-.dropdown_list:last-child {
-    margin-right: 0; /* Ensure the last dropdown doesn't have a right margin */
+.groupDisplay {
+  border-radius: 10px; /* Rounded corners */
+  background-color: #FFDE59; /* Background color */
+  padding: 20px; /* Space inside the rectangle */
+  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
+  box-sizing: border-box; /* Include padding and border in the width and height totals */
+  flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
+  cursor: pointer;
+  width: 300px; /* You can set a specific width or use a percentage */
+  height: auto; /* Height will be determined by the content size */
+  /* font-family: Inter; */
 }
 </style>
