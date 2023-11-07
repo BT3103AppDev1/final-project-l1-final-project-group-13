@@ -1,13 +1,17 @@
 <template>
+  <div class = "sidebar">
+  <Sidebar/>
+  </div>
+  <Notification/>
   <div id="homepageTitle">
     <h1 class="welcomeMsg">
       Welcome,
       <h1 class="name">
-        <strong>{{ name }}</strong>
+        {{ name }}
       </h1>
     </h1>
-    <img src="src/assets/logo.PNG" alt="Logo" width="100" height="100" />
-  </div>
+    <img src="src/assets/profileIcon.png" alt="Logo" width="100" height="100" />
+  </div> <br>
   <h2 id="myGroups">My Groups</h2>
 
   <!-- <div id="studyGroups">
@@ -16,21 +20,18 @@
     </button>
   </div> -->
 
-  <div id="displayGroups">
-    <div
-      class="groupDisplay"
-      v-for="studyGroup in studyGroups"
-      :key="studyGroup.name"
-    >
-      <router-link :to="`/TheStudyGroupPage/${studyGroup.name}`">
-        <button>
-          <h3> {{ studyGroup.name }} </h3> <br /> 
-          <p>{{ studyGroup.description }}</p> <br /> 
-          <p>{{ studyGroup.num_of_member }}/{{ studyGroup.size }} Members</p>
-        </button>
-      </router-link>
-    </div>
-  </div>
+  <table id="table">
+      <tr v-for="(row, rowIndex) in groupedGroups" :key="rowIndex">
+        <td v-for="(group, groupIndex) in row" :key="group.Name">
+          <div class="card" @click = "gotoStudyPage(group.name)">
+            <p> {{  group.Name }}</p>
+            <p> {{  group.Description }}</p>
+            <p> {{  group.NumberOfMembers }} / {{ group.Size }}</p>
+            </div>
+            </td>
+            </tr>
+            </table>
+      
 
   <!-- <div id="testRouter"><button @click="gotoStudyPage">TestRouter</button></div>
   <router-link :to="`/TheStudyGroupPage/${this.userGroups[1]}`" id="testRouter"
@@ -39,81 +40,58 @@
 </template>
 
 <script>
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { firebaseApp } from "../firebase.js";
+import {
+  getDoc,
+  getFirestore,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+  doc,
+} from "firebase/firestore";
 import JoinGroup from "@/components/JoinGroup.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
-import { firebaseApp } from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
-import { getDocs, collection } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "vue-router";
+import Sidebar from "@/components/Sidebar.vue"
+import Notification from "@/components/Notification.vue"
 const router = useRouter();
 const db = getFirestore(firebaseApp);
 
 console.log("in App");
 export default {
-  components: { StudyGroupWidget },
+  components: { StudyGroupWidget, Sidebar, Notification },
   name: "TheHomePage",
   data() {
     return {
-      name: "Jason",
-      email: "abc@abc.com",
+      user: false,
+      name: "",
+      email: "",
       memberLimit: 6,
-      userGroups: [],
       studyGroups: [],
     };
   },
   async mounted() {
-    await this.getGroupData();
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.user = user;
+        this.email = user.email;
+        console.log(this.email)
+        this.name = (await getDoc(doc(db, "User", this.email))).data().Name
+        console.log(this.name)
+        let groups = (await getDoc(doc(db, "User", this.email))).data().Groups
+    console.log(groups)
+    for (let i = 0; i < groups.length; i++) {
+      let a = (await getDoc(doc(db, "Group", groups[i]))).data();
+      this.studyGroups.push(a);
+    }
+      }
+    });
   },
   methods: {
-    test() {
-      console.log("Hello");
-    },
-    async getGroupData() {
-      console.log("IN AC");
-
-      try {
-        let userGroups = [];
-        let userEmail = this.email;
-        const groups = await getDocs(collection(db, "User"));
-        let displayStudyGroups = document.getElementById("displayStudyGroups");
-        console.log("test run");
-        groups.forEach((group) => {
-          let groupData = group.data();
-          let user_email = groupData.Email;
-          let user_groups = groupData.Groups;
-          if (user_email == userEmail) {
-            user_groups.forEach((user_group) => {
-              console.log(user_group);
-            });
-            userGroups = user_groups;
-          }
-        });
-        console.log(userGroups);
-        this.userGroups = userGroups;
-
-        const groupDetails = await getDocs(collection(db, "Group"));
-        groupDetails.forEach((group) => {
-          let groupData = group.data();
-          let description = groupData.Description;
-          let group_name = groupData.Name;
-          let num_of_member = groupData.NumberOfMembers;
-          let size = groupData.Size;
-
-          if (this.userGroups.includes(group_name)) {
-            console.log(
-              "Displaying: ",
-              description,
-              group_name,
-              num_of_member,
-              size
-            );
-            this.studyGroups.push({
-              name: group_name,
-              description: description,
-              num_of_member: num_of_member,
-              size: size,
-            });
+    
+   
             // let newDiv = document.createElement("div");
             // newDiv.id = group_name;
             // newDiv.innerHTML = `<button @click='gotoStudyPage'><h1>${group_name}</h1><br><h4>${description}</h4><br><h4>Members: ${num_of_member}/${size}</h4></button>`;
@@ -124,24 +102,27 @@ export default {
             //   gotoStudyPage();
             // });
             // displayStudyGroups.appendChild(newDiv);
-          }
-        });
-
-        console.log("getgroupdata test ", this.userGroups[0]);
-      } catch (error) {
-        console.error("Error joining group: ", error);
-      }
-    },
-    gotoStudyPage() {
-      this.$router.push({ path: "`/TheStudyGroupPage/${this.userGroups[0]}`" });
+      gotoStudyPage(link) {
+        this.$router.push({ path: `/TheStudyGroupPage/${link}` });
     },
   },
-};
+
+    computed: {
+    groupedGroups() {
+      const result = [];
+      const chunkSize = 3;
+      for (let i = 0; i < this.studyGroups.length; i += chunkSize) {
+        result.push(this.studyGroups.slice(i, i + chunkSize));
+      }
+      return result;
+    },
+  },
+  }
 </script>
 
 <style>
 .name {
-  color: #ffde59;
+  color: #FFB904;
   display: flex;
   font-size: 40px;
   margin-left: 10px;
@@ -151,6 +132,8 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 50px;
+  color:black;
+  font-family: "AbeeZee", Helvetica;
 }
 img {
   display: flex;
@@ -159,42 +142,18 @@ img {
 #homepageTitle {
   display: flex;
   align-items: center;
+  font-family: "AbeeZee", Helvetica;
 }
 #myGroups {
   display: flex;
-  margin-left: 50px;
+  margin-left: 235px;
   margin-top: -20px;
+  font-family: "AbeeZee", Helvetica;
+  color: black;
 }
 h1, h3, p {
   margin: 0px;
   padding: 0px;
 }
-#displayGroups {
-  display: flex; /* Use flexbox to lay out children */
-  flex-wrap: wrap; /* Allow children to wrap to next line */
-  gap: 10px; /* Optional: adds space between children */
-  justify-content: left; /* Center children horizontally in the container */
-  align-items: left; /* Center children vertically in the container */
-}
-.groupDisplay button {
-  border-radius: 10px; /* Rounded corners */
-  background-color: #ffde59; /* Background color */
-  padding: 20px; /* Space inside the rectangle */
-  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
-  box-sizing: border-box; /* Include padding and border in the width and height totals */
-  flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
-  cursor: pointer;
-  width: 380px; /* You can set a specific width or use a percentage */
-  height: 250px; /* Height will be determined by the content size */
-  /* font-family: Inter; */
-}
-button {
-  background-color: #ffde59;
-  border-color: #ffde59;
-  margin: 0px;
-  padding: 0px;
-}
-.groupDisplay:hover button:hover {
-  background-color: #ffca2c; /* Slightly lighter shade when hovered */
-}
+
 </style>

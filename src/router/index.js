@@ -31,6 +31,11 @@ import BrowseGroupsPage from '@/views/BrowseGroupsPage.vue'
 
 const routes = [
   {
+    path: "/",
+    name: "Log In",
+    component: LoginPage,
+  },
+  {
     path: "/resetpassword",
     name: "Reset Password",
     component: ResetPasswordPage,
@@ -81,32 +86,11 @@ const routes = [
     component: CreateAccountOne,
   },
   {
-    path: "/",
-    name: "Log In",
-    component: LoginPage,
-  },
-
-  {
-    path: "/login",
-    name: "Log In",
-    component: LoginPage,
-  },
-
-  {
     path: "/signup",
     name: "Sign Up",
     component: RegistrationForm,
   },
-//   {
-//     path: "/",
-//     name: "testing",
-//     component: testing
-//  },
-  // {
-  // //   path: "/home",
-  // //   name: "Home",
-  // //   component: TestPage,
-  // // },
+
   {
     path: "/browsegroups",
     name: "Browse Groups",

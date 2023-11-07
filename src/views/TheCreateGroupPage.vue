@@ -98,10 +98,7 @@ export default {
   flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
   cursor: pointer;
 }
-input:hover {
-  box-shadow: 3px 3px purple;
-  border-radius: 2px;
-}
+
 #saveButton {
   border-radius: 10px; /* Rounded corners */
   background-color: #ffde59; /* Background color */

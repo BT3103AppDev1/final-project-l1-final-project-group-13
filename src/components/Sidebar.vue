@@ -47,7 +47,7 @@ export default {
       signOut(auth)
         .then(() => {
           // Sign-out successful.
-          this.$router.push("/login");
+          this.$router.push("/");
         })
         .catch((error) => {
           // An error happened.
@@ -97,6 +97,7 @@ img {
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .button:hover {
