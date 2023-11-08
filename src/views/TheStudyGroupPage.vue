@@ -22,12 +22,12 @@
 
 
     <div id="studygroupinfo">
-      <h4 id="description" class="description">
+      <h3 id="description" class="description">
         {{groupDescription}}
-      </h4>
-      <h2 id="membercount">
+      </h3>
+      <h3 id="membercount">
         Members : {{ groupMember }} / {{ groupSize }}
-      </h2>
+      </h3>
     </div>
 
     <table id="table">
@@ -62,15 +62,8 @@
             </table>
 
 <br>
-<LeaveGroup/>
+<LeaveGroup :group=this.groupName />
 
-    <!-- <div id="joinGroup">
-    <join-group />
-  </div>
-
-  <div id="deleteGroup">
-    <leave-group />
-  </div> -->
   </div>
 </template>
 
