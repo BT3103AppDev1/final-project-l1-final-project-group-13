@@ -138,10 +138,11 @@ export default {
           await updateDoc(doc(db, "User", email), {
             Groups: arrayUnion(this.group),
           });
+          let memberName = (await getDoc(doc(db, "User", email))).data().Name
           alert("Accepted!");
           const noti = {
             title:
-              email /*this.user.name*/ +
+              memberName +
               " has joined " +
               this.group +
               " study group",

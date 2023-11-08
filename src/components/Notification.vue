@@ -73,8 +73,12 @@ export default {
       if (this.email) {
         const userDoc = await getDoc(doc(db, "User", this.email));
         this.notifications = userDoc.data().Notifications.sort((a, b) => {
-          return new Date(b.time) - new Date(a.time);
-        });
+          const timeA = new Date(a.time);
+        const timeB = new Date(b.time);
+        if (timeB > timeA) return 1;
+        if (timeA >= timeB) return -1;
+        return 0;
+      });
       }
     },
 
