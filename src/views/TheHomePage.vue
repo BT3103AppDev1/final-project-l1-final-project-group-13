@@ -15,12 +15,6 @@
   <br />
   <h2 id="myGroups">My Groups</h2>
 
-  <!-- <div id="studyGroups">
-    <button id="filesbutton" type="button" @click="getGroupData">
-      displayGroup
-    </button>
-  </div> -->
-
   <table id="table">
     <tr v-for="(row, rowIndex) in groupedGroups" :key="rowIndex">
       <td v-for="(group, groupIndex) in row" :key="group.Name">
@@ -33,10 +27,7 @@
     </tr>
   </table>
 
-  <!-- <div id="testRouter"><button @click="gotoStudyPage">TestRouter</button></div>
-  <router-link :to="`/TheStudyGroupPage/${this.userGroups[1]}`" id="testRouter"
-    ><button>TestRouterParam</button></router-link
-  > -->
+
 </template>
 
 <script>
@@ -90,16 +81,7 @@ export default {
     });
   },
   methods: {
-    // let newDiv = document.createElement("div");
-    // newDiv.id = group_name;
-    // newDiv.innerHTML = `<button @click='gotoStudyPage'><h1>${group_name}</h1><br><h4>${description}</h4><br><h4>Members: ${num_of_member}/${size}</h4></button>`;
-    // // newDiv.innerHTML = '<router-link to="/TheCreateGroupPage"><button @click='gotoStudyPage'>TheHomePage</button></router-link>'
-    // newDiv.className = "groupDisplay";
-    // newDiv.addEventListener("click", function () {
-    //   alert("clicked " + group_name);
-    //   gotoStudyPage();
-    // });
-    // displayStudyGroups.appendChild(newDiv);
+
     gotoStudyPage(name) {
       if (!name) {
         console.error("Empty parameter passed for 'name'.");

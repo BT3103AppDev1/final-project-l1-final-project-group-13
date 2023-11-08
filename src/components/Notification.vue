@@ -33,15 +33,15 @@ const db = getFirestore(firebaseApp);
   export default {
    async mounted() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
         this.email = user.email
-      }
-    })
-    this.notifications = (await getDoc(doc(db, "User", this.email))).data().Notifications.sort((a, b) => {
+        this.notifications = (await getDoc(doc(db, "User", this.email))).data().Notifications.sort((a, b) => {
         return new Date(b.time) - new Date(a.time);
       });
+      }
+    })
 },
 
     data() {
@@ -49,7 +49,7 @@ const db = getFirestore(firebaseApp);
         showNotification: false,
         notifications: [],
         user: false,
-        email: "brandonlsl010911@gmail.com"
+        email: ""
       };
     },
 
