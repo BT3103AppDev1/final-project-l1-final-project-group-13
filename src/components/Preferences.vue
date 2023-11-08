@@ -164,6 +164,7 @@ export default {
           }
         );
         alert("Personal details successfully updated!");
+        this.$router.push("/profile");
       } catch (error) {
         alert("Error adding document: ", error);
       }
@@ -241,7 +242,7 @@ export default {
           this.$router.push("/createaccount1");
         }
       } else {
-        this.$router.push("/login");
+        this.$router.push("/");
       }
     });
   },

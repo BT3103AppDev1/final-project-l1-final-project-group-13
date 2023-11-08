@@ -109,6 +109,7 @@ export default {
         .then(() => {
           // Update successful.
           alert("Password successfully updated!");
+          this.$router.push("/");
         })
         .catch((error) => {
           // An error ocurred
@@ -143,7 +144,7 @@ export default {
           this.$router.push("/createaccount1");
         }
       } else {
-        this.$router.push("/login");
+        this.$router.push("/");
       }
     });
   },
