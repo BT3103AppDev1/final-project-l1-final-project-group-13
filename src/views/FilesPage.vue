@@ -2,7 +2,7 @@
   <div class = "sidebar">
   <Sidebar/>
   </div>
-  <Notification/>
+  <Notification :key="refreshComp" />
     <div class ="files">
   <h1>{{ groupName }}</h1>
   <div v-if="groupName" class="nav" >
@@ -61,8 +61,6 @@ export default {
   },
 
   async mounted() {
-    let document = await getDoc(doc(db, "Group", "BT3103"));
-    this.group = document.data();
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {

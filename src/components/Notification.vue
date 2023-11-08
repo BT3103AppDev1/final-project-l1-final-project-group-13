@@ -1,25 +1,34 @@
 <template>
-     <span class="material-icons" id = "bell-icon" @click="toggleNotification">notifications</span>
-   <div :class="['notification-bar', { show: showNotification }]">
+  <span class="material-icons" id="bell-icon" @click="toggleNotification"
+    >notifications</span
+  >
+  <div :class="['notification-bar', { show: showNotification }]">
     <div id="header" class="header-container">
-  <h3 class="notification-header">Notifications</h3>
-    <span class="material-icons" id = "close-icon" @click="toggleNotification">close</span> <br>
+      <h3 class="notification-header">Notifications</h3>
+      <span class="material-icons" id="close-icon" @click="toggleNotification"
+        >close</span
+      >
+      <br />
     </div>
-  <div v-for="notification in notifications" :key="notification.id" class="notification-item">
-    <div id = "info">
-    <span class="material-symbols-outlined" id = "info-icon">info</span>
-    </div>
-    <div id = "noti">
-    <h5>{{ notification.title }}</h5>
-    <h6>{{ notification.time }}</h6>
+    <div
+      v-for="notification in notifications"
+      :key="notification.id"
+      class="notification-item"
+    >
+      <div id="info">
+        <span class="material-symbols-outlined" id="info-icon">info</span>
+      </div>
+      <div id="noti">
+        <h5>{{ notification.title }}</h5>
+        <h6>{{ notification.time }}</h6>
+      </div>
     </div>
   </div>
-</div>
-  </template>
-  
-  <script>
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {firebaseApp} from "../firebase.js";
+</template>
+
+<script>
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { firebaseApp } from "../firebase.js";
 import {
   getDoc,
   getFirestore,
@@ -30,37 +39,51 @@ import {
 } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
-  export default {
-   async mounted() {
+export default {
+  async mounted() {
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
-        this.email = user.email
-        this.notifications = (await getDoc(doc(db, "User", this.email))).data().Notifications.sort((a, b) => {
-        return new Date(b.time) - new Date(a.time);
-      });
+        this.email = user.email;
+        this.fetchNotifications();
       }
-    })
-},
+    });
+  },
+  watch: {
+    refreshComp: {
+      immediate: true,
+      handler() {
+        this.fetchNotifications();
+      },
+    },
+  },
 
-    data() {
-      return {
-        showNotification: false,
-        notifications: [],
-        user: false,
-        email: ""
-      };
+  data() {
+    return {
+      showNotification: false,
+      notifications: [],
+      user: false,
+      email: "",
+    };
+  },
+
+  methods: {
+    async fetchNotifications() {
+      if (this.email) {
+        const userDoc = await getDoc(doc(db, "User", this.email));
+        this.notifications = userDoc.data().Notifications.sort((a, b) => {
+          return new Date(b.time) - new Date(a.time);
+        });
+      }
     },
 
-    methods: {
-      toggleNotification() {
-        this.showNotification = !this.showNotification;
-      }
-    }
-  };
-  </script>
-
+    toggleNotification() {
+      this.showNotification = !this.showNotification;
+    },
+  },
+};
+</script>
 
 <style scoped>
 .notification-container {
@@ -81,16 +104,16 @@ const db = getFirestore(firebaseApp);
 }
 
 #bell-icon {
-    font-size: 2rem;
+  font-size: 2rem;
   color: #000000;
-    position: absolute;
+  position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
 }
 
 #info-icon {
-    font-size: 2rem;
+  font-size: 2rem;
   color: #000000;
 }
 .header-container {
@@ -101,7 +124,7 @@ const db = getFirestore(firebaseApp);
 }
 
 .notification-header {
-margin-left: 20px;
+  margin-left: 20px;
   float: left;
   margin-top: 10px;
 }
@@ -124,8 +147,8 @@ margin-left: 20px;
 
 #info {
   height: 60px;
-  width:40px;
-  float:left;
+  width: 40px;
+  float: left;
   margin-right: 20px;
   margin-top: 10px;
 }
@@ -134,4 +157,3 @@ margin-left: 20px;
   text-align: left;
 }
 </style>
-
