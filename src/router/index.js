@@ -111,6 +111,16 @@ const routes = [
     name: "StudyGroupPage",
     component: TheStudyGroupPage,
   },
+  {
+    path:"/StudyGroupPage/:groupName/Files",
+    name: "FilesPage",
+    component: FilesPage
+  },
+  {
+    path:"/StudyGroupPage/:groupName/Requests",
+    name: "RequestPage",
+    component: RequestPage
+  }
 
 ];
 

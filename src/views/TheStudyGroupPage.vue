@@ -8,17 +8,18 @@
       <h1>{{ groupName }}</h1>
     </div>
 
-    <div id="studygroupnavbar">
-      <router-link to="/TheHomePage"
-        ><button id="homepagebutton">HomePage</button></router-link
-      >
-      <router-link to="/TheHomePage"
-        ><button id="filesbutton">Files</button></router-link
-      >
-      <router-link to="/TheHomePage"
-        ><button id="requestsbutton">Requests</button></router-link
-      >
+    <div v-if="groupName" class="nav" >
+      <router-link class="button" :to="{name: 'StudyGroupPage', params: { groupName: groupName }}">
+        <span class="text">Main</span>
+      </router-link>
+      <router-link class="button" :to="{ name: 'FilesPage', params: { groupName: groupName }}">
+        <span class="text">Files</span>
+      </router-link>
+      <router-link class="button" :to="{name: 'RequestPage', params: { groupName: groupName}}">
+        <span class="text">Requests</span>
+      </router-link>
     </div>
+
 
     <div id="studygroupinfo">
       <h4 id="description" class="description">
@@ -182,5 +183,20 @@ h1 {
 #title {
   display: inline-block;
   text-align: center;
+}
+.button {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #d9d9d982;
+}
+
+.router-link-exact-active {
+  background-color: #d9d9d982;
 }
 </style>

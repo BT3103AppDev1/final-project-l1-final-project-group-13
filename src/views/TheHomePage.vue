@@ -1,8 +1,8 @@
 <template>
-  <div class = "sidebar">
-  <Sidebar/>
+  <div class="sidebar">
+    <Sidebar />
   </div>
-  <Notification/>
+  <Notification />
   <div id="homepageTitle">
     <h1 class="welcomeMsg">
       Welcome,
@@ -11,7 +11,8 @@
       </h1>
     </h1>
     <img src="src/assets/profileIcon.png" alt="Logo" width="100" height="100" />
-  </div> <br>
+  </div>
+  <br />
   <h2 id="myGroups">My Groups</h2>
 
   <!-- <div id="studyGroups">
@@ -21,17 +22,16 @@
   </div> -->
 
   <table id="table">
-      <tr v-for="(row, rowIndex) in groupedGroups" :key="rowIndex">
-        <td v-for="(group, groupIndex) in row" :key="group.Name">
-          <div class="card" @click = "gotoStudyPage(group.Name)">
-            <p> {{  group.Name }}</p>
-            <p> {{  group.Description }}</p>
-            <p> {{  group.NumberOfMembers }} / {{ group.Size }}</p>
-            </div>
-            </td>
-            </tr>
-            </table>
-      
+    <tr v-for="(row, rowIndex) in groupedGroups" :key="rowIndex">
+      <td v-for="(group, groupIndex) in row" :key="group.Name">
+        <div class="card" @click="gotoStudyPage(group.Name)">
+          <p>{{ group.Name }}</p>
+          <p>{{ group.Description }}</p>
+          <p>{{ group.NumberOfMembers }} / {{ group.Size }}</p>
+        </div>
+      </td>
+    </tr>
+  </table>
 
   <!-- <div id="testRouter"><button @click="gotoStudyPage">TestRouter</button></div>
   <router-link :to="`/TheStudyGroupPage/${this.userGroups[1]}`" id="testRouter"
@@ -53,8 +53,8 @@ import {
 import JoinGroup from "@/components/JoinGroup.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
 import { useRouter } from "vue-router";
-import Sidebar from "@/components/Sidebar.vue"
-import Notification from "@/components/Notification.vue"
+import Sidebar from "@/components/Sidebar.vue";
+import Notification from "@/components/Notification.vue";
 const router = useRouter();
 const db = getFirestore(firebaseApp);
 
@@ -77,37 +77,43 @@ export default {
       if (user) {
         this.user = user;
         this.email = user.email;
-        console.log(this.email)
-        this.name = (await getDoc(doc(db, "User", this.email))).data().Name
-        console.log(this.name)
-        let groups = (await getDoc(doc(db, "User", this.email))).data().Groups
-    console.log(groups)
-    for (let i = 0; i < groups.length; i++) {
-      let a = (await getDoc(doc(db, "Group", groups[i]))).data();
-      this.studyGroups.push(a);
-    }
+        console.log(this.email);
+        this.name = (await getDoc(doc(db, "User", this.email))).data().Name;
+        console.log(this.name);
+        let groups = (await getDoc(doc(db, "User", this.email))).data().Groups;
+        console.log(groups);
+        for (let i = 0; i < groups.length; i++) {
+          let a = (await getDoc(doc(db, "Group", groups[i]))).data();
+          this.studyGroups.push(a);
+        }
       }
     });
   },
   methods: {
-    
-   
-            // let newDiv = document.createElement("div");
-            // newDiv.id = group_name;
-            // newDiv.innerHTML = `<button @click='gotoStudyPage'><h1>${group_name}</h1><br><h4>${description}</h4><br><h4>Members: ${num_of_member}/${size}</h4></button>`;
-            // // newDiv.innerHTML = '<router-link to="/TheCreateGroupPage"><button @click='gotoStudyPage'>TheHomePage</button></router-link>'
-            // newDiv.className = "groupDisplay";
-            // newDiv.addEventListener("click", function () {
-            //   alert("clicked " + group_name);
-            //   gotoStudyPage();
-            // });
-            // displayStudyGroups.appendChild(newDiv);
-      gotoStudyPage(name) {
-        this.$router.push({ name: 'StudyGroupPage', params: { groupName: name } });
+    // let newDiv = document.createElement("div");
+    // newDiv.id = group_name;
+    // newDiv.innerHTML = `<button @click='gotoStudyPage'><h1>${group_name}</h1><br><h4>${description}</h4><br><h4>Members: ${num_of_member}/${size}</h4></button>`;
+    // // newDiv.innerHTML = '<router-link to="/TheCreateGroupPage"><button @click='gotoStudyPage'>TheHomePage</button></router-link>'
+    // newDiv.className = "groupDisplay";
+    // newDiv.addEventListener("click", function () {
+    //   alert("clicked " + group_name);
+    //   gotoStudyPage();
+    // });
+    // displayStudyGroups.appendChild(newDiv);
+    gotoStudyPage(name) {
+      if (!name) {
+        console.error("Empty parameter passed for 'name'.");
+        return; // Optionally, throw an error or log a warning message
+      }
+
+      this.$router.push({
+        name: "StudyGroupPage",
+        params: { groupName: name },
+      });
     },
   },
 
-    computed: {
+  computed: {
     groupedGroups() {
       const result = [];
       const chunkSize = 3;
@@ -117,12 +123,12 @@ export default {
       return result;
     },
   },
-  }
+};
 </script>
 
 <style>
 .name {
-  color: #FFB904;
+  color: #ffb904;
   display: flex;
   font-size: 40px;
   margin-left: 10px;
@@ -132,7 +138,7 @@ export default {
   display: flex;
   align-items: center;
   margin-left: 50px;
-  color:black;
+  color: black;
   font-family: "AbeeZee", Helvetica;
 }
 img {
@@ -151,9 +157,10 @@ img {
   font-family: "AbeeZee", Helvetica;
   color: black;
 }
-h1, h3, p {
+h1,
+h3,
+p {
   margin: 0px;
   padding: 0px;
 }
-
 </style>
