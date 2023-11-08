@@ -59,9 +59,12 @@ export default {
   data() {
     return {
       user: false,
-      group: "BT3103",
       files: [],
+      email: "",
     };
+  },
+  props: {
+    group: String
   },
   mounted() {
     const auth = getAuth();
@@ -71,10 +74,20 @@ export default {
         this.email = user.email;
       }
     });
-    this.fetchData()
+  },
+  watch: {
+    group: {
+      immediate: true,
+      handler(newVal, oldVal) {
+        if (newVal) {
+          this.fetchData();
+        }
+      }
+    }
   },
   methods: {
     async fetchData() {
+      console.log(this.group)
       const listRef = ref(storage, this.group);
       try {
         const res = await listAll(listRef);
@@ -114,7 +127,7 @@ export default {
           const fileRef = ref(storage, `${this.group}/` + fileName);
           await deleteObject(fileRef)
           const docRef = await updateDoc(doc(db, "Group", this.group), {
-            Files: arrayRemove(fileName), //this.email
+            Files: arrayRemove(fileName), 
           });
           this.$emit("deleted");
           alert("Deleted file!");

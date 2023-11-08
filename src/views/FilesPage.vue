@@ -2,12 +2,24 @@
   <div class = "sidebar">
   <Sidebar/>
   </div>
+  <Notification/>
     <div class ="files">
-  <h1>{{ group.Name }}</h1>
-  <AddFiles @uploaded ="change"/>
+  <h1>{{ groupName }}</h1>
+  <div v-if="groupName" class="nav" >
+      <router-link class="button" :to="{name: 'StudyGroupPage', params: { groupName: groupName }}">
+        <span class="text">Main</span>
+      </router-link>
+      <router-link class="button" :to="{ name: 'FilesPage', params: { groupName: groupName }}">
+        <span class="text">Files</span>
+      </router-link>
+      <router-link class="button" :to="{name: 'RequestPage', params: { groupName: groupName}}">
+        <span class="text">Requests</span>
+      </router-link>
+    </div>
+  <AddFiles :group=this.groupName  @uploaded ="change"/>
   <br>
   <div id = "filesTable">
-  <FilesTable @deleted = "change" :key ="refreshComp"/>
+  <FilesTable :group=this.groupName  @deleted = "change" :key ="refreshComp"/>
     </div>
 </div>
 </template>
@@ -26,6 +38,7 @@ import {
 import FilesTable from "@/components/FilesTable.vue";
 import Sidebar from "@/components/Sidebar.vue"
 import AddFiles from "@/components/AddFiles.vue";
+import Notification from "@/components/Notification.vue"
 
 const db = getFirestore(firebaseApp);
 
@@ -34,13 +47,16 @@ export default {
   components: {
     FilesTable,
     Sidebar,
-    AddFiles
+    AddFiles,
+    Notification
   },
   data() {
     return {
       user: false,
+      email: "",
       group: "",
-      refreshComp: 0
+      refreshComp: 0,
+      groupName: "",
     };
   },
 
@@ -48,9 +64,12 @@ export default {
     let document = await getDoc(doc(db, "Group", "BT3103"));
     this.group = document.data();
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
+        this.email = user.email;
+        this.group = (await getDoc(doc(db, "Group", this.$route.params.groupName))).data()
+        this.groupName = this.group.Name
       }
     });
   },
