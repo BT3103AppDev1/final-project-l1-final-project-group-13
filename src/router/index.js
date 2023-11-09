@@ -104,8 +104,8 @@ const routes = [
     component: TheHomePage,
   },
   {
-    path: "/TheCreateGroupPage",
-    name: "TheCreateGroupPage",
+    path: "/CreateGroupPage",
+    name: "CreateGroupPage",
     component: TheCreateGroupPage,
   },
   {
