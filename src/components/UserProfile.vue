@@ -185,7 +185,7 @@ export default {
 <style scoped>
 main {
   background: var(--background-color, #f5f5f5);
-  height: 96.6vh;
+  height: auto;
   width: 100vw;
   position: relative;
 }

@@ -58,33 +58,33 @@ export default {
     },
     async leaveGroup() {
       console.log("IN AC");
-      if (this.fetchData()){
-      try {
-        if (confirm("Confirm leaving group?")) {
-          const docS = await getDoc(doc(db, "Group", this.group));
-          console.log(docS.data().NumberOfMembers);
-          const docRef = await updateDoc(doc(db, "Group", this.group), {
-            Members: arrayRemove(this.email), //this.email
-            NumberOfMembers: docS.data().Members.length - 1,
-          });
-          await updateDoc(doc(db, "User", this.email), {
-            Groups: arrayRemove(this.group),
-          });
-          console.log(docRef);
-          alert("Left group successfully!");
-          this.$emit("leaved");
-          this.$router.push("/home");
+      if (this.fetchData()) {
+        try {
+          if (confirm("Confirm leaving group?")) {
+            const docS = await getDoc(doc(db, "Group", this.group));
+            console.log(docS.data().NumberOfMembers);
+            const docRef = await updateDoc(doc(db, "Group", this.group), {
+              Members: arrayRemove(this.email), //this.email
+              NumberOfMembers: docS.data().Members.length - 1,
+            });
+            await updateDoc(doc(db, "User", this.email), {
+              Groups: arrayRemove(this.group),
+            });
+            console.log(docRef);
+            alert("Left group successfully!");
+            this.$emit("leaved");
+            this.$router.push("/home");
+          }
+        } catch (error) {
+          console.error("Error leaving group: ", error);
         }
-      } catch (error) {
-        console.error("Error leaving group: ", error);
       }
-    }
     },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .leaveButton {
   font-family: "AbeeZee", Helvetica;
   text-align: center;

@@ -3,7 +3,7 @@
     <h1 id="mainHead">Profile</h1>
     <div id="pagecontent">
       <br /><br />
-      <router-link class="button" to="/userprofile">
+      <router-link to="/userprofile">
         <button>
           <span class="material-icons">account_circle</span>
           <div class="text">
@@ -13,7 +13,7 @@
           </div>
         </button></router-link
       >
-      <router-link class="button" to="/preferences">
+      <router-link to="/preferences">
         <button>
           <span class="material-icons">interests</span>
           <div class="text">
@@ -33,7 +33,7 @@
           </div>
         </button></router-link
       > -->
-      <router-link class="button" to="/resetpassword"
+      <router-link to="/resetpassword"
         ><button>
           <span class="material-icons">security</span>
           <div class="text">
@@ -98,11 +98,10 @@ export default {
 <style scoped>
 main {
   background: var(--background-color, #f5f5f5);
-  /* height: 100vh; */
-  width: 100vw;
-  height: 96.6vh;
+  /* width: 100%;
+  height: 100vh;
   position: relative;
-  margin-left: 0px;
+  margin-left: 0px; */
 }
 
 /* #pagecontent {
@@ -165,6 +164,10 @@ button {
   flex-shrink: 0;
   margin: 20px;
   float: left;
+}
+
+router-link {
+  width: 220px;
 }
 
 /* .pageContent {

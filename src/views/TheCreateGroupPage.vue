@@ -116,7 +116,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .groupDetails {
   text-align: center;
   align-items: center;

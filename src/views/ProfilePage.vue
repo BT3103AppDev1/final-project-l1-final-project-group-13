@@ -6,7 +6,7 @@
     <div class="notification-wrapper">
       <Notification />
     </div>
-    <div class="profile"> 
+    <div class="profile">
       <ProfileComponent />
     </div>
   </div>
@@ -15,14 +15,14 @@
 <script>
 import Sidebar from "@/components/Sidebar.vue";
 import ProfileComponent from "@/components/ProfileComponent.vue";
-import Notification from "@/components/Notification.vue"
+import Notification from "@/components/Notification.vue";
 
 export default {
   name: "Profile",
   components: {
     Sidebar,
     ProfileComponent,
-    Notification
+    Notification,
   },
 };
 </script>
@@ -32,18 +32,14 @@ export default {
   display: flex;
 }
 
-.sidebar {
-  position: fixed;
-  top: 0;
-  width: 20%;
-  z-index: 1; /* Adjust the z-index value as needed */
+main {
+  height: 100vh;
+  width: 100vw;
 }
 
-.profile {
-  width: 80%;
-  margin-left: 20%; /* Adjust margin to accommodate the width of the sidebar */
-}
-
+/* .profile {
+  width: 100%;
+} */
 .notification-wrapper {
   position: fixed;
   top: 0;

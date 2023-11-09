@@ -6,30 +6,48 @@
     <div class="notification-wrapper">
       <Notification />
     </div>
-    <div class="home">
-      <HomeComponent />
+    <div class="profile">
+      <UserProfile />
     </div>
   </div>
 </template>
 
 <script>
 import Sidebar from "@/components/Sidebar.vue";
-import HomeComponent from "@/components/HomeComponent.vue";
+import UserProfile from "@/components/UserProfile.vue";
 import Notification from "@/components/Notification.vue";
 
 export default {
-  name: "TheHomePage",
+  name: "UserProfilePage",
   components: {
     Sidebar,
-    HomeComponent,
+    UserProfile,
     Notification,
   },
 };
 </script>
-
 <style scoped>
 .container {
   display: flex;
+}
+
+/* .sidebar {
+  position: fixed;
+  top: 0;
+  width: 20%;
+  z-index: 1;
+}
+
+.profile {
+  width: 80%;
+  margin-left: 20%; 
+} */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */
 }
 
 .notification-wrapper {

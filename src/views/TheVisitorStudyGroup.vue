@@ -10,11 +10,9 @@
 
     <div id="studygroupinfo">
       <h3 id="description" class="description">
-        {{groupDescription}}
+        {{ groupDescription }}
       </h3>
-      <h3 id="membercount">
-        Members : {{ groupMember }} / {{ groupSize }}
-      </h3>
+      <h3 id="membercount">Members : {{ groupMember }} / {{ groupSize }}</h3>
     </div>
 
     <table id="table">
@@ -48,8 +46,8 @@
 
     <br />
   </div>
-  <br>
-  <JoinGroup :group=this.groupName />
+  <br />
+  <JoinGroup :group="this.groupName" />
 </template>
 
 <script>
@@ -65,7 +63,7 @@ import {
   updateDoc,
   doc,
   arrayUnion,
-  getDoc
+  getDoc,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Notification from "@/components/Notification.vue";
@@ -117,7 +115,7 @@ export default {
       return value.filter(Boolean).join(", ");
     },
   },
-    computed: {
+  computed: {
     groupedMembers() {
       const result = [];
       const chunkSize = 3;
@@ -130,7 +128,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
   text-align: center;
 }
@@ -164,7 +162,6 @@ h1 {
   width: 1500px;
   color: black;
 }
-
 
 #title {
   display: inline-block;

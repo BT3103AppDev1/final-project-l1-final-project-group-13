@@ -1,33 +1,39 @@
 <template>
-    <div class = "sidebar">
-  <Sidebar/>
+  <div class="sidebar">
+    <Sidebar />
   </div>
-  <Notification/>
+  <Notification />
   <div id="studyPageEverything">
     <div id="title">
       <h1>{{ groupName }}</h1>
     </div>
 
-    <div v-if="groupName" class="nav" >
-      <router-link class="button" :to="{name: 'StudyGroupPage', params: { groupName: groupName }}">
+    <div v-if="groupName" class="nav">
+      <router-link
+        class="button"
+        :to="{ name: 'StudyGroupPage', params: { groupName: groupName } }"
+      >
         <span class="text">Main</span>
       </router-link>
-      <router-link class="button" :to="{ name: 'FilesPage', params: { groupName: groupName }}">
+      <router-link
+        class="button"
+        :to="{ name: 'FilesPage', params: { groupName: groupName } }"
+      >
         <span class="text">Files</span>
       </router-link>
-      <router-link class="button" :to="{name: 'RequestPage', params: { groupName: groupName}}">
+      <router-link
+        class="button"
+        :to="{ name: 'RequestPage', params: { groupName: groupName } }"
+      >
         <span class="text">Requests</span>
       </router-link>
     </div>
 
-
     <div id="studygroupinfo">
       <h3 id="description" class="description">
-        {{groupDescription}}
+        {{ groupDescription }}
       </h3>
-      <h3 id="membercount">
-        Members : {{ groupMember }} / {{ groupSize }}
-      </h3>
+      <h3 id="membercount">Members : {{ groupMember }} / {{ groupSize }}</h3>
     </div>
 
     <table id="table">
@@ -56,14 +62,13 @@
             <p>{{ formatCourses(member.Timing) }}</p>
             <p>{{ formatCourses(member.Location) }}</p>
             <br />
-            </div>
-            </td>
-            </tr>
-            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
 
-<br>
-<LeaveGroup :group=this.groupName />
-
+    <br />
+    <LeaveGroup :group="this.groupName" />
   </div>
 </template>
 
@@ -75,16 +80,31 @@ import LeaveGroup from "@/components/LeaveGroup.vue";
 import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
 import { firebaseApp } from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
-import { getDoc, collection, updateDoc, doc, arrayUnion, arrayRemove, getDocs } from "firebase/firestore";
+import {
+  getDoc,
+  collection,
+  updateDoc,
+  doc,
+  arrayUnion,
+  arrayRemove,
+  getDocs,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import TheVisitorStudyGroup from "./TheVisitorStudyGroup.vue";
 import Sidebar from "@/components/Sidebar.vue";
-import Notification from "@/components/Notification.vue"
+import Notification from "@/components/Notification.vue";
 const db = getFirestore(firebaseApp);
 
 console.log("in App");
 export default {
-  components: { StudyGroupWidget, JoinGroup, GroupMemberWidget, LeaveGroup, Sidebar, Notification },
+  components: {
+    StudyGroupWidget,
+    JoinGroup,
+    GroupMemberWidget,
+    LeaveGroup,
+    Sidebar,
+    Notification,
+  },
   name: "TheStudyGroupPage",
   data() {
     return {
@@ -95,7 +115,7 @@ export default {
       groupMember: 0,
       groupSize: 0,
       members: [],
-      membersEmail: []
+      membersEmail: [],
     };
   },
 
@@ -105,20 +125,22 @@ export default {
       if (user) {
         this.user = user;
         this.email = user.email;
-    this.group = (await getDoc(doc(db, "Group", this.$route.params.groupName))).data()
-    console.log(this.group)
-    this.groupName = this.group.Name
-    this.groupDescription = this.group.Description
-    this.groupMember=this.group.NumberOfMembers
-    this.groupSize = this.group.Size
-    this.membersEmail = this.group.Members
+        this.group = (
+          await getDoc(doc(db, "Group", this.$route.params.groupName))
+        ).data();
+        console.log(this.group);
+        this.groupName = this.group.Name;
+        this.groupDescription = this.group.Description;
+        this.groupMember = this.group.NumberOfMembers;
+        this.groupSize = this.group.Size;
+        this.membersEmail = this.group.Members;
 
-    for (let i = 0; i < this.membersEmail.length; i++) {
-      let a = (await getDoc(doc(db, "User", this.membersEmail[i]))).data();
-      this.members.push(a);
-    }
-  }
-})
+        for (let i = 0; i < this.membersEmail.length; i++) {
+          let a = (await getDoc(doc(db, "User", this.membersEmail[i]))).data();
+          this.members.push(a);
+        }
+      }
+    });
   },
   methods: {
     formatCourses(value) {
@@ -139,7 +161,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
   text-align: center;
 }

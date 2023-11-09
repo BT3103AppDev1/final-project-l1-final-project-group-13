@@ -102,7 +102,8 @@ export default {
         this.userName = (await getDoc(doc(db, "User", this.email))).data().Name;
         const noti = {
           title:
-            this.userName  + " has sent a request to join " +
+            this.userName +
+            " has sent a request to join " +
             this.group +
             " study group",
           time: this.formatDate(new Date()),
@@ -157,7 +158,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #join {
   font-family: "AbeeZee", Helvetica;
   text-align: center;

@@ -32,7 +32,7 @@
                 :searchable="true"
                 @input="validateFields"
             /></Vueform> -->
-            <select v-model="gender" id="gender" style="width: 276px">
+            <select v-model="gender" id="gender">
               <option v-for="(gender, key) in options_gender" v-bind:key="key">
                 {{ gender.label }}
               </option>
@@ -239,7 +239,7 @@ h1 {
 }
 
 label {
-  width: 260px;
+  width: 310px;
   float: left;
   text-align: right;
   padding: 8px;
