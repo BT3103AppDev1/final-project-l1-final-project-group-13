@@ -64,7 +64,7 @@ export default {
 }
 
 .notification-wrapper {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   z-index: 2; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */

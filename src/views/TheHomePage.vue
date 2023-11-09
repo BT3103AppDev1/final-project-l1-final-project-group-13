@@ -138,7 +138,7 @@ export default {
 }
 
 .notification-wrapper {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   z-index: 2;

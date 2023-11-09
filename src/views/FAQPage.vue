@@ -41,7 +41,7 @@ export default {
 }
 
 .notification-wrapper {
-  position: fixed;
+  position: absolute;
   top: 10px; /* Adjust the top position as needed */
   right: 10px; /* Adjust the right position as needed */
   z-index: 3;
