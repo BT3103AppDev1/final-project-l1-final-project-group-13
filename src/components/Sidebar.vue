@@ -4,29 +4,39 @@
       <img src="@/assets/logo.png" alt="Logo" />
     </div>
     <div class="menu">
-      <router-link class="button" to="/home">
-        <span class="material-icons">home</span>
-        <span class="text">Home</span>
-      </router-link>
-      <router-link class="button" to="/browsegroups">
-        <span class="material-icons">hive</span>
-        <span class="text">Browse Groups</span>
-      </router-link>
-      <router-link class="button" to="/profile">
-        <span class="material-icons">person</span>
-        <span class="text">Profile</span>
-      </router-link>
-      <router-link class="button" to="/FAQ">
-        <span class="material-icons">help</span>
-        <span class="text">FAQ</span>
-      </router-link>
+      <button>
+        <router-link class="button" to="/home">
+          <span class="material-icons">home</span>
+          <span class="text">Home</span>
+        </router-link>
+      </button>
+      <button>
+        <router-link class="button" to="/browsegroups">
+          <span class="material-icons">hive</span>
+          <span class="text">Browse Groups</span>
+        </router-link>
+      </button>
+      <button>
+        <router-link class="button" to="/profile">
+          <span class="material-icons">person</span>
+          <span class="text">Profile</span>
+        </router-link>
+      </button>
+      <button>
+        <router-link class="button" to="/faq">
+          <span class="material-icons">help</span>
+          <span class="text">FAQ</span>
+        </router-link>
+      </button>
     </div>
     <div class="flex"></div>
     <div class="menu">
-      <div class="button" @click="signout">
-        <span class="material-icons">logout</span>
-        <span class="text">Log out</span>
-      </div>
+      <button>
+        <div class="button" @click="signout">
+          <span class="material-icons">logout</span>
+          <span class="text">Log out</span>
+        </div>
+      </button>
     </div>
   </aside>
 </template>
@@ -99,6 +109,7 @@ img {
   padding: 0.5rem 1rem;
   cursor: pointer;
   text-align: left;
+  border-radius: 12px;
 }
 
 .button:hover {
@@ -106,13 +117,14 @@ img {
 }
 
 .material-icons {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #000000;
   margin-right: 1rem;
 }
 
 .text {
   color: #000000;
+  line-height: 15px;
 }
 
 .menu {
@@ -123,6 +135,15 @@ img {
   background-color: #d9d9d982;
 }
 
+button {
+  border-radius: 12px;
+  border: 1px solid #000;
+  width: 140px;
+  height: auto;
+  flex-shrink: 0;
+  margin: 5px 20px 5px 20px;
+  float: left;
+}
 /* .flex {
   flex: 1 1 0;
 } */

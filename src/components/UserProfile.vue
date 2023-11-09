@@ -110,6 +110,13 @@ export default {
         alert("Please fill in all required fields");
         return false;
       }
+
+      const currentDate = new Date();
+      if (new Date(this.dob) > currentDate) {
+        alert("DOB should not be in the future");
+        return false;
+      }
+
       try {
         console.log("Adding personal details");
         console.log(this.user.email);
