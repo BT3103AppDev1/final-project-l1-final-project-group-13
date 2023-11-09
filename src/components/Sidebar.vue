@@ -117,7 +117,7 @@ img {
 }
 
 .material-icons {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #000000;
   margin-right: 1rem;
 }
