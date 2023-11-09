@@ -119,6 +119,16 @@ const routes = [
     name: "VisitorStudyGroupPage",
     component: TheVisitorStudyGroup,
   },
+  { 
+    path: "/StudyGroupPage/:groupName/files",
+    name: "FilesPage",
+    component: FilesPage
+  },
+  { 
+    path: "/StudyGroupPage/:groupName/request",
+    name: "RequestPage",
+    component: RequestPage
+  },
   
   {
     path: "/faq",
