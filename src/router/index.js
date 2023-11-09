@@ -115,7 +115,7 @@ const routes = [
     component: TheStudyGroupPage,
   },
   {
-    path: "/FAQ",
+    path: "/faq",
     name: "FAQPage",
     component: FAQPage,
   },

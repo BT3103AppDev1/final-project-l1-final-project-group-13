@@ -11,8 +11,8 @@ At StudyHive, our primary goal is to create a supportive and interactive learnin
 <h3><strong>Key Features</strong></h3>
 <p><strong>Study Group Creation:</strong> StudyHive allows users to easily create and join study groups, enabling collaboration and knowledge sharing among peers.</p>
 <p><strong>Shared Repository:</strong> Users can access a shared repository of study materials, allowing them to benefit from each other's learning notes and resources.</p>
-<p><strong></strong>User Guide: For users who may need assistance in navigating the website, we provide a comprehensive user guide to ensure a smooth user experience.</p>
-<p><strong></strong>Notifications: StudyHive keeps users informed about updates on their study groups, including changes to group members, files, and events.</p>
+<p><strong>User Guide:</strong> For users who may need assistance in navigating the website, we provide a comprehensive user guide to ensure a smooth user experience.</p>
+<p><strong>Notifications: </strong>StudyHive keeps users informed about updates on their study groups, including changes to group members, files, and events.</p>
 <br><br>
 <h3><strong>Our Team</strong></h3>
 StudyHive is developed and maintained by a dedicated team of professionals who are passionate about education and technology. Our team consists of experienced developers, designers, and educators who work tirelessly to ensure that StudyHive meets the needs of students and provides a user-friendly platform for effective collaboration.
