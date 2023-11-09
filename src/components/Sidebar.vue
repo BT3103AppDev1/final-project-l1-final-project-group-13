@@ -16,7 +16,7 @@
         <span class="material-icons">person</span>
         <span class="text">Profile</span>
       </router-link>
-      <router-link class="button" to="/faq">
+      <router-link class="button" to="/FAQ">
         <span class="material-icons">help</span>
         <span class="text">FAQ</span>
       </router-link>

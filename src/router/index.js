@@ -27,7 +27,8 @@ import UserProfilePage from "@/views/UserProfilePage.vue";
 import PreferencesPage from "@/views/PreferencesPage.vue";
 import ResetPassword from "@/components/ResetPassword.vue";
 import ResetPasswordPage from "@/views/ResetPasswordPage.vue";
-import BrowseGroupsPage from '@/views/BrowseGroupsPage.vue'
+import BrowseGroupsPage from '@/views/BrowseGroupsPage.vue';
+import FAQPage from '@/views/FAQPage.vue';
 
 const routes = [
   {
@@ -126,6 +127,11 @@ const routes = [
     path: "/TheStudyGroupPage/:groupName",
     name: "/TheStudyGroupPage/:groupName",
     component: TheStudyGroupPage,
+  },
+  {
+    path: "/FAQ",
+    name: "/FAQ",
+    component: FAQPage,
   },
 
 ];
