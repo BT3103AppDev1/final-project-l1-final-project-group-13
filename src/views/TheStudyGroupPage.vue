@@ -11,26 +11,7 @@
         <h1>{{ groupName }}</h1>
       </div>
 
-      <div v-if="groupName" class="nav">
-        <router-link
-          class="button"
-          :to="{ name: 'StudyGroupPage', params: { groupName: groupName } }"
-        >
-          <span class="text">Main</span>
-        </router-link>
-        <router-link
-          class="button"
-          :to="{ name: 'FilesPage', params: { groupName: groupName } }"
-        >
-          <span class="text">Files</span>
-        </router-link>
-        <router-link
-          class="button"
-          :to="{ name: 'RequestPage', params: { groupName: groupName } }"
-        >
-          <span class="text">Requests</span>
-        </router-link>
-      </div>
+      <Tabs :tabs="tabs" />
 
       <div id="studygroupinfo">
         <h3 id="description" class="description">
@@ -77,6 +58,7 @@
 </template>
 
 <script>
+import Tabs from "@/components/Tabs.vue";
 import GroupMemberWidget from "../components/GroupMemberWidget.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
@@ -108,6 +90,7 @@ export default {
     LeaveGroup,
     Sidebar,
     Notification,
+    Tabs
   },
   name: "TheStudyGroupPage",
   data() {
@@ -120,7 +103,8 @@ export default {
       groupSize: 0,
       members: [],
       membersEmail: [],
-      group: ""
+      group: "",
+      tabs: []
     };
   },
 
@@ -161,6 +145,20 @@ export default {
         this.groupMember = this.group.NumberOfMembers;
         this.groupSize = this.group.Size;
         this.membersEmail = this.group.Members;
+        this.tabs = [
+        {
+          to: { name: 'StudyGroupPage', params: { groupName: groupName } },
+          text: 'Main',
+        },
+        {
+          to: { name: 'FilesPage', params: { groupName: groupName } },
+          text: 'Files',
+        },
+        {
+          to: { name: 'RequestPage', params: { groupName: groupName } },
+          text: 'Requests',
+        },
+      ]
 
         for (let i = 0; i < this.membersEmail.length; i++) {
           let a = (await getDoc(doc(db, "User", this.membersEmail[i]))).data();
@@ -227,19 +225,6 @@ h1 {
   display: inline-block;
   text-align: center;
 }
-.button {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-}
 
-.button:hover {
-  background-color: #d9d9d982;
-}
 
-.router-link-exact-active {
-  background-color: #d9d9d982;
-}
 </style>

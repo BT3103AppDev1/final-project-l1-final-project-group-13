@@ -5,26 +5,7 @@
   <Notification :key="refreshComp" />
   <div class="files">
     <h1>{{ groupName }}</h1>
-    <div v-if="groupName" class="nav">
-      <router-link
-        class="button"
-        :to="{ name: 'StudyGroupPage', params: { groupName: groupName } }"
-      >
-        <span class="text">Main</span>
-      </router-link>
-      <router-link
-        class="button"
-        :to="{ name: 'FilesPage', params: { groupName: groupName } }"
-      >
-        <span class="text">Files</span>
-      </router-link>
-      <router-link
-        class="button"
-        :to="{ name: 'RequestPage', params: { groupName: groupName } }"
-      >
-        <span class="text">Requests</span>
-      </router-link>
-    </div>
+    <Tabs :tabs="tabs" />
     <AddFiles :group="this.groupName" @uploaded="change" />
     <br />
     <div id="filesTable">
@@ -38,6 +19,7 @@
 </template>
 
 <script>
+import Tabs from "@/components/Tabs.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { firebaseApp } from "../firebase.js";
 import {
@@ -62,6 +44,7 @@ export default {
     Sidebar,
     AddFiles,
     Notification,
+    Tabs
   },
   data() {
     return {
@@ -70,7 +53,19 @@ export default {
       group: "",
       refreshComp: 0,
       groupName: "",
+      tabs: []
     };
+  },
+  watch: {
+    '$route.params.groupName': {
+      immediate: true, // Trigger the watcher immediately when the component is created
+      handler(newValue, oldValue) {
+        if (newValue) {
+          this.fetchGroupData(newValue);
+          console.log(newValue)
+        }
+      },
+    },
   },
 
   async mounted() {
@@ -79,15 +74,39 @@ export default {
       if (user) {
         this.user = user;
         this.email = user.email;
-        this.group = (
-          await getDoc(doc(db, "Group", this.$route.params.groupName))
-        ).data();
-        this.groupName = this.group.Name;
       }
     });
   },
 
   methods: {
+    async fetchGroupData(groupName){
+      try{
+       console.log(groupName)
+      this.group = (
+          await getDoc(doc(db, "Group", groupName))
+        ).data();
+        console.log(this.group);
+        this.groupName = this.group.Name;
+        this.tabs = [
+        {
+          to: { name: 'StudyGroupPage', params: { groupName: groupName } },
+          text: 'Main',
+        },
+        {
+          to: { name: 'FilesPage', params: { groupName: groupName } },
+          text: 'Files',
+        },
+        {
+          to: { name: 'RequestPage', params: { groupName: groupName } },
+          text: 'Requests',
+        },
+      ]
+
+      } catch(error) {
+        console.error(error)
+      }
+    },
+
     change() {
       this.refreshComp += 1;
       console.log(1);
