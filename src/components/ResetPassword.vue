@@ -29,7 +29,9 @@
             />
             <br /><br />
             <p class="requirement">
-              Your password must contain a minimum of 6 characters with no space
+              Your password must contain a minimum of 8 characters with no space
+              <br />with at least 1 uppercase letter, 1 lowercase letter, and 1
+              number
             </p>
             <br />
 
@@ -105,10 +107,26 @@ export default {
         alert("Please fill in the required fields");
         return false;
       }
+
+      if (this.password.length < 8) {
+        alert("Error: Password must be at least 8 characters");
+        return false;
+      } else if (this.password.search(/[a-z]/) < 0) {
+        alert("Error: Password must contain at least one lowercase letter");
+        return false;
+      } else if (this.password.search(/[A-Z]/) < 0) {
+        alert("Error: Password must contain at least one uppercase letter");
+        return false;
+      } else if (this.password.search(/[0-9]/) < 0) {
+        alert("Error: Password must contain at least one number");
+        return false;
+      }
+
       updatePassword(this.user, this.password)
         .then(() => {
           // Update successful.
           alert("Password successfully updated!");
+          this.$router.push("/");
         })
         .catch((error) => {
           // An error ocurred
@@ -143,7 +161,7 @@ export default {
           this.$router.push("/createaccount1");
         }
       } else {
-        this.$router.push("/login");
+        this.$router.push("/");
       }
     });
   },
@@ -153,8 +171,8 @@ export default {
 <style scoped>
 main {
   background: var(--background-color, #f5f5f5);
-  height: 96.6vh;
-  width: 100vw;
+  /* height: 96.6vh;
+  width: 100vw; */
   position: relative;
 }
 

@@ -71,28 +71,32 @@ export default {
       user: false,
       request: [],
       users: [],
-      group: "BT3103",
+      email: "",
     };
   },
-
+  props: {
+    group: String,
+  },
   async mounted() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
+        this.email = user.email;
       }
     });
-    let document = await getDoc(doc(db, "Group", this.group));
-    let documentRequest = document.data().Requests;
-    this.num = documentRequest.length;
-    this.request = documentRequest;
-
-    for (let i = 0; i < documentRequest.length; i++) {
-      let a = (await getDoc(doc(db, "User", documentRequest[i]))).data();
-      this.users.push(a);
-    }
-    console.log(this.users);
   },
+  watch: {
+    group: {
+      handler(value) {
+        if (value) {
+          this.fetchData();
+        }
+      },
+      immediate: true,
+    },
+  },
+
   computed: {
     groupedUsers() {
       const result = [];
@@ -105,6 +109,19 @@ export default {
   },
 
   methods: {
+    async fetchData() {
+      console.log(this.group);
+      let document = await getDoc(doc(db, "Group", this.group));
+      let documentRequest = document.data().Requests;
+      this.num = documentRequest.length;
+      this.request = documentRequest;
+
+      for (let i = 0; i < documentRequest.length; i++) {
+        let a = (await getDoc(doc(db, "User", documentRequest[i]))).data();
+        this.users.push(a);
+      }
+      console.log(this.users);
+    },
     async accept(email) {
       console.log("accepting");
       console.log(email);
@@ -121,13 +138,10 @@ export default {
           await updateDoc(doc(db, "User", email), {
             Groups: arrayUnion(this.group),
           });
+          let memberName = (await getDoc(doc(db, "User", email))).data().Name;
           alert("Accepted!");
           const noti = {
-            title:
-              email /*this.user.name*/ +
-              " has joined " +
-              this.group +
-              " study group",
+            title: memberName + " has joined " + this.group + " study group",
             time: this.formatDate(new Date()),
           };
           const member = (await getDoc(doc(db, "Group", this.group))).data()
@@ -201,7 +215,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .card {
   border: 1px solid #ccc;
   border-radius: 20px;

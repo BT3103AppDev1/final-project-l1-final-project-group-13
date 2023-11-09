@@ -33,16 +33,20 @@ export default {
   data() {
     return {
       user: false,
-      group: "BT3103",
-      email: "brandon"
+      email: "",
+      userName: ""
     };
+  },
+  props: {
+    group: String
   },
   mounted() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
         this.email = user.email;
+        this.userName = (await getDoc(doc(db, "User", this.email))).data().Name
       }
     });
   },
@@ -50,10 +54,17 @@ export default {
     async onFileChange($event) {
       try {
         const file = $event.target.files[0];
+        const fileName = file.name;
         const fileRef = ref(storage, `${this.group}/${file.name}`);
+        const existingFiles = (await getDoc(doc(db, "Group", this.group))).data().Files;
+
+    if (existingFiles.includes(fileName)) {
+      alert("File with the same name has already been uploaded!");
+      return;
+    }
         const newMetadata = {
           customMetadata: {
-            uploadedBy: "brandon", // Replace with this.user.name if available
+            uploadedBy: this.userName, // Replace with this.user.name if available
           },
         };
 
@@ -90,7 +101,7 @@ export default {
 
         const noti = {
           title:
-            this.email /*this.user.name*/ +
+            this.userName +
             " has uploaded " +
             file.name + " in " + this.group + 
             " study group",

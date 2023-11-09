@@ -32,7 +32,7 @@
                 :searchable="true"
                 @input="validateFields"
             /></Vueform> -->
-            <select v-model="gender" id="gender" style="width: 276px">
+            <select v-model="gender" id="gender">
               <option v-for="(gender, key) in options_gender" v-bind:key="key">
                 {{ gender.label }}
               </option>
@@ -134,6 +134,12 @@ export default {
       console.log(this.user.email);
       try {
         console.log("Adding personal details");
+
+        const currentDate = new Date();
+        if (new Date(this.dob) > currentDate) {
+          alert("DOB should not be in the future");
+          return false;
+        }
 
         const docRef = await setDoc(doc(db, "User", String(this.user.email)), {
           Name: this.name,
@@ -239,7 +245,7 @@ h1 {
 }
 
 label {
-  width: 260px;
+  width: 310px;
   float: left;
   text-align: right;
   padding: 8px;

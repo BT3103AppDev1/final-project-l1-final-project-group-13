@@ -17,15 +17,19 @@ export default {
   text-align: center;
   color: #000000;
   width: 100vw;
-  height: 100vh;
-  margin-top: -8px;
+  height: auto;
+  /* margin-top: -8px;
   margin-left: -8px;
-  margin-bottom: -8px;
+  margin-bottom: -8px; */
 }
 
 main {
   flex: 1 1 0;
   padding: 2rem;
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  background: var(--background-color, #f5f5f5);
 
   /* @media (max-width: 768px) {
     margin-left: -1000px;

@@ -6,26 +6,33 @@
       <input
         type="text"
         id="groupName"
-        placeholder="Not more than 50 characters"
+        placeholder="In no more than 50 characters"
+        v-model="groupName"
+        @input="validateFields"
         required=""
       />
       <br />
       <br />
-      <label for="groupMemberLimit">Group Size: </label>
+      <label for="groupSize">Group Size: </label>
       <input
         type="number"
-        id="groupMemberLimit"
-        placeholder="Enter your group member limit"
+        id="groupSize"
+        placeholder=""
         required=""
+        v-model="groupSize"
+        @input="validateFields"
+
       />
       <br />
       <br />
-      <label for="groupDetails">Group Description: </label>
+      <label for="groupDescription">Group Description: </label>
       <input
         type="text"
-        id="groupDetails"
-        placeholder="Not more than 150 characters"
+        id="groupDescription"
+        placeholder="In no more than 150 characters"
         required=""
+        v-model="groupDescription"
+        @input="validateFields"
       />
       <br />
       <br />
@@ -38,9 +45,8 @@
 </template>
 
 <script>
-import JoinGroup from "@/components/JoinGroup.vue";
 import { firebaseApp } from "../firebase.js";
-import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
@@ -49,12 +55,39 @@ console.log("in App");
 export default {
   data() {
     return {
-      myName: "brandonlsl010911@gmail.com",
+      user: false,
+      email: "",
+      groupName: "",
+      groupSize: "",
+      groupDescription: "",
+      errorMessage: "",
     };
   },
+  async mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.user = user;
+        this.email = user.email;
+      }
+    });
+  },
+
   methods: {
-    test() {
-      console.log("Hello");
+    validateFields() {
+      //   console.log(this.gender);
+      if (!this.groupName || !this.groupSize || !this.groupDescription) {
+        this.errorMessage = "Please fill in all required fields";
+        return false;
+      } else if (this.groupSize > 10) {
+        this.errorMessage = "Maximum group size is 10";
+      }
+      else if (this.groupSize <= 0) {
+        this.errorMessage = "Please enter a valid size";
+      } else {
+      this.errorMessage = "";
+      return true;
+      }
     },
     async saveData() {
       console.log("savedata");
@@ -83,7 +116,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .groupDetails {
   text-align: center;
   align-items: center;
@@ -98,10 +131,7 @@ export default {
   flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
   cursor: pointer;
 }
-input:hover {
-  box-shadow: 3px 3px purple;
-  border-radius: 2px;
-}
+
 #saveButton {
   border-radius: 10px; /* Rounded corners */
   background-color: #ffde59; /* Background color */
@@ -114,10 +144,7 @@ input:hover {
   height: 70px; /* Height will be determined by the content size */
   /* font-family: Inter; */
 }
-#saveButton:hover {
-  box-shadow: 3px 3px purple;
-  border-radius: 2px;
-}
+
 label {
   font-size: larger;
   display: inline-block;

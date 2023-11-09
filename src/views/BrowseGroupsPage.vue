@@ -7,7 +7,7 @@
 
 <script>
 import Sidebar from "@/components/Sidebar.vue";
-import SearchBar from '@/components/SearchBar.vue'
+import SearchBar from "@/components/SearchBar.vue";
 
 export default {
   name: "BrowseGroupsPage",
@@ -17,3 +17,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.PageBody {
+  display: flex;
+}
+
+main {
+  height: auto;
+}
+</style>

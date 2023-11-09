@@ -47,7 +47,7 @@ export default {
       signOut(auth)
         .then(() => {
           // Sign-out successful.
-          this.$router.push("/login");
+          this.$router.push("/");
         })
         .catch((error) => {
           // An error happened.
@@ -75,8 +75,8 @@ aside {
       rgba(255, 201, 0, 0.24) 97.4%
     )
   );
-  height: 100%;
-
+  min-height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -89,7 +89,7 @@ aside {
 }
 
 img {
-  width: 100px;
+  width: 130px;
 }
 
 .button {
@@ -97,6 +97,8 @@ img {
   align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-align: left;
 }
 
 .button:hover {
@@ -121,7 +123,7 @@ img {
   background-color: #d9d9d982;
 }
 
-.flex {
+/* .flex {
   flex: 1 1 0;
-}
+} */
 </style>

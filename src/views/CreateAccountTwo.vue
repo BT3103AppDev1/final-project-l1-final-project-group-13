@@ -289,7 +289,7 @@ h1 {
 }
 
 label {
-  width: 320px;
+  width: 340px;
   float: left;
   text-align: right;
   padding: 8px;
@@ -297,6 +297,7 @@ label {
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
+  line-height: 1;
 }
 
 p {
