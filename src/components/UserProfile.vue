@@ -29,7 +29,7 @@
             />
             <br /><br /><br />
             <label for="gender">Gender: </label>
-            <select v-model="gender" id="gender" style="width: 276px">
+            <select v-model="gender" id="gender">
               <option v-for="(gender, key) in options_gender" v-bind:key="key">
                 {{ gender.label }}
               </option>
@@ -196,8 +196,8 @@ main {
   width: 100vw;
   position: relative;
 }
-
-/* .body {
+/* 
+.body {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -217,30 +217,6 @@ h1 {
   margin: 0px;
 }
 
-.pageTitle {
-  color: #000;
-  font-family: ABeeZee;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
-.description {
-  color: #000;
-  font-family: ABeeZee;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
-.text {
-  float: left;
-  text-align: left;
-  margin-left: 45px;
-}
-
 button {
   border-radius: 12px;
   border: 1px solid #000;
@@ -250,15 +226,6 @@ button {
   flex-shrink: 0;
   margin: 20px;
   float: left;
-}
-
-#pagecontent {
-  width: 700px;
-  height: 550px;
-  border-radius: 20px;
-  background: white;
-  /* margin: auto; */
-  position: relative;
 }
 
 .main {

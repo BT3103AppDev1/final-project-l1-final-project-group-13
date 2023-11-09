@@ -1,6 +1,7 @@
 <template>
   <main>
-    <h1 style="text-align: left">Browse groups</h1> <br>
+    <h1 style="text-align: left">Browse groups</h1>
+    <br />
     <div class="search-container">
       <img
         alt="search button"
@@ -80,16 +81,24 @@
     <br /><br />
     <!-- if no search result, show this -->
     <div v-if="valid_groups.length === 0">
-      No results found <br><br>
-      <div class = "no_group_at_all"> Can't find a group? Create your personalized one now!</div>
+      No results found <br /><br />
+      <div class="no_group_at_all">
+        Can't find a group? Create your personalized one now!
+      </div>
     </div>
 
     <div id="displayer" class="groupss" v-if="valid_groups.length != 0">
-      <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name" @click="gotoVisitorPage(group.Name)">
+      <div
+        class="groupDisplay"
+        v-for="group in valid_groups"
+        :key="group.Name"
+        @click="gotoVisitorPage(group.Name)"
+      >
         <strong>{{ group.Name }}</strong
         >{{ format_group_des(group.Description) }}<br />
-        <div class = "members">Members:
-        {{ group.NumberOfMembers }}/{{ group.Size }} </div>
+        <div class="members">
+          Members: {{ group.NumberOfMembers }}/{{ group.Size }}
+        </div>
       </div>
     </div>
   </main>
@@ -187,7 +196,7 @@ export default {
   },
   methods: {
     gotoCreateGroup() {
-      this.$router.push("/CreateGroupPage")
+      this.$router.push("/CreateGroupPage");
     },
     async search_By_text() {
       let valid_groups = [];
@@ -202,12 +211,13 @@ export default {
         let num_of_member = groupData.NumberOfMembers;
         let size = groupData.Size;
         let not_full = num_of_member != size;
-        let user_not_in_group = !groupData.Members.includes(this.email)
+        let user_not_in_group = !groupData.Members.includes(this.email);
         // console.log(user_not_in_group)
         if (
           (description.toLowerCase().includes(text) ||
             group_name.toLowerCase().includes(text)) &&
-          not_full && user_not_in_group
+          not_full &&
+          user_not_in_group
         ) {
           valid_groups.push(groupData);
         }
@@ -226,7 +236,7 @@ export default {
     },
 
     format_group_des(str) {
-      let max_len = 93
+      let max_len = 93;
       // Check if the string length is greater than max_len
       if (str.length > max_len) {
         // If so, slice the string to max_len - 3 and add "..."
@@ -236,7 +246,7 @@ export default {
         return str.padEnd(max_len, " ");
       }
       // If the string length is equal to max_len, return it as is
-  return str;
+      return str;
     },
 
     async applyFilters() {
@@ -414,11 +424,11 @@ export default {
 }
 
 .create-group-button {
-  background-color: #ffb904;
+  /* background-color: #ffb904;
   border: none;
   border-radius: 10px;
   color: white;
-  padding: 8px 16px; /* Adjust padding to match the button height with the input field */
+  padding: 8px 16px;
   font-size: 16px;
   cursor: pointer;
   text-align: center;
@@ -426,7 +436,23 @@ export default {
   display: inline-block;
   font-weight: bold;
   white-space: nowrap;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease; */
+  /* width: 250px;
+  height: 48px; */
+  font-weight: bold;
+  padding: 8px 16px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid var(--standard-yellow, #ffb904);
+  background: var(--standard-yellow, #ffb904);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  text-align: center;
+  font-family: ABeeZee;
+  /* font-size: 20px; */
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
 .create-group-button:hover {
@@ -449,7 +475,6 @@ export default {
   align-items: center; /* Center children vertically in the container */
 }
 
-
 .groupDisplay {
   border-radius: 10px; /* Rounded corners */
   background-color: #ffde59; /* Background color */
@@ -465,32 +490,30 @@ export default {
   /* Add text wrapping properties */
   word-wrap: break-word;
 
-  display: flex;            /* Establish flex container */
-  flex-direction: column;   /* Stack children vertically */
+  display: flex; /* Establish flex container */
+  flex-direction: column; /* Stack children vertically */
   justify-content: space-between;
 }
 
 .members {
   /* position: absolute; */
-  bottom: 0;          /* Aligns the element to the bottom */
-  width: 100%;  
+  bottom: 0; /* Aligns the element to the bottom */
+  width: 100%;
 }
-
-
 
 .groupDisplay:hover {
   background-color: #ffca2c; /* Slightly lighter shade when hovered */
 }
 
 .no_group_at_all {
-  display: inline-flex;        /* Establishes a flex container */
-  flex-direction: column;/* Stacks flex items vertically */
-  justify-content: center;/* Centers flex items along the main axis */
-  align-items: center;  /* Centers flex items along the cross axis */
+  display: inline-flex; /* Establishes a flex container */
+  flex-direction: column; /* Stacks flex items vertically */
+  justify-content: center; /* Centers flex items along the main axis */
+  align-items: center; /* Centers flex items along the cross axis */
   width: auto;
-  background: #FFF;
+  background: #fff;
   border-radius: 20px;
-  padding: 20px;       /* Add some padding */
+  padding: 20px; /* Add some padding */
 }
 
 .group_description {

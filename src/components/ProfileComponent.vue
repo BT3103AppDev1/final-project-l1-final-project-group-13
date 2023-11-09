@@ -129,6 +129,7 @@ h1 {
   height: 0px;
   line-height: 35px;
   float: left;
+  margin-left: 5px;
 }
 
 .pageTitle {
@@ -137,7 +138,7 @@ h1 {
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
+  /* line-height: 0px; */
 }
 
 .description {
@@ -147,12 +148,15 @@ h1 {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-top: -5px;
 }
 
 .text {
   float: left;
   text-align: left;
   margin-left: 45px;
+  margin-top: 5px;
+  line-height: 15px;
 }
 
 button {
