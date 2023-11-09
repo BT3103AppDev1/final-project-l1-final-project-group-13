@@ -87,7 +87,6 @@ export default {
               console.log(custom);
             });
             alert("File uploaded successfully!");
-            this.$emit("uploaded");
           }
         );
 
@@ -114,6 +113,7 @@ export default {
             Notifications: arrayUnion(noti),
           });
         }
+        this.$emit("uploaded");
       } catch (error) {
         console.error("Error uploading file:", error);
       }
