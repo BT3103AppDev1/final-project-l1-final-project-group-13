@@ -48,21 +48,21 @@ export default {
 
 <style scoped>
 .PageBody {
-  width: 80%;
+  display: flex;
+  width: 100%; /* Set width to 100% to occupy the remaining space */
 }
 
 .container {
   display: flex;
+  position: relative; /* Set the position to relative to establish a new containing block for the sticky element */
 }
 
-main {
-  height: 100vh;
-  width: 100vw;
+.sidebar {
+  position: sticky;
+  top: 0; /* Set the top to 0 to keep the sidebar at the top of the screen */
+  height: 100vh; /* Set the height to 100vh for the sidebar to occupy the entire height of the viewport */
 }
 
-/* .profile {
-  width: 100%;
-} */
 .notification-wrapper {
   position: fixed;
   top: 0;
@@ -70,4 +70,7 @@ main {
   z-index: 2; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */
 }
 
+.PageBody {
+  flex: 1; /* Set flex to 1 to make it occupy the remaining space */
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
 <main>
-    <h1 class="title">About Us</h1>
+    <h1 class="title">About Us</h1> <br>
     <div class="layout">
       <h3><strong>What is StudyHive</strong></h3>
 StudyHive is a collaborative online platform designed to facilitate seamless communication and knowledge sharing among students. Our website aims to provide a comprehensive solution for students who are looking to form study groups, access study materials, and stay updated on group activities.
@@ -21,7 +21,7 @@ StudyHive is developed and maintained by a dedicated team of professionals who a
 We invite you to join StudyHive and become part of a vibrant community of students who are committed to academic excellence. Whether you are looking to form study groups, access study materials, or simply connect with like-minded individuals, StudyHive is here to support your educational journey.
     </div>
     <br><br>
-    <h2 class="sub-title">FAQ</h2>
+    <h2 class="sub-title">FAQ</h2><br>
     <div class="layout">
 
 
@@ -85,7 +85,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .layout {
     display: flex;        /* Establishes a flex container */
     flex-direction: column;/* Stacks flex items vertically */

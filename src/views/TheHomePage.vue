@@ -1,34 +1,34 @@
 <template>
-  <div class="sidebar">
-    <Sidebar />
-  </div>
-  <Notification />
-  <div id="homepageTitle">
-    <h1 class="welcomeMsg">
-      Welcome,
-      <h1 class="name">
-        {{ name }}
-      </h1>
-    </h1>
-    <img src="src/assets/profileIcon.png" alt="Logo" width="100" height="100" />
-  </div>
-  <br />
-  <h2 id="myGroups">My Groups</h2>
+  <div class="container">
+    <div class="sidebar">
+      <Sidebar />
+    </div>
+    <div class="notification-wrapper">
+      <Notification />
+    </div>
+    <div class="content">
+      <div class="header">
+        <h1 class="welcomeMsg">Welcome,</h1>
+        <h1 class="name">{{ name }} </h1>
+        <img src="src/assets/profileIcon.png" alt="Logo" width="100" height="100" />
+      </div>
+      <br />
+      <h2 id="myGroups">My Groups</h2> <br><br>
 
-  <table id="table">
-    <tr v-for="(row, rowIndex) in groupedGroups" :key="rowIndex">
-      <td v-for="(group, groupIndex) in row" :key="group.Name">
-        <div class="card" @click="gotoStudyPage(group.Name)">
-          <p>{{ group.Name }}</p>
-          <p>{{ group.Description }}</p>
-          <p>{{ group.NumberOfMembers }} / {{ group.Size }}</p>
+      <div v-if = "this.studyGroups.length == 0" class = "no_group_at_all"> Join or create a group now!</div>
+
+
+      <div id="displayer" class="groupss">
+        <div class="groupDisplay" v-for="group in studyGroups" :key="group.Name" @click="gotoStudyPage(group.Name)">
+          <strong>{{ group.Name }}</strong>{{ format_group_des(group.Description) }}<br />
+          <div class="members">Members: {{ group.NumberOfMembers }} / {{ group.Size }}</div>
         </div>
-      </td>
-    </tr>
-  </table>
-
-
+      </div>
+    </div>
+  </div>
 </template>
+
+
 
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -92,6 +92,19 @@ export default {
         params: { groupName: name },
       });
     },
+    format_group_des(str) {
+      let max_len = 93
+      // Check if the string length is greater than max_len
+      if (str.length > max_len) {
+        // If so, slice the string to max_len - 3 and add "..."
+        return str.slice(0, max_len - 3) + "...";
+      } else if (str.length < max_len) {
+        // If the string is shorter, add spaces until it reaches max_len
+        return str.padEnd(max_len, " ");
+      }
+      // If the string length is equal to max_len, return it as is
+  return str;
+    },
   },
 
   computed: {
@@ -107,41 +120,109 @@ export default {
 };
 </script>
 
-<style>
-.name {
-  color: #ffb904;
+
+
+<style scoped>
+.container {
   display: flex;
-  font-size: 40px;
-  margin-left: 10px;
+  position: relative;
+  background-color: #f5f5f5;
+
 }
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1;
+}
+
+.notification-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
 .welcomeMsg {
-  font-size: 40px;
-  display: flex;
-  align-items: center;
-  margin-left: 50px;
-  color: black;
-  font-family: "AbeeZee", Helvetica;
+  margin-right: 10px;
 }
-img {
-  display: flex;
-  margin-left: 10px;
+
+.name {
+  color: #FFB904;
+  margin-right: 30px;
 }
-#homepageTitle {
-  display: flex;
-  align-items: center;
-  font-family: "AbeeZee", Helvetica;
-}
+
 #myGroups {
+  margin-top: 20px;
   display: flex;
-  margin-left: 235px;
-  margin-top: -20px;
-  font-family: "AbeeZee", Helvetica;
-  color: black;
 }
-h1,
-h3,
-p {
-  margin: 0px;
-  padding: 0px;
+
+#displayer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.groupDisplay {
+  border-radius: 10px; /* Rounded corners */
+  background-color: #ffde59; /* Background color */
+  padding: 20px; /* Space inside the rectangle */
+  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
+  box-sizing: border-box; /* Include padding and border in the width and height totals */
+  cursor: pointer;
+  width: 300px; /* Set a specific width */
+  height: 180px; /* Adjust height to auto to fit content */
+  /* Remove flex properties if this is not a flex container */
+  /* font-family: Inter; */
+
+  /* Add text wrapping properties */
+  word-wrap: break-word;
+
+  display: flex;            /* Establish flex container */
+  flex-direction: column;   /* Stack children vertically */
+  justify-content: space-between;
+}
+
+.members {
+  width: 100%;
+}
+
+.groupDisplay:hover {
+  background-color: #ffca2c;
+}
+
+.no_group_at_all {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.group_description {
+  word-wrap: break-word;
 }
 </style>

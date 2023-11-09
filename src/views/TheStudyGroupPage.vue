@@ -120,20 +120,43 @@ export default {
       groupSize: 0,
       members: [],
       membersEmail: [],
+      group: ""
     };
   },
 
   async mounted() {
     const auth = getAuth();
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
         this.user = user;
         this.email = user.email;
-        this.group = (
-          await getDoc(doc(db, "Group", this.$route.params.groupName))
+      }
+    });
+  },
+  watch: {
+    '$route.params.groupName': {
+      immediate: true, // Trigger the watcher immediately when the component is created
+      handler(newValue, oldValue) {
+        if (newValue) {
+          this.fetchGroupData(newValue);
+          console.log(newValue)
+        }
+      },
+    },
+  },
+
+  methods: {
+
+    async fetchGroupData(groupName){
+      try{
+
+       console.log(groupName)
+      this.group = (
+          await getDoc(doc(db, "Group", groupName))
         ).data();
         console.log(this.group);
         this.groupName = this.group.Name;
+        console.log(this.groupName)
         this.groupDescription = this.group.Description;
         this.groupMember = this.group.NumberOfMembers;
         this.groupSize = this.group.Size;
@@ -143,10 +166,11 @@ export default {
           let a = (await getDoc(doc(db, "User", this.membersEmail[i]))).data();
           this.members.push(a);
         }
+      } catch(error) {
+        console.error(error)
       }
-    });
-  },
-  methods: {
+    },
+
     formatCourses(value) {
       return value.filter(Boolean).join(", ");
     },

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1 style="text-align: left">Browse groups</h1>
+    <h1 style="text-align: left">Browse groups</h1> <br>
     <div class="search-container">
       <img
         alt="search button"
@@ -417,7 +417,7 @@ export default {
   background-color: #ffb904;
   border: none;
   border-radius: 10px;
-  color: #000000;
+  color: white;
   padding: 8px 16px; /* Adjust padding to match the button height with the input field */
   font-size: 16px;
   cursor: pointer;
@@ -436,14 +436,15 @@ export default {
 .create-group-button:before {
   content: "+";
   margin-right: 5px;
-  font-size: 20px; /* Adjust to match the size in the image */
+  font-size: 22px; /* Adjust to match the size in the image */
   vertical-align: middle;
+  color: black;
 }
 
 .groupss {
   display: flex; /* Use flexbox to lay out children */
   flex-wrap: wrap; /* Allow children to wrap to next line */
-  gap: 10px; /* Optional: adds space between children */
+  gap: 20px; /* Optional: adds space between children */
   justify-content: center; /* Center children horizontally in the container */
   align-items: center; /* Center children vertically in the container */
 }
@@ -457,7 +458,7 @@ export default {
   box-sizing: border-box; /* Include padding and border in the width and height totals */
   cursor: pointer;
   width: 300px; /* Set a specific width */
-  height: 150px; /* Adjust height to auto to fit content */
+  height: 180px; /* Adjust height to auto to fit content */
   /* Remove flex properties if this is not a flex container */
   /* font-family: Inter; */
 
