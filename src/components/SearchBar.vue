@@ -78,11 +78,18 @@
       />
     </div>
     <br /><br />
+    <!-- if no search result, show this -->
+    <div v-if="valid_groups.length === 0">
+      No results found <br><br>
+      <div class = "no_group_at_all"> Can't find a group? Create your personalized one now!</div>
+    </div>
+
     <div id="displayer" class="groupss" v-if="valid_groups.length != 0">
       <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name">
         <strong>{{ group.Name }}</strong
-        ><br />{{ group.Description }}<br />Members:
-        {{ group.NumberOfMembers }}/{{ group.Size }}
+        >{{ format_group_des(group.Description) }}<br />
+        <div class = "members">Members:
+        {{ group.NumberOfMembers }}/{{ group.Size }} </div>
       </div>
     </div>
   </main>
@@ -128,6 +135,14 @@ export default {
   },
 
   async mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.user = user;
+        this.email = user.email;
+      }
+    });
+
     // populate major list
     let docRef = doc(db, "Preference_info_instances", "Major");
     let docSnap = await getDoc(docRef);
@@ -167,27 +182,16 @@ export default {
       let obj = { label: key, options: values };
       this.options_location.push(obj);
     });
-    this.search_By_text();
+    this.applyFilters();
     // console.log("mounted running")
   },
   methods: {
-    //this function is to search when the user press the search button.
-    // openPopup(group) {
-    //   this.selectedGroup = group; // Store the clicked group's data
-    //   this.isPopupVisible = true; // Show the popup
-    // },
-
-    closePopup() {
-      this.isPopupVisible = false; // Hide the popup
-    },
-
     async search_By_text() {
       let valid_groups = [];
       let text = document
         .getElementById("text_tobe_searched")
         .value.toLowerCase();
       const groups = await getDocs(collection(db, "Group"));
-      let displayer = document.getElementById("displayer");
       groups.forEach((group) => {
         let groupData = group.data();
         let description = groupData.Description;
@@ -195,15 +199,17 @@ export default {
         let num_of_member = groupData.NumberOfMembers;
         let size = groupData.Size;
         let not_full = num_of_member != size;
+        let user_not_in_group = !groupData.Members.includes(this.useremail)
+        // console.log(user_not_in_group)
         if (
           (description.toLowerCase().includes(text) ||
             group_name.toLowerCase().includes(text)) &&
-          not_full
+          not_full && user_not_in_group
         ) {
           valid_groups.push(groupData);
         }
       });
-      this.valid_groups = valid_groups;
+      return valid_groups;
     },
 
     hasCommonElement(array1, array2) {
@@ -216,18 +222,24 @@ export default {
       return false;
     },
 
+    format_group_des(str) {
+      let max_len = 93
+      // Check if the string length is greater than max_len
+      if (str.length > max_len) {
+        // If so, slice the string to max_len - 3 and add "..."
+        return str.slice(0, max_len - 3) + "...";
+      } else if (str.length < max_len) {
+        // If the string is shorter, add spaces until it reaches max_len
+        return str.padEnd(max_len, " ");
+      }
+      // If the string length is equal to max_len, return it as is
+  return str;
+    },
+
     async applyFilters() {
-      await this.search_By_text();
-      let all_filters_empty =
-        this.selected_major.length +
-          this.selected_course.length +
-          this.selected_timing.length +
-          this.selected_location.length ===
-        0;
+      let inter_groups = await this.search_By_text();
       let filtered_groups = [];
-      let inter_groups = this.valid_groups;
-      // check if the filters is empty
-      // first of all, filter all group by a single filter (eg:major)
+      // flter by major
       if (this.selected_major.length != 0) {
         for (let group of inter_groups) {
           let group_valid = true;
@@ -248,7 +260,7 @@ export default {
         }
         inter_groups = filtered_groups;
       }
-
+      // filter by course
       if (this.selected_course.length != 0) {
         filtered_groups = [];
         for (let group of inter_groups) {
@@ -270,6 +282,7 @@ export default {
         }
         inter_groups = filtered_groups;
       }
+      // filter by timing
 
       if (this.selected_timing.length != 0) {
         filtered_groups = [];
@@ -291,7 +304,7 @@ export default {
         }
         inter_groups = filtered_groups;
       }
-
+      // filter by location
       if (this.selected_location.length != 0) {
         filtered_groups = [];
         for (let group of inter_groups) {
@@ -313,10 +326,6 @@ export default {
           }
         }
         inter_groups = filtered_groups;
-      }
-      console.log(inter_groups.length);
-      for (let left_group of inter_groups) {
-        console.log(left_group.Name);
       }
 
       this.valid_groups = inter_groups;
@@ -424,42 +433,51 @@ export default {
   align-items: center; /* Center children vertically in the container */
 }
 
+
 .groupDisplay {
   border-radius: 10px; /* Rounded corners */
   background-color: #ffde59; /* Background color */
   padding: 20px; /* Space inside the rectangle */
   margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
   box-sizing: border-box; /* Include padding and border in the width and height totals */
-  flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
   cursor: pointer;
-  width: 300px; /* You can set a specific width or use a percentage */
-  height: auto; /* Height will be determined by the content size */
+  width: 300px; /* Set a specific width */
+  height: 150px; /* Adjust height to auto to fit content */
+  /* Remove flex properties if this is not a flex container */
   /* font-family: Inter; */
+
+  /* Add text wrapping properties */
+  word-wrap: break-word;
+
+  display: flex;            /* Establish flex container */
+  flex-direction: column;   /* Stack children vertically */
+  justify-content: space-between;
 }
+
+.members {
+  /* position: absolute; */
+  bottom: 0;          /* Aligns the element to the bottom */
+  width: 100%;  
+}
+
+
 
 .groupDisplay:hover {
   background-color: #ffca2c; /* Slightly lighter shade when hovered */
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  z-index: 10; /* Ensure it's above other content */
+.no_group_at_all {
+  display: inline-flex;        /* Establishes a flex container */
+  flex-direction: column;/* Stacks flex items vertically */
+  justify-content: center;/* Centers flex items along the main axis */
+  align-items: center;  /* Centers flex items along the cross axis */
+  width: auto;
+  background: #FFF;
+  border-radius: 20px;
+  padding: 20px;       /* Add some padding */
 }
 
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 20px;
-  z-index: 20; /* Ensure the popup is above the overlay */
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+.group_description {
+  word-wrap: break-word;
 }
 </style>

@@ -114,7 +114,11 @@ const routes = [
     name: "StudyGroupPage",
     component: TheStudyGroupPage,
   },
-
+  {
+    path: "/FAQ",
+    name: "FAQPage",
+    component: FAQPage,
+  },
 ];
 
 const router = createRouter({

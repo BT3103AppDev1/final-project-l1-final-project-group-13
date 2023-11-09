@@ -17,3 +17,13 @@
     },
   };
   </script>
+
+<style scoped>
+.PageBody {
+  display: flex;
+}
+
+main {
+  height: auto;
+}
+</style>

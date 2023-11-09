@@ -1,8 +1,31 @@
 <template>
 <main>
-    <h1 class="title">FAQ</h1>
+    <h1 class="title">About Us</h1>
     <div class="layout">
-      <div 
+      <h3><strong>What is StudyHive</strong></h3>
+StudyHive is a collaborative online platform designed to facilitate seamless communication and knowledge sharing among students. Our website aims to provide a comprehensive solution for students who are looking to form study groups, access study materials, and stay updated on group activities.
+<br><br>
+<h3><strong>Our Purpose</strong></h3>
+At StudyHive, our primary goal is to create a supportive and interactive learning environment for students. We understand the challenges faced by students when it comes to forming study groups and accessing relevant study materials. Therefore, our website offers a range of features to address these challenges and enhance the overall learning experience.
+<br><br>
+<h3><strong>Key Features</strong></h3>
+<p><strong>Study Group Creation:</strong> StudyHive allows users to easily create and join study groups, enabling collaboration and knowledge sharing among peers.</p>
+<p><strong>Shared Repository:</strong> Users can access a shared repository of study materials, allowing them to benefit from each other's learning notes and resources.</p>
+<p><strong></strong>User Guide: For users who may need assistance in navigating the website, we provide a comprehensive user guide to ensure a smooth user experience.</p>
+<p><strong></strong>Notifications: StudyHive keeps users informed about updates on their study groups, including changes to group members, files, and events.</p>
+<br><br>
+<h3><strong>Our Team</strong></h3>
+StudyHive is developed and maintained by a dedicated team of professionals who are passionate about education and technology. Our team consists of experienced developers, designers, and educators who work tirelessly to ensure that StudyHive meets the needs of students and provides a user-friendly platform for effective collaboration.
+<br><br>
+<h3><strong>Join StudyHive Today</strong></h3>
+We invite you to join StudyHive and become part of a vibrant community of students who are committed to academic excellence. Whether you are looking to form study groups, access study materials, or simply connect with like-minded individuals, StudyHive is here to support your educational journey.
+    </div>
+    <br><br>
+    <h2 class="sub-title">FAQ</h2>
+    <div class="layout">
+
+
+<div 
         class="accordion" 
         v-for="(item, index) in faqItems" 
         :key="index"
@@ -16,29 +39,6 @@
           <p>{{ item.answer }}</p>
         </div>
       </div>
-    </div>
-    <br><br>
-    <h2 class="sub-title">About Us</h2>
-    <div class="layout">
-        <h3><strong>What is StudyHive</strong></h3>
-StudyHive is a collaborative online platform designed to facilitate seamless communication and knowledge sharing among students. Our website aims to provide a comprehensive solution for students who are looking to form study groups, access study materials, and stay updated on group activities.
-<br><br>
-<h3><strong>Our Purpose</strong></h3>
-At StudyHive, our primary goal is to create a supportive and interactive learning environment for students. We understand the challenges faced by students when it comes to forming study groups and accessing relevant study materials. Therefore, our website offers a range of features to address these challenges and enhance the overall learning experience.
-<br><br>
-<h3><strong>Key Features</strong></h3>
-Study Group Creation: StudyHive allows users to easily create and join study groups, enabling collaboration and knowledge sharing among peers.
-Shared Repository: Users can access a shared repository of study materials, allowing them to benefit from each other's learning notes and resources.
-User Guide: For users who may need assistance in navigating the website, we provide a comprehensive user guide to ensure a smooth user experience.
-Notifications: StudyHive keeps users informed about updates on their study groups, including changes to group members, files, and events.
-<br><br>
-<h3><strong>Our Team</strong></h3>
-StudyHive is developed and maintained by a dedicated team of professionals who are passionate about education and technology. Our team consists of experienced developers, designers, and educators who work tirelessly to ensure that StudyHive meets the needs of students and provides a user-friendly platform for effective collaboration.
-<br><br>
-<h3><strong>Join StudyHive Today</strong></h3>
-We invite you to join StudyHive and become part of a vibrant community of students who are committed to academic excellence. Whether you are looking to form study groups, access study materials, or simply connect with like-minded individuals, StudyHive is here to support your educational journey.
-
-
     </div>
     <br><br><br>
 </main>
@@ -93,7 +93,7 @@ export default {
     align-items: center;  /* Centers flex items along the cross axis */
     width: 100%;
     background: #FFF;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;       /* Add some padding */
   }
   
