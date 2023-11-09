@@ -7,13 +7,14 @@
       <input type="password" placeholder="password..." v-model="password" />
       <button type="submit">Register</button>
     </form> -->
-        <br />
+        <br /><br />
         <div class="firstcontainer">
           <h1 class="titleOfDiv">
             Sign up with<br />
             <span id="StudyText">Study</span>
             <span id="HiveText">Hive</span>
           </h1>
+          <br /><br />
         </div>
         <div class="secondcontainer">
           <form id="userForm">
@@ -35,7 +36,9 @@
             />
             <br /><br />
             <p>
-              Your password must contain a minimum of 6 characters with no space
+              Your password must contain a minimum of 8 characters with no space
+              <br />with at least 1 uppercase letter, 1 lowercase letter, and 1
+              number
             </p>
             <br />
 
@@ -99,6 +102,29 @@ export default {
       return true;
     },
     register() {
+      if (this.password !== this.confirmPassword) {
+        alert("Passwords do not match");
+        return false;
+      }
+      if (!this.password || !this.confirmPassword) {
+        alert("Please fill in the required fields");
+        return false;
+      }
+
+      if (this.password.length < 8) {
+        alert("Error: Password must be at least 8 characters");
+        return false;
+      } else if (this.password.search(/[a-z]/) < 0) {
+        alert("Error: Password must contain at least one lowercase letter");
+        return false;
+      } else if (this.password.search(/[A-Z]/) < 0) {
+        alert("Error: Password must contain at least one uppercase letter");
+        return false;
+      } else if (this.password.search(/[0-9]/) < 0) {
+        alert("Error: Password must contain at least one number");
+        return false;
+      }
+
       const auth = getAuth();
       console.log("Registering...");
       createUserWithEmailAndPassword(auth, this.email, this.password)

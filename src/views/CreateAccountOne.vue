@@ -135,6 +135,12 @@ export default {
       try {
         console.log("Adding personal details");
 
+        const currentDate = new Date();
+        if (new Date(this.dob) > currentDate) {
+          alert("DOB should not be in the future");
+          return false;
+        }
+
         const docRef = await setDoc(doc(db, "User", String(this.user.email)), {
           Name: this.name,
           DOB: this.dob,

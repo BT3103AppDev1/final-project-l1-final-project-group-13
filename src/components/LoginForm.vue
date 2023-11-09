@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <br />
+    <br /><br />
     <div class="firstcontainer">
       <h1 class="titleOfDiv">
         Welcome back to<br />
@@ -35,8 +35,8 @@
         >
         <br /><br /><br /><br />
         <button id="submitbutton" type="button" @click="login">Login</button>
-        <br /><br />
-        <p class="text">
+        <br />
+        <p class="text" style="left: 26%">
           Don't have an account?
           <router-link
             style="color: var(--standard-yellow, #ffb904)"
@@ -255,6 +255,6 @@ button {
   font-weight: 400;
   line-height: normal;
   position: absolute;
-  left: 18%;
+  left: 20%;
 }
 </style>
