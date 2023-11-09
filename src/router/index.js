@@ -115,6 +115,12 @@ const routes = [
     component: TheStudyGroupPage,
   },
   {
+    path: "/VisitorStudyGroupPage/:groupName",
+    name: "VisitorStudyGroupPage",
+    component: TheVisitorStudyGroup,
+  },
+  
+  {
     path: "/faq",
     name: "FAQPage",
     component: FAQPage,

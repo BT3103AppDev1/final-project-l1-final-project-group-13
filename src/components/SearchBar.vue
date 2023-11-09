@@ -15,7 +15,7 @@
         placeholder="Search for groups"
         @keyup.enter="applyFilters"
       />
-      <button class="create-group-button" @click="createGroup">
+      <button class="create-group-button" @click="gotoCreateGroup()">
         Create group
       </button>
     </div>
@@ -85,7 +85,7 @@
     </div>
 
     <div id="displayer" class="groupss" v-if="valid_groups.length != 0">
-      <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name">
+      <div class="groupDisplay" v-for="group in valid_groups" :key="group.Name" @click="gotoVisitorPage(group.Name)">
         <strong>{{ group.Name }}</strong
         >{{ format_group_des(group.Description) }}<br />
         <div class = "members">Members:
@@ -119,7 +119,7 @@ export default {
   data() {
     return {
       user: false,
-      useremail: "",
+      email: "",
       valid_groups: [],
       isPopupVisible: false,
       selectedGroup: {},
@@ -186,6 +186,9 @@ export default {
     // console.log("mounted running")
   },
   methods: {
+    gotoCreateGroup() {
+      this.$router.push("/CreateGroupPage")
+    },
     async search_By_text() {
       let valid_groups = [];
       let text = document
@@ -199,7 +202,7 @@ export default {
         let num_of_member = groupData.NumberOfMembers;
         let size = groupData.Size;
         let not_full = num_of_member != size;
-        let user_not_in_group = !groupData.Members.includes(this.useremail)
+        let user_not_in_group = !groupData.Members.includes(this.email)
         // console.log(user_not_in_group)
         if (
           (description.toLowerCase().includes(text) ||
@@ -329,6 +332,18 @@ export default {
       }
 
       this.valid_groups = inter_groups;
+    },
+
+    gotoVisitorPage(name) {
+      if (!name) {
+        console.error("Empty parameter passed for 'name'.");
+        return; // Optionally, throw an error or log a warning message
+      }
+
+      this.$router.push({
+        name: "VisitorStudyGroupPage",
+        params: { groupName: name },
+      });
     },
   },
 };

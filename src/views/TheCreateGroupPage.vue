@@ -46,7 +46,7 @@
 
 <script>
 import { firebaseApp } from "../firebase.js";
-import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, getDoc, addDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
@@ -61,6 +61,7 @@ export default {
       groupSize: "",
       groupDescription: "",
       errorMessage: "",
+      usedNames: [],
     };
   },
   async mounted() {
@@ -69,48 +70,54 @@ export default {
       if (user) {
         this.user = user;
         this.email = user.email;
+        const groups = await getDocs(collection(db, "Group"));
+        groups.forEach((doc) => {
+          this.usedNames.push(doc.id);
+        });
       }
     });
   },
 
   methods: {
     validateFields() {
-      //   console.log(this.gender);
       if (!this.groupName || !this.groupSize || !this.groupDescription) {
         this.errorMessage = "Please fill in all required fields";
         return false;
       } else if (this.groupSize > 10) {
         this.errorMessage = "Maximum group size is 10";
-      }
-      else if (this.groupSize <= 0) {
+        return false;
+      } else if (this.groupSize <= 0) {
         this.errorMessage = "Please enter a valid size";
+        return false;
       } else {
-      this.errorMessage = "";
-      return true;
+        this.errorMessage = "";
+        return true;
       }
     },
     async saveData() {
-      console.log("savedata");
-      let groupName = document.getElementById("groupName").value;
-      let groupDetails = document.getElementById("groupDetails").value;
-      let groupMemberLimit = document.getElementById("groupMemberLimit").value;
-      console.log(groupName, groupDetails, groupMemberLimit);
-      let groups = await getDocs(collection(db, "Group"));
-      // if (groups.data().includes(groupName)) {
-      //   alert("Group already exists");
-      // } else {
-      let docRef = doc(db, "Group", groupName);
-      let data = {
-        Description: groupDetails,
-        Members: [this.myName],
-        Name: groupName,
-        NumberOfMembers: "1",
-        Requests: "",
-        Size: groupMemberLimit,
-      };
-      await setDoc(docRef, data);
-      alert("set data successfully!");
-      // }
+      if (!this.validateFields()) {
+        alert(this.errorMessage)
+      }
+      else if (this.usedNames.includes(this.groupName)) {
+        alert("Group name already exists!");
+      } else {
+        const docRef = doc(db, "Group", this.groupName);
+        const data = {
+          Description: this.groupDescription,
+          Members: [this.email],
+          Name: this.groupName,
+          NumberOfMembers: 1,
+          Requests: [],
+          Size: this.groupSize,
+          Files: []
+        };
+        await setDoc(docRef, data);
+        await updateDoc(doc(db, "User", this.email), {
+          Groups : arrayUnion(this.groupName)
+        })
+        alert("Group created successfully!");
+        this.$router.push("/home")
+      }
     },
   },
 };

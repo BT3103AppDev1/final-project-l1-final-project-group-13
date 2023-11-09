@@ -1,74 +1,78 @@
 <template>
-  <div class="sidebar">
-    <Sidebar />
-  </div>
-  <Notification />
-  <div id="studyPageEverything">
-    <div id="title">
-      <h1>{{ groupName }}</h1>
+  <div class="container">
+    <div class="sidebar">
+      <Sidebar />
     </div>
-
-    <div v-if="groupName" class="nav">
-      <router-link
-        class="button"
-        :to="{ name: 'StudyGroupPage', params: { groupName: groupName } }"
-      >
-        <span class="text">Main</span>
-      </router-link>
-      <router-link
-        class="button"
-        :to="{ name: 'FilesPage', params: { groupName: groupName } }"
-      >
-        <span class="text">Files</span>
-      </router-link>
-      <router-link
-        class="button"
-        :to="{ name: 'RequestPage', params: { groupName: groupName } }"
-      >
-        <span class="text">Requests</span>
-      </router-link>
+    <div class="notification-wrapper">
+      <Notification />
     </div>
+    <div id="studyPageEverything">
+      <div id="title">
+        <h1>{{ groupName }}</h1>
+      </div>
 
-    <div id="studygroupinfo">
-      <h3 id="description" class="description">
-        {{ groupDescription }}
-      </h3>
-      <h3 id="membercount">Members : {{ groupMember }} / {{ groupSize }}</h3>
-    </div>
+      <div v-if="groupName" class="nav">
+        <router-link
+          class="button"
+          :to="{ name: 'StudyGroupPage', params: { groupName: groupName } }"
+        >
+          <span class="text">Main</span>
+        </router-link>
+        <router-link
+          class="button"
+          :to="{ name: 'FilesPage', params: { groupName: groupName } }"
+        >
+          <span class="text">Files</span>
+        </router-link>
+        <router-link
+          class="button"
+          :to="{ name: 'RequestPage', params: { groupName: groupName } }"
+        >
+          <span class="text">Requests</span>
+        </router-link>
+      </div>
 
-    <table id="table">
-      <tr v-for="(row, rowIndex) in groupedMembers" :key="rowIndex">
-        <td v-for="(member, memberIndex) in row" :key="member.Email">
-          <div class="card">
-            <div class="profile">
-              <div class="picture">
-                <br />
-                <img
-                  class="img"
-                  src="@/assets/profileIcon.png"
-                  alt="Profile picture"
-                />
+      <div id="studygroupinfo">
+        <h3 id="description" class="description">
+          {{ groupDescription }}
+        </h3>
+        <h3 id="membercount">Members : {{ groupMember }} / {{ groupSize }}</h3>
+      </div>
+
+      <table id="table">
+        <tr v-for="(row, rowIndex) in groupedMembers" :key="rowIndex">
+          <td v-for="(member, memberIndex) in row" :key="member.Email">
+            <div class="card">
+              <div class="profile">
+                <div class="picture">
+                  <br />
+                  <img
+                    class="img"
+                    src="@/assets/profileIcon.png"
+                    alt="Profile picture"
+                  />
+                </div>
+                <div class="account">
+                  <h4>
+                    <strong>{{ member.Name }} </strong>
+                  </h4>
+                  <p>{{ member.Email }}</p>
+                  <p>{{ member.TelegramHandle }}</p>
+                </div>
               </div>
-              <div class="account">
-                <h4>
-                  <strong>{{ member.Name }} </strong>
-                </h4>
-                <p>{{ member.Email }}</p>
-                <p>{{ member.TelegramHandle }}</p>
-              </div>
+              <p>{{ formatCourses(member.Major) }}</p>
+              <p>{{ formatCourses(member.Courses) }}</p>
+              <p>{{ formatCourses(member.Timing) }}</p>
+              <p>{{ formatCourses(member.Location) }}</p>
+              <br />
             </div>
-            <p>{{ formatCourses(member.Major) }}</p>
-            <p>{{ formatCourses(member.Courses) }}</p>
-            <p>{{ formatCourses(member.Timing) }}</p>
-            <p>{{ formatCourses(member.Location) }}</p>
-            <br />
-          </div>
-        </td>
-      </tr>
-    </table>
+          </td>
+        </tr>
+      </table>
 
-    <br />
-    <LeaveGroup :group="this.groupName" />
+      <br />
+      <LeaveGroup :group="this.groupName" />
+    </div>
   </div>
 </template>
 
