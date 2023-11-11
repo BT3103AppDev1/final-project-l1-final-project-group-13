@@ -126,7 +126,6 @@ export default {
         .then(() => {
           // Update successful.
           alert("Password successfully updated!");
-          this.$router.push("/");
         })
         .catch((error) => {
           // An error ocurred

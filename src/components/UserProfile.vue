@@ -130,7 +130,6 @@ export default {
           }
         );
         alert("Personal details successfully updated!");
-        this.$router.push("/profile");
       } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;

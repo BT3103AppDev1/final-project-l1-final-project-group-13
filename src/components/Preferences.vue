@@ -164,7 +164,6 @@ export default {
           }
         );
         alert("Personal details successfully updated!");
-        this.$router.push("/profile");
       } catch (error) {
         alert("Error adding document: ", error);
       }
