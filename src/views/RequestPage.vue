@@ -8,7 +8,7 @@
     </div>
     <div class="content">
       <div id="title">
-        <h1>{{ groupName }}</h1>
+        <h1>{{ groupName }} > Requests </h1>
       </div>
       <Tabs :tabs="tabs" />
       <div class="layout">

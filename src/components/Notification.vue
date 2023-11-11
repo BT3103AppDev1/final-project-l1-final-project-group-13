@@ -17,6 +17,7 @@
         >
         <br />
       </div>
+      <br>
       <div
         v-for="notification in notifications"
         :key="notification.id"
@@ -115,7 +116,7 @@ h1, h2, h3, h4, h5, h6, p {
   top: 0;
   right: 0;
   height: 100%;
-  width: 300px; /* Adjust the width as needed */
+  width: 350px; /* Adjust the width as needed */
   background-color: #f1f1f1;
   overflow-y: auto;
   transition: transform 0.3s ease-in-out;
@@ -160,8 +161,12 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .notification-item {
-  padding: 20px;
-  border-bottom: 1px solid #ccc;
+  background-color: #ffffff; /* White background color */
+  padding: 15px;
+  border-radius: 10px; /* Optional: Add rounded corners */
+  margin-bottom: 10px; /* Optional: Add margin between cards */
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 #info {

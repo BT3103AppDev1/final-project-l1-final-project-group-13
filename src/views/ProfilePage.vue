@@ -30,20 +30,27 @@ export default {
 <style scoped>
 .container {
   display: flex;
+  position: relative;
 }
 
-main {
-  height: 100vh;
-  width: 100vw;
-}
-
-/* .profile {
-  width: 100%;
-} */
-.notification-wrapper {
-  position: fixed;
+.sidebar {
+  position: sticky;
   top: 0;
-  right: 0;
-  z-index: 2; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */
+  height: 100vh;
+  z-index: 1; /* Adjust the z-index as needed */
 }
+
+.notification-wrapper {
+  position: absolute;
+  top: 10px; /* Adjust the top position as needed */
+  right: 10px; /* Adjust the right position as needed */
+  z-index: 3;
+}
+
+.profile {
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
 </style>
