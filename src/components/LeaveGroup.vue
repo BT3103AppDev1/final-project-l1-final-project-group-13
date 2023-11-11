@@ -85,6 +85,12 @@ export default {
 </script>
 
 <style scoped>
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+}
 .leaveButton {
   font-family: "AbeeZee", Helvetica;
   text-align: center;
@@ -115,5 +121,6 @@ export default {
   justify-content: center;
   margin: auto;
   cursor: pointer;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 </style>

@@ -155,6 +155,12 @@ export default {
 </script>
 
 <style scoped>
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+}
 .hide-file-input {
   position: absolute;
   width: 1px;

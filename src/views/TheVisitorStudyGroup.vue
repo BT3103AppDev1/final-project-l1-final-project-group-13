@@ -1,53 +1,59 @@
 <template>
-  <div class="sidebar">
-    <Sidebar />
-  </div>
-  <Notification />
-  <div id="studyPageEverything">
-    <div id="title">
-      <h1>{{ groupName }}</h1>
+  <div class="container">
+    <div class="sidebar">
+      <Sidebar />
+    </div>
+    <div class="notification-wrapper">
+      <Notification />
     </div>
 
-    <div id="studygroupinfo">
-      <h3 id="description" class="description">
-        {{ groupDescription }}
-      </h3>
-      <h3 id="membercount">Members : {{ groupMember }} / {{ groupSize }}</h3>
-    </div>
+    <div class="content">
+      <div id="title">
+        <h1>{{ groupName }}</h1>
+      </div>
 
-    <table id="table">
-      <tr v-for="(row, rowIndex) in groupedMembers" :key="rowIndex">
-        <td v-for="(member, memberIndex) in row" :key="member.Email">
-          <div class="card">
-            <div class="profile">
-              <div class="picture">
+      <div class="layout">
+        <div id="description">
+          <h3>
+            {{ groupDescription }}
+          </h3>
+          <br />
+          <h3>Members : {{ groupMember }} / {{ groupSize }}</h3>
+        </div>
+
+        <table id="table">
+          <tr v-for="(row, rowIndex) in groupedMembers" :key="rowIndex">
+            <td v-for="(member, memberIndex) in row" :key="member.Email">
+              <div class="card">
+                <div class="profile">
+                  <div class="picture">
+                    <br />
+                    <img
+                      class="img"
+                      src="@/assets/profileIcon.png"
+                      alt="Profile picture"
+                    />
+                  </div>
+                  <div class="account">
+                    <h4>
+                      <strong>{{ member.Name }} </strong>
+                    </h4>
+                  </div>
+                </div>
+                <p>{{ formatCourses(member.Major) }}</p>
+                <p>{{ formatCourses(member.Courses) }}</p>
+                <p>{{ formatCourses(member.Timing) }}</p>
+                <p>{{ formatCourses(member.Location) }}</p>
                 <br />
-                <img
-                  class="img"
-                  src="@/assets/profileIcon.png"
-                  alt="Profile picture"
-                />
               </div>
-              <div class="account">
-                <h4>
-                  <strong>{{ member.Name }} </strong>
-                </h4>
-              </div>
-            </div>
-            <p>{{ formatCourses(member.Major) }}</p>
-            <p>{{ formatCourses(member.Courses) }}</p>
-            <p>{{ formatCourses(member.Timing) }}</p>
-            <p>{{ formatCourses(member.Location) }}</p>
-            <br />
-          </div>
-        </td>
-      </tr>
-    </table>
-
-    <br />
+            </td>
+          </tr>
+        </table>
+        <br />
+        <JoinGroup :group="this.groupName" />
+      </div>
+    </div>
   </div>
-  <br />
-  <JoinGroup :group="this.groupName" />
 </template>
 
 <script>
@@ -128,42 +134,119 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  text-align: center;
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
 }
-.displayGroupMembers {
-  border-radius: 10px; /* Rounded corners */
-  background-color: #ffde59; /* Background color */
-  padding: 20px; /* Space inside the rectangle */
-  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
-  box-sizing: border-box; /* Include padding and border in the width and height totals */
-  flex: 0 1 auto; /* Don't grow, but allow to shrink and keep their auto base size */
-  cursor: pointer;
-  width: 360px; /* You can set a specific width or use a percentage */
-  height: 250px; /* Height will be determined by the content size */
-  /* font-family: Inter; */
-}
-#displayGroups {
-  display: flex; /* Use flexbox to lay out children */
-  flex-wrap: wrap; /* Allow children to wrap to next line */
-  gap: 10px; /* Optional: adds space between children */
-  justify-content: left; /* Center children horizontally in the container */
-  align-items: left; /* Center children vertically in the container */
-}
-#studyPageEverything {
+#description {
   display: inline-block;
-  text-align: center;
-  border-radius: 10px;
-  border: 1px solid #968888;
-  padding: 10px;
-  margin: 20px;
-  height: 600px;
-  width: 1500px;
-  color: black;
+  text-align: left; /* Change to left alignment */
+  margin-bottom: 20px; /* Add margin for spacing */
+  margin-left: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 100%;
 }
 
 #title {
   display: inline-block;
-  text-align: center;
+  text-align: left; /* Change to left alignment */
+  margin-bottom: 20px; /* Add margin for spacing */
+  margin-left: 20px; /* Add left margin for spacing */
 }
+.container {
+  display: flex;
+  position: relative;
+  background-color: #f5f5f5;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 95%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
+} /* Add some padding */
+
+.notification-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+#table {
+  width: 100%;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-x: auto;
+}
+
+.card{
+  border: 1px solid #ffde59;
+  border-radius: 20px;
+  padding: 3px 10px 3px 10px;
+  width: 360px;
+  height: 360px;
+  text-align: left;
+  background-color: #ffde59;
+  margin-left: auto;
+  margin-right: auto;
+  margin: 15px;
+}
+
+.account {
+  flex-grow: 1;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+  max-width: 200px; /* Adjust the value based on your design */
+}
+td,
+tr {
+  text-align: right;
+}
+
+.table-cell {
+  vertical-align: middle;
+}
+
+.img {
+  height: 80px;
+  width: 80px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.picture {
+  margin-right: 20px;
+}
+
 </style>

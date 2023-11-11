@@ -86,6 +86,12 @@ export default {
 </script>
 
 <style scoped>
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+}
 .layout {
     display: flex;        /* Establishes a flex container */
     flex-direction: column;/* Stacks flex items vertically */

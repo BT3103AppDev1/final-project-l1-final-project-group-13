@@ -135,6 +135,12 @@ const routes = [
     name: "FAQPage",
     component: FAQPage,
   },
+{
+  path: "/:catchAll(.*)",
+  name: "Not found page",
+  component: NotFound
+}
+
 ];
 
 const router = createRouter({

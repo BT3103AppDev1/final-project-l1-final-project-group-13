@@ -1,6 +1,7 @@
 <template>
-  <div id="requests">
+    <div id = "description">
     <h3>{{ num }} request(s) to join the group:</h3>
+  </div>
     <br />
     <table id="table">
       <tr v-for="(row, rowIndex) in groupedUsers" :key="rowIndex">
@@ -47,7 +48,8 @@
         </td>
       </tr>
     </table>
-  </div>
+
+
 </template>
 
 <script>
@@ -216,17 +218,30 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  border: 1px solid #ccc;
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+}
+
+#description {
+  text-align: left; /* Change to left alignment */
+  margin-bottom: 20px; /* Add margin for spacing */
+  margin-left: 20px;
+}
+.card{
+  border: 1px solid #ffde59;
   border-radius: 20px;
   padding: 3px 10px 3px 10px;
-  width: 320px;
-  height: 300px;
+  width: 360px;
+  height: 400px;
   text-align: left;
   background-color: #ffde59;
   margin-left: auto;
   margin-right: auto;
   margin: 15px;
+  position: relative; 
 }
 
 td,
@@ -253,11 +268,14 @@ tr {
 }
 
 .account {
-  text-align: left;
+  flex-grow: 1;
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
+  max-width: 200px; /* Adjust the value based on your design */
 }
 
 #requests {
-  text-align: center;
   margin: auto;
   background-color: white;
   font-family: "AbeeZee", Helvetica;
@@ -277,27 +295,12 @@ tr {
 }
 
 #buttons {
-  margin-left: auto;
-  margin-right: auto;
+  position: absolute; /* Set absolute positioning for the buttons */
+  bottom: 10px; /* Adjust the bottom position as needed */
+  left: 50%; /* Align the buttons at the horizontal center of the card */
+  transform: translateX(-50%); /* Center the buttons using a transform */
   text-align: center;
-  position: relative;
-  bottom: 5px;
 }
 
-p {
-  font-size: 12px;
-  font-family: "AbeeZee", Helvetica;
-  font-weight: 100;
-  color: black;
-}
 
-h3 {
-  color: black;
-  font-size: 24px;
-}
-
-h3 {
-  color: black;
-  font-size: 16px;
-}
 </style>

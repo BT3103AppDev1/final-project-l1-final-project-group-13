@@ -361,6 +361,12 @@ export default {
 
 <style src="@vueform/multiselect/themes/default.css"></style>
 <style scoped>
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+}
 .multiselect {
   --ms-tag-bg: #ffde59;
   --ms-tag-color: #000000;

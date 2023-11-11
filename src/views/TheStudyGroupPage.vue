@@ -217,6 +217,13 @@ export default {
 </script>
 
 <style scoped>
+h1, h2, h3, h4, h5, h6, p {
+  color: #000;
+  font-family: ABeeZee;
+  font-style: normal;
+  font-weight: 400;
+}
+
 #description {
   display: inline-block;
   text-align: left; /* Change to left alignment */
@@ -277,13 +284,7 @@ export default {
   margin-top: 10px;
 }
 
-.description {
-  margin-top: 20px;
-}
 
-#membercount {
-  margin-top: 10px;
-}
 
 #table {
   width: 100%;
@@ -295,18 +296,14 @@ export default {
   overflow-x: auto;
 }
 
-.description,
-#membercount {
-  /* Add maximum width for text content inside description and membercount */
-  max-width: 200px; /* Adjust the value based on your design */
-}
+
 
 .card{
   border: 1px solid #ffde59;
   border-radius: 20px;
   padding: 3px 10px 3px 10px;
-  width: 340px;
-  height: 300px;
+  width: 360px;
+  height: 360px;
   text-align: left;
   background-color: #ffde59;
   margin-left: auto;
@@ -335,9 +332,6 @@ export default {
   margin-top: 20px;
 }
 
-.groupDisplay:hover {
-  background-color: #ffca2c;
-}
 
 
 td,
