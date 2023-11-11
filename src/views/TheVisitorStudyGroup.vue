@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import GroupMemberWidget from "../components/GroupMemberWidget.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
 import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
 import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";

@@ -46,7 +46,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
     border-radius: 12px;
     color: black;
     font-size: 20px;
-    margin: 5px 20px 5px 20px;
+    margin: 5px 0px 0px 30px;
     border: 1px solid #ffb904;
     background-color: #ffb904;
     width: 140px;
@@ -62,5 +62,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
   .tab-button.active {
     background-color: #d9d9d982 !important;
     color: black !important;
+    text-decoration: underline; 
   }
 </style>

@@ -1,19 +1,29 @@
 <template>
-  <div class="sidebar">
-    <Sidebar />
-  </div>
-  <Notification :key="refreshComp" />
-  <div class="files">
-    <h1>{{ groupName }}</h1>
-    <Tabs :tabs="tabs" />
-    <AddFiles :group="this.groupName" @uploaded="change" />
-    <br />
-    <div id="filesTable">
-      <FilesTable
-        :group="this.groupName"
-        @deleted="change"
-        :key="refreshComp"
-      />
+  <div class="container">
+    <div class="sidebar">
+      <Sidebar />
+    </div>
+    <div class="notification-wrapper">
+      <Notification  :key="refreshComp"/>
+    </div>
+    <div class="content">
+      <div id="title">
+        <h1>{{ groupName }}</h1>
+      </div>
+      <Tabs :tabs="tabs" />
+      <div class="layout">
+        <div id="addFiles">
+          <AddFiles :group="this.groupName" @uploaded="change" />
+          <br />
+        </div>
+        <div id="filesTable">
+          <FilesTable
+            :group="this.groupName"
+            @deleted="change"
+            :key="refreshComp"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +54,7 @@ export default {
     Sidebar,
     AddFiles,
     Notification,
-    Tabs
+    Tabs,
   },
   data() {
     return {
@@ -53,16 +63,16 @@ export default {
       group: "",
       refreshComp: 0,
       groupName: "",
-      tabs: []
+      tabs: [],
     };
   },
   watch: {
-    '$route.params.groupName': {
+    "$route.params.groupName": {
       immediate: true, // Trigger the watcher immediately when the component is created
       handler(newValue, oldValue) {
         if (newValue) {
           this.fetchGroupData(newValue);
-          console.log(newValue)
+          console.log(newValue);
         }
       },
     },
@@ -79,31 +89,28 @@ export default {
   },
 
   methods: {
-    async fetchGroupData(groupName){
-      try{
-       console.log(groupName)
-      this.group = (
-          await getDoc(doc(db, "Group", groupName))
-        ).data();
+    async fetchGroupData(groupName) {
+      try {
+        console.log(groupName);
+        this.group = (await getDoc(doc(db, "Group", groupName))).data();
         console.log(this.group);
         this.groupName = this.group.Name;
         this.tabs = [
-        {
-          to: { name: 'StudyGroupPage', params: { groupName: groupName } },
-          text: 'Main',
-        },
-        {
-          to: { name: 'FilesPage', params: { groupName: groupName } },
-          text: 'Files',
-        },
-        {
-          to: { name: 'RequestPage', params: { groupName: groupName } },
-          text: 'Requests',
-        },
-      ]
-
-      } catch(error) {
-        console.error(error)
+          {
+            to: { name: "StudyGroupPage", params: { groupName: groupName } },
+            text: "Main",
+          },
+          {
+            to: { name: "FilesPage", params: { groupName: groupName } },
+            text: "Files",
+          },
+          {
+            to: { name: "RequestPage", params: { groupName: groupName } },
+            text: "Requests",
+          },
+        ];
+      } catch (error) {
+        console.error(error);
       }
     },
 
@@ -116,16 +123,75 @@ export default {
 </script>
 
 <style scoped>
-.filesTable {
-  font-family: "AbeeZee";
-  color: black;
+.container {
+  display: flex;
+  position: relative;
   background-color: #f5f5f5;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .sidebar {
-  float: left;
-  height: 100%;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 1; /* Adjust the z-index as needed */
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 100%;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 95%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.notification-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.PageBody {
+  display: flex;
+  width: 80%;
+  flex: 1;
+  flex-direction: column; /* Change to column layout */
+  margin-left: 20px; /* Add margin to the left */
+}
+
+#title {
+  display: inline-block;
+  text-align: left; /* Change to left alignment */
+  margin-bottom: 20px; /* Add margin for spacing */
+  margin-left: 20px; /* Add left margin for spacing */
+}
+.tabs {
+  margin-top: 10px; /* Add margin for spacing */
+}
+
+#filesTable {
+  width: 100%; /* Add margin for spacing */
+}
+
+#addFiles {
+  align-self: flex-end;
+  margin-top: 10px; /* Align the AddFiles component to the flex-end (right side) */
+  margin-bottom: 10px;
+  margin-right: 20px; /* Add margin for spacing */
+}
+/* Add any other styles specific to FilesPage */
 </style>

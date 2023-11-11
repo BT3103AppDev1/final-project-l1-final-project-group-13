@@ -130,7 +130,7 @@ export default {
             Files: arrayRemove(fileName), 
           });
           this.$emit("deleted");
-          alert("Deleted file!");
+          alert("File deleted!");
 
         }
       } catch (error) {
@@ -155,6 +155,10 @@ export default {
   font-size: 2rem;
   color: black;
   margin-right: 2px;
+}
+
+.material-icons:hover {
+  color: red; /* Change the color to red on hover */
 }
 
 table {

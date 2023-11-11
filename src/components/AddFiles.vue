@@ -69,51 +69,55 @@ export default {
         };
 
         const uploadTask = uploadBytesResumable(fileRef, file, newMetadata);
+        await new Promise((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              // Handle progress
+            },
+            (error) => {
+              // Handle error
+              reject(error);
+            },
+            async () => {
+              // Handle successful upload
+              try {
+                const metadata = await getMetadata(fileRef);
+                const size = metadata.size;
+                const custom = metadata.customMetadata.uploadedBy;
+                console.log(size, custom);
+                
+                await updateDoc(doc(db, "Group", this.group), {
+                  Files: arrayUnion(file.name),
+                });
 
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            // Handle progress
-          },
-          (error) => {
-            // Handle error
-          },
-          () => {
-            // Handle successful upload
-            getMetadata(fileRef).then((metadata) => {
-              const size = metadata.size;
-              console.log(size);
-              const custom = metadata.customMetadata.uploadedBy;
-              console.log(custom);
-            });
-            alert("File uploaded successfully!");
-          }
-        );
+                const noti = {
+                  title:
+                    this.userName +
+                    " has uploaded " +
+                    file.name + " in " + this.group +
+                    " study group",
+                  time: this.formatDate(new Date()),
+                };
+                const member = (await getDoc(doc(db, "Group", this.group))).data().Members;
 
-        await new Promise((resolve) => {
-          uploadTask.on("state_changed", resolve);
+                for (let i = 0; i < member.length; i++) {
+                  await updateDoc(doc(db, "User", member[i]), {
+                    Notifications: arrayUnion(noti),
+                  });
+                }
+
+                alert("File uploaded successfully!");
+                this.$emit("uploaded");
+
+                // Resolve the promise to indicate the upload is complete
+                resolve();
+              } catch (error) {
+                reject(error);
+              }
+            }
+          );
         });
-
-        await updateDoc(doc(db, "Group", this.group), {
-          Files: arrayUnion(file.name),
-        });
-
-        const noti = {
-          title:
-            this.userName +
-            " has uploaded " +
-            file.name + " in " + this.group + 
-            " study group",
-          time: this.formatDate(new Date()),
-        };
-        const member = (await getDoc(doc(db, "Group", this.group))).data().Members;
-        console.log(4);
-        for (let i = 0; i < member.length; i++) {
-          await updateDoc(doc(db, "User", member[i]), {
-            Notifications: arrayUnion(noti),
-          });
-        }
-        this.$emit("uploaded");
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -187,6 +191,7 @@ export default {
   align-items: center;
   margin: auto;
   cursor: pointer;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 #icon {
