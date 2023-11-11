@@ -146,6 +146,8 @@ export default {
           DOB: this.dob,
           Gender: this.gender,
           TelegramHandle: this.telegram,
+          Email: this.user.email,
+          Notifications: [],
         });
         console.log(docRef);
         this.$router.push("/createaccount2");
