@@ -193,8 +193,8 @@ h1, h2, h3, h4, h5, h6, p {
   margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
   box-sizing: border-box; /* Include padding and border in the width and height totals */
   cursor: pointer;
-  width: 300px; /* Set a specific width */
-  height: 180px; /* Adjust height to auto to fit content */
+  width: 380px; /* Set a specific width */
+  height: 240px; /* Adjust height to auto to fit content */
   /* Remove flex properties if this is not a flex container */
   /* font-family: Inter; */
 
