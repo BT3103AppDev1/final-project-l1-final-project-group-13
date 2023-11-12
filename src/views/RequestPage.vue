@@ -125,6 +125,7 @@ h1, h2, h3, h4, h5, h6, p {
   display: flex;
   position: relative;
   background-color: #f5f5f5;
+  overflow-x: auto;
 }
 
 .sidebar {
@@ -142,6 +143,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-left: 20px;
   margin-right: 20px;
   width: 100%;
+  overflow-x: auto;
 }
 
 .layout {
@@ -155,6 +157,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-top: 0px;
   margin-left: 20px;
   margin-right: 20px;
+  overflow-x: auto;
 }
 .notification-wrapper {
   position: absolute;

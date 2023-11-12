@@ -285,6 +285,7 @@ tr {
 #table {
   margin-left: auto;
   margin-right: auto;
+  overflow-x: auto;
 }
 
 #accept,

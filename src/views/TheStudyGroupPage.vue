@@ -239,6 +239,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-left: 20px;
   margin-right: 20px;
   width: 100%;
+  overflow-x: auto;
 }
 
 #title {
@@ -271,6 +272,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-top: 0px;
   margin-left: 20px;
   margin-right: 20px;
+  overflow-x: auto;
 } /* Add some padding */
 
 .notification-wrapper {
@@ -316,6 +318,10 @@ h1, h2, h3, h4, h5, h6, p {
   min-width: 320px; /* Minimum width for the card */
   text-align: left;
   
+}
+
+body {
+  overflow-x: auto; /* Allow horizontal scrolling */
 }
 
 .account {
