@@ -181,7 +181,7 @@ export default {
           return false;
         }
       } else {
-        this.$router.push("/login");
+        this.$router.push("/");
       }
     });
 

@@ -67,7 +67,7 @@ export default {
           this.$router.push("/createaccount1");
         }
       } else {
-        this.$router.push("/login");
+        this.$router.push("/");
       }
     });
   },

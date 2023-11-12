@@ -46,7 +46,7 @@ export default {
 
   methods: {
     returnLogIn() {
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
 
