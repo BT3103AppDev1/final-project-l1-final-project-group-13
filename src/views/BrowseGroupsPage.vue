@@ -73,7 +73,7 @@ h1, h2, h3, h4, h5, h6, p {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 2; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */
+  z-index: 3; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */
 }
 
 .PageBody {

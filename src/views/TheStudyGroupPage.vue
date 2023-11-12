@@ -303,7 +303,7 @@ h1, h2, h3, h4, h5, h6, p {
   border-radius: 20px;
   padding: 3px 10px 3px 10px;
   width: 360px;
-  height: 360px;
+  height: 340px;
   text-align: left;
   background-color: #ffde59;
   margin-left: auto;
