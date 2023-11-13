@@ -10,7 +10,7 @@
       <div class="header">
         <h1 class="welcomeMsg">Welcome,</h1>
         <h1 class="name">{{ name }} </h1>
-        <img src="src/assets/profileIcon.png" alt="Logo" width="100" height="100" />
+        <img src="@/assets/profileIcon.png" alt="Logo" width="100" height="100" />
       </div>
       <br />
       <h2 id="myGroups">My Groups</h2> <br><br>
