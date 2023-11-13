@@ -32,7 +32,6 @@ export default {
 .container {
   display: flex;
   position: relative;
-  overflow-x: auto;
 }
 
 .sidebar {
@@ -40,7 +39,6 @@ export default {
   top: 0;
   height: 100vh;
   z-index: 1; 
-  overflow-x: auto;
 }
 
 .notification-wrapper {

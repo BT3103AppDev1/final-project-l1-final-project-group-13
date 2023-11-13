@@ -119,21 +119,22 @@ h1, h2, h3, h4, h5, h6, p {
   font-weight: 400;
 }
 
+
 .container {
   display: flex;
   position: relative;
   background-color: #f5f5f5;
-  overflow-x: auto;
 }
 
 .sidebar {
   position: sticky;
   top: 0;
   height: 100vh;
-  z-index: 1; 
+  z-index: 1;
 }
 
 .content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding-top: 20px;
@@ -142,6 +143,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-right: 20px;
   width: 100%;
   overflow-x: auto;
+  
 }
 
 .layout {
@@ -183,7 +185,5 @@ h1, h2, h3, h4, h5, h6, p {
   margin-top: 10px; 
 }
 
-.request{
-  width: 100%;
-}
+
 </style>

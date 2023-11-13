@@ -31,7 +31,6 @@ export default {
 .container {
   display: flex;
   position: relative;
-  overflow-x: auto;
 }
 
 .sidebar {

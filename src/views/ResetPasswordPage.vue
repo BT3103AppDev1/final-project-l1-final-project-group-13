@@ -31,7 +31,6 @@ export default {
 .container {
   display: flex;
   position: relative;
-  overflow-x: auto;
 }
 
 .sidebar {
@@ -54,4 +53,6 @@ export default {
   flex: 1;
   overflow-x: auto;
 }
+
+
 </style>

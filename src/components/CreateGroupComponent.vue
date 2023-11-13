@@ -152,6 +152,7 @@ main {
   height: auto;
   width: 100vw;
   position: relative;
+  overflow-x: auto;
 }
 
 h1 {
