@@ -23,16 +23,6 @@
           </div>
         </button></router-link
       >
-      <!-- <router-link class="button" to="/editemail">
-        <button>
-          <span class="material-icons">email</span>
-          <div class="text">
-            <span class="pageTitle">Reset Email</span>
-            <br />
-            <span class="description">Change your email</span>
-          </div>
-        </button></router-link
-      > -->
       <router-link to="/resetpassword"
         ><button>
           <span class="material-icons">security</span>
@@ -99,18 +89,7 @@ export default {
 main {
   background: var(--background-color, #f5f5f5);
   overflow-x: auto;
-  /* width: 100%;
-  height: 100vh;
-  position: relative;
-  margin-left: 0px; */
 }
-
-/* #pagecontent {
-  display: grid;
-  grid-template-columns: auto;
-  grid-auto-rows: auto;
-  grid-gap: 20px;
-} */
 
 h1 {
   color: #000;
@@ -139,7 +118,6 @@ h1 {
   font-size: 20px;
   font-style: normal;
   font-weight: 400;
-  /* line-height: 0px; */
 }
 
 .description {
@@ -174,8 +152,4 @@ button {
 router-link {
   width: 220px;
 }
-
-/* .pageContent {
-  float: left;
-} */
 </style>

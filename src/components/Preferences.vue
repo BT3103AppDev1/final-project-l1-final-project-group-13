@@ -78,7 +78,6 @@
                 @input="validateFields"
               />
             </div>
-            <!-- <br /><br /><br /> -->
 
             <div class="dropdown_list">
               <button id="submitbutton" type="button" @click="updateDetails">
@@ -126,7 +125,6 @@ export default {
 
   methods: {
     validateFields() {
-      //   console.log(this.gender);
       if (
         !this.selected_major.length ||
         !this.selected_course.length ||
@@ -253,19 +251,9 @@ export default {
 <style scoped>
 main {
   background: var(--background-color, #f5f5f5);
-  /* height: 96.6vh; */
   width: 100vw;
   position: relative;
 }
-
-/* .body {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-} */
 
 h1 {
   color: #000;
@@ -325,16 +313,13 @@ button {
   height: 550px;
   border-radius: 20px;
   background: white;
-  /* margin: auto; */
   position: relative;
 }
 
 .main {
   width: 700px;
-  /* height: 550px; */
   border-radius: 20px;
   background: white;
-  /* margin: auto; */
   position: relative;
 }
 
@@ -347,7 +332,6 @@ h2 {
   font-weight: 400;
   line-height: normal;
   padding-left: 45px;
-  /* padding-top: 10px; */
 }
 
 label {
@@ -399,13 +383,11 @@ label {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* height: 30px; */
   margin-top: 10px;
   margin-bottom: 10px;
-  /* overflow: auto; */
 }
 
 .dropdown_list:last-child {
-  margin-right: 0; /* Ensure the last dropdown doesn't have a right margin */
+  margin-right: 0; 
 }
 </style>

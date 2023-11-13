@@ -14,10 +14,7 @@
       </div>
       <br />
       <h2 id="myGroups">My Groups</h2> <br><br>
-
       <div v-if = "this.studyGroups.length == 0" class = "no_group_at_all"> Join or create a group now!</div>
-
-
       <div id="displayer" class="groupss">
         <div class="groupDisplay" v-for="group in studyGroups" :key="group.Name" @click="gotoStudyPage(group.Name)">
           <strong>{{ group.Name }}</strong>{{ format_group_des(group.Description) }}<br />
@@ -28,30 +25,21 @@
   </div>
 </template>
 
-
-
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { firebaseApp } from "../firebase.js";
 import {
   getDoc,
   getFirestore,
-  updateDoc,
-  arrayRemove,
-  arrayUnion,
   doc,
 } from "firebase/firestore";
-import JoinGroup from "@/components/JoinGroup.vue";
-import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
-import { useRouter } from "vue-router";
 import Sidebar from "@/components/Sidebar.vue";
 import Notification from "@/components/Notification.vue";
-const router = useRouter();
 const db = getFirestore(firebaseApp);
 
 console.log("in App");
 export default {
-  components: { StudyGroupWidget, Sidebar, Notification },
+  components: {Sidebar, Notification },
   name: "TheHomePage",
   data() {
     return {
@@ -84,7 +72,7 @@ export default {
     gotoStudyPage(name) {
       if (!name) {
         console.error("Empty parameter passed for 'name'.");
-        return; // Optionally, throw an error or log a warning message
+        return; 
       }
 
       this.$router.push({
@@ -120,8 +108,6 @@ export default {
 };
 </script>
 
-
-
 <style scoped>
 h1, h2, h3, h4, h5, h6, p {
   color: #000;
@@ -129,6 +115,7 @@ h1, h2, h3, h4, h5, h6, p {
   font-style: normal;
   font-weight: 400;
 }
+
 .container {
   display: flex;
   position: relative;
@@ -187,22 +174,17 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .groupDisplay {
-  border-radius: 10px; /* Rounded corners */
-  background-color: #ffde59; /* Background color */
-  padding: 20px; /* Space inside the rectangle */
-  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
-  box-sizing: border-box; /* Include padding and border in the width and height totals */
+  border-radius: 10px; 
+  background-color: #ffde59; 
+  padding: 20px; 
+  margin-bottom: 10px; 
+  box-sizing: border-box; 
   cursor: pointer;
-  width: 380px; /* Set a specific width */
-  height: 240px; /* Adjust height to auto to fit content */
-  /* Remove flex properties if this is not a flex container */
-  /* font-family: Inter; */
-
-  /* Add text wrapping properties */
+  width: 380px; 
+  height: 240px; 
   word-wrap: break-word;
-
-  display: flex;            /* Establish flex container */
-  flex-direction: column;   /* Stack children vertically */
+  display: flex;            
+  flex-direction: column;   
   justify-content: space-between;
 }
 

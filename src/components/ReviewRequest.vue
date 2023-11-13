@@ -226,8 +226,8 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 #description {
-  text-align: left; /* Change to left alignment */
-  margin-bottom: 20px; /* Add margin for spacing */
+  text-align: left; 
+  margin-bottom: 20px; 
   margin-left: 20px;
 }
 .card{
@@ -269,10 +269,10 @@ tr {
 
 .account {
   flex-grow: 1;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
-  max-width: 200px; /* Adjust the value based on your design */
+  text-overflow: ellipsis; 
+  max-width: 200px; 
 }
 
 #requests {
@@ -296,12 +296,11 @@ tr {
 }
 
 #buttons {
-  position: absolute; /* Set absolute positioning for the buttons */
-  bottom: 10px; /* Adjust the bottom position as needed */
-  left: 50%; /* Align the buttons at the horizontal center of the card */
-  transform: translateX(-50%); /* Center the buttons using a transform */
+  position: absolute; 
+  bottom: 10px; 
+  left: 50%; 
+  transform: translateX(-50%); 
   text-align: center;
 }
-
 
 </style>

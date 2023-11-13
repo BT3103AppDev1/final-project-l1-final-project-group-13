@@ -96,7 +96,6 @@ export default {
 
   methods: {
     validateFields() {
-      //   console.log(this.gender);
       if (!this.name || !this.dob || !this.telegram || !this.gender) {
         this.errorMessage = "Please fill in all required fields";
         return false;
@@ -195,15 +194,6 @@ main {
   width: 100vw;
   position: relative;
 }
-/* 
-.body {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-} */
 
 h1 {
   color: #000;
@@ -232,7 +222,6 @@ button {
   height: 550px;
   border-radius: 20px;
   background: white;
-  /* margin: auto; */
   position: relative;
 }
 
@@ -245,7 +234,6 @@ h2 {
   font-weight: 400;
   line-height: normal;
   padding-left: 45px;
-  /* padding-top: 10px; */
 }
 
 label {
@@ -264,7 +252,6 @@ select {
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   float: left;
   width: 250px;
-  /* height: 30px; */
   flex-shrink: 0;
   padding: 12px 12px;
   font-size: 15px;
@@ -281,7 +268,6 @@ input::placeholder {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* padding: 10px; */
 }
 
 #nav {

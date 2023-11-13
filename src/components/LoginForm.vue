@@ -50,9 +50,7 @@
 </template>
 
 <script>
-import firebase from "@/uifire.js";
 import "firebase/compat/auth";
-import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import {
   getAuth,
@@ -62,11 +60,6 @@ import {
 import {
   getDoc,
   doc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  getDocs,
-  collection,
   getFirestore,
 } from "firebase/firestore";
 import { firebaseApp } from "../firebase.js";
@@ -151,7 +144,6 @@ export default {
   height: 500px;
   border-radius: 20px;
   background: var(--offwhite-background, #f5f5f5);
-  /* margin: auto; */
   position: relative;
   margin: auto;
 }
@@ -171,7 +163,7 @@ h1 {
   font-size: 40px;
   font-style: normal;
   font-weight: 800;
-  line-height: 44px; /* 73.333% */
+  line-height: 44px; 
 }
 #HiveText {
   color: var(--standard-yellow, #ffb904);
@@ -186,9 +178,7 @@ input {
   border: 1px solid #968888;
   background: #fff;
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
-  /* float: left; */
   width: 300px;
-  /* height: 30px; */
   flex-shrink: 0;
   padding: 12px 12px;
   font-size: 15px;
@@ -204,7 +194,6 @@ input::placeholder {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* padding: 10px; */
 }
 
 p {

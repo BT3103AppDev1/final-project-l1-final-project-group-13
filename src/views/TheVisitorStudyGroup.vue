@@ -58,16 +58,10 @@
 
 <script>
 import JoinGroup from "@/components/JoinGroup.vue";
-import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
-import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
 import { firebaseApp } from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
 import {
-  getDocs,
-  collection,
-  updateDoc,
+  getFirestore,
   doc,
-  arrayUnion,
   getDoc,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -140,10 +134,11 @@ h1, h2, h3, h4, h5, h6, p {
   font-style: normal;
   font-weight: 400;
 }
+
 #description {
   display: inline-block;
-  text-align: left; /* Change to left alignment */
-  margin-bottom: 20px; /* Add margin for spacing */
+  text-align: left;
+  margin-bottom: 20px; 
   margin-left: 20px;
 }
 
@@ -160,10 +155,11 @@ h1, h2, h3, h4, h5, h6, p {
 
 #title {
   display: inline-block;
-  text-align: left; /* Change to left alignment */
-  margin-bottom: 20px; /* Add margin for spacing */
-  margin-left: 20px; /* Add left margin for spacing */
+  text-align: left; 
+  margin-bottom: 20px; 
+  margin-left: 20px; 
 }
+
 .container {
   display: flex;
   position: relative;
@@ -189,7 +185,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-left: 20px;
   margin-right: 20px;
   overflow-x: auto;
-} /* Add some padding */
+} 
 
 .notification-wrapper {
   position: absolute;
@@ -223,11 +219,12 @@ h1, h2, h3, h4, h5, h6, p {
 
 .account {
   flex-grow: 1;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
-  max-width: 200px; /* Adjust the value based on your design */
+  text-overflow: ellipsis; 
+  max-width: 200px; 
 }
+
 td,
 tr {
   text-align: right;

@@ -59,12 +59,10 @@ import {
   setDoc,
   collection,
   getDocs,
-  getDoc,
-  addDoc,
   updateDoc,
   arrayUnion,
+  getFirestore
 } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
@@ -103,7 +101,7 @@ export default {
         return false;
       }
       else if (this.groupSize < 2) {
-        this.errorMessage = "Please enter a valid size";
+        this.errorMessage = "Minimum group size is 2";
         return false;
       }
        else if (!this.groupName || !this.groupSize || !this.groupDescription) {
@@ -192,7 +190,6 @@ button {
   height: 400px;
   border-radius: 20px;
   background: white;
-  /* margin: auto; */
   position: relative;
 }
 
@@ -232,24 +229,6 @@ input::placeholder {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* padding: 10px; */
 }
 
-/* label {
-  font-size: larger;
-  display: inline-block;
-  width: 14%;
-  text-align: right;
-}
-input {
-  display: inline-block;
-  text-align: left;
-  border-radius: 10px;
-  border: 1px solid #968888;
-  padding: 10px;
-  margin: 0px;
-} */
-/* #groupDetails {
-  height: 200px;
-} */
 </style>

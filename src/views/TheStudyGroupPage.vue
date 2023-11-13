@@ -78,7 +78,6 @@
             </td>
           </tr>
         </table>
-
         <br />
         <LeaveGroup :group="this.groupName" />
       </div>
@@ -89,22 +88,14 @@
 <script>
 import Tabs from "@/components/Tabs.vue";
 import JoinGroup from "@/components/JoinGroup.vue";
-import StudyGroupWidget from "@/components/StudyGroupWidget.vue";
 import LeaveGroup from "@/components/LeaveGroup.vue";
-import TheStudyGroupPage from "@/views/TheStudyGroupPage.vue";
 import { firebaseApp } from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
 import {
   getDoc,
-  collection,
-  updateDoc,
   doc,
-  arrayUnion,
-  arrayRemove,
-  getDocs,
+  getFirestore
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import TheVisitorStudyGroup from "./TheVisitorStudyGroup.vue";
 import Sidebar from "@/components/Sidebar.vue";
 import Notification from "@/components/Notification.vue";
 const db = getFirestore(firebaseApp);
@@ -112,7 +103,6 @@ const db = getFirestore(firebaseApp);
 console.log("in App");
 export default {
   components: {
-    StudyGroupWidget,
     JoinGroup,
     LeaveGroup,
     Sidebar,
@@ -146,7 +136,7 @@ export default {
   },
   watch: {
     "$route.params.groupName": {
-      immediate: true, // Trigger the watcher immediately when the component is created
+      immediate: true, 
       handler(newValue, oldValue) {
         if (newValue) {
           this.fetchGroupData(newValue);
@@ -196,9 +186,7 @@ export default {
       return value.filter(Boolean).join(", ");
     },
     isLongText(text) {
-      // You can define your own criteria for determining a long text
-      // For example, consider texts longer than a certain length as long
-      const maxLengthForLongText = 15; // Adjust this value based on your design
+      const maxLengthForLongText = 15; 
       return text && text.length > maxLengthForLongText;
     },
   },
@@ -226,8 +214,8 @@ h1, h2, h3, h4, h5, h6, p {
 
 #description {
   display: inline-block;
-  text-align: left; /* Change to left alignment */
-  margin-bottom: 20px; /* Add margin for spacing */
+  text-align: left; 
+  margin-bottom: 20px; 
   margin-left: 20px;
 }
 
@@ -244,10 +232,11 @@ h1, h2, h3, h4, h5, h6, p {
 
 #title {
   display: inline-block;
-  text-align: left; /* Change to left alignment */
-  margin-bottom: 20px; /* Add margin for spacing */
-  margin-left: 20px; /* Add left margin for spacing */
+  text-align: left; 
+  margin-bottom: 20px; 
+  margin-left: 20px; 
 }
+
 .container {
   display: flex;
   position: relative;
@@ -273,7 +262,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-left: 20px;
   margin-right: 20px;
   overflow-x: auto;
-} /* Add some padding */
+} 
 
 .notification-wrapper {
   position: absolute;
@@ -286,8 +275,6 @@ h1, h2, h3, h4, h5, h6, p {
   margin-top: 10px;
 }
 
-
-
 #table {
   width: 100%;
   margin-top: 20px;
@@ -297,8 +284,6 @@ h1, h2, h3, h4, h5, h6, p {
   margin-right: auto;
   overflow-x: auto;
 }
-
-
 
 .card{
   border: 1px solid #ffde59;
@@ -314,31 +299,30 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .card-content {
-  width: auto; /* Let the content determine the width */
-  min-width: 320px; /* Minimum width for the card */
+  width: auto; 
+  min-width: 320px; 
   text-align: left;
-  
 }
 
 body {
-  overflow-x: auto; /* Allow horizontal scrolling */
+  overflow-x: auto; 
 }
 
 .account {
   flex-grow: 1;
-  white-space: nowrap; /* Prevent text from wrapping */
+  white-space: nowrap; 
   overflow: hidden;
-  text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
-  max-width: 200px; /* Adjust the value based on your design */
+  text-overflow: ellipsis; 
+  max-width: 200px; 
 }
+
 .account-content {
-  max-width: 150px; /* Adjust the value based on your design */
+  max-width: 150px; 
 }
+
 .leave-group {
   margin-top: 20px;
 }
-
-
 
 td,
 tr {
@@ -362,6 +346,4 @@ tr {
 .picture {
   margin-right: 20px;
 }
-
-/* Add any additional styles as needed */
 </style>

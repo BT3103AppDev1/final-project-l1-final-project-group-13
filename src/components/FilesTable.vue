@@ -36,21 +36,17 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   ref,
-  uploadBytesResumable,
   getDownloadURL,
   listAll,
-  updateMetadata,
   getMetadata,
   deleteObject
 } from "firebase/storage";
 import { firebaseApp, storage } from "../firebase.js";
-import { arrayUnion, getFirestore } from "firebase/firestore";
 import {
   doc,
-  getDoc,
-  setDoc,
   updateDoc,
   arrayRemove,
+  getFirestore
 } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
@@ -164,7 +160,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .material-icons:hover {
-  color: red; /* Change the color to red on hover */
+  color: red; 
 }
 
 table {

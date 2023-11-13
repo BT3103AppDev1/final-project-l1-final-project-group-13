@@ -71,7 +71,6 @@
                 :close-on-select="false"
               />
             </div>
-            <!-- <br /><br /><br /> -->
             <p v-if="errorMessage" style="color: red">
               {{ errorMessage }}
             </p>
@@ -119,7 +118,6 @@ export default {
   },
   methods: {
     validateFields() {
-      //   console.log(this.gender);
       if (
         !this.selected_major.length ||
         !this.selected_course.length ||
@@ -171,8 +169,6 @@ export default {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
-        // console.log(this.user.email);
-
         const docRef = await getDoc(doc(db, "User", String(user.email)));
 
         if (docRef.exists()) {
@@ -265,14 +261,8 @@ body {
 }
 .main {
   width: 700px;
-  /* height: 550px; */
-  /* position: relative; */
-  /* height: auto; */
-  /* min-height: 100%; */
-  /* overflow: auto; */
   border-radius: 20px;
   background: var(--offwhite-background, #f5f5f5);
-  /* margin: auto; */
   position: relative;
 }
 
@@ -325,9 +315,6 @@ button {
   font-weight: 400;
   line-height: normal;
   margin: 30px;
-  /* position: absolute;
-  left: 35%;
-  bottom: 10%; */
 }
 
 .material-icons {
@@ -356,13 +343,11 @@ button {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* height: 30px; */
   margin-top: 10px;
   margin-bottom: 10px;
-  /* overflow: auto; */
 }
 
 .dropdown_list:last-child {
-  margin-right: 0; /* Ensure the last dropdown doesn't have a right margin */
+  margin-right: 0; 
 }
 </style>

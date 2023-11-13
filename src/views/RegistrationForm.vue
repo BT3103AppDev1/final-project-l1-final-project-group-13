@@ -2,11 +2,6 @@
   <body>
     <div class="body">
       <div class="main">
-        <!-- <form @submit.prevent="register" class="register-child">
-      <input type="email" placeholder="Email address..." v-model="email" />
-      <input type="password" placeholder="password..." v-model="password" />
-      <button type="submit">Register</button>
-    </form> -->
         <br /><br />
         <div class="firstcontainer">
           <h1 class="titleOfDiv">
@@ -66,9 +61,7 @@
 </template>
 
 <script>
-import firebase from "@/uifire.js";
 import "firebase/compat/auth";
-import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import {
   getAuth,
@@ -172,21 +165,7 @@ export default {
       }
     });
   },
-  // mounted() {
-  //   var ui = firebaseui.auth.AuthUI.getInstance();
-  //   if (!ui) {
-  //     ui = new firebaseui.auth.AuthUI(firebase.auth());
-  //   }
 
-  //   var uiConfig = {
-  //     signInSuccessUrl: "about",
-  //     signInOptions: [
-  //       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  //       firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  //     ],
-  //   };
-  //   ui.start("#firebaseui-auth-container", uiConfig);
-  // },
 };
 </script>
 
@@ -206,6 +185,7 @@ body {
   position: relative;
   margin-left: 0px;
 }
+
 .body {
   margin: 0;
   position: absolute;
@@ -214,12 +194,12 @@ body {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
 .main {
   width: 700px;
   height: 550px;
   border-radius: 20px;
   background: var(--offwhite-background, #f5f5f5);
-  /* margin: auto; */
   position: relative;
 }
 
@@ -232,14 +212,16 @@ h1 {
   font-weight: 400;
   line-height: normal;
 }
+
 #StudyText {
   color: #000;
   font-family: Inter;
   font-size: 40px;
   font-style: normal;
   font-weight: 800;
-  line-height: 44px; /* 73.333% */
+  line-height: 44px; 
 }
+
 #HiveText {
   color: var(--standard-yellow, #ffb904);
   font-family: Inter;
@@ -257,6 +239,7 @@ label {
   color: #5a5a5a;
   font-size: 20px;
 }
+
 input {
   border-radius: 8px;
   border: 1px solid #968888;
@@ -264,7 +247,6 @@ input {
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   float: left;
   width: 250px;
-  /* height: 30px; */
   flex-shrink: 0;
   padding: 12px 12px;
   font-size: 15px;
@@ -274,13 +256,13 @@ input {
   font-weight: 400;
   line-height: normal;
 }
+
 input::placeholder {
   color: #645b5b;
   font-family: ABeeZee;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* padding: 10px; */
 }
 
 p {

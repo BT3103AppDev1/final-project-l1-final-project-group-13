@@ -35,9 +35,6 @@ import { firebaseApp } from "../firebase.js";
 import {
   getDoc,
   getFirestore,
-  updateDoc,
-  arrayRemove,
-  arrayUnion,
   doc,
 } from "firebase/firestore";
 import FilesTable from "@/components/FilesTable.vue";
@@ -68,7 +65,7 @@ export default {
   },
   watch: {
     "$route.params.groupName": {
-      immediate: true, // Trigger the watcher immediately when the component is created
+      immediate: true, 
       handler(newValue, oldValue) {
         if (newValue) {
           this.fetchGroupData(newValue);
@@ -139,7 +136,7 @@ h1, h2, h3, h4, h5, h6, p {
   position: sticky;
   top: 0;
   height: 100vh;
-  z-index: 1; /* Adjust the z-index as needed */
+  z-index: 1;
 }
 
 .content {
@@ -175,29 +172,28 @@ h1, h2, h3, h4, h5, h6, p {
   display: flex;
   width: 80%;
   flex: 1;
-  flex-direction: column; /* Change to column layout */
-  margin-left: 20px; /* Add margin to the left */
+  flex-direction: column; 
+  margin-left: 20px; 
 }
 
 #title {
   display: inline-block;
-  text-align: left; /* Change to left alignment */
-  margin-bottom: 20px; /* Add margin for spacing */
-  margin-left: 20px; /* Add left margin for spacing */
+  text-align: left; 
+  margin-bottom: 20px; 
+  margin-left: 20px; 
 }
 .tabs {
-  margin-top: 10px; /* Add margin for spacing */
+  margin-top: 10px; 
 }
 
 #filesTable {
-  width: 100%; /* Add margin for spacing */
+  width: 100%; 
 }
 
 #addFiles {
   align-self: flex-end;
-  margin-top: 10px; /* Align the AddFiles component to the flex-end (right side) */
+  margin-top: 10px; 
   margin-bottom: 10px;
-  margin-right: 20px; /* Add margin for spacing */
+  margin-right: 20px; 
 }
-/* Add any other styles specific to FilesPage */
 </style>

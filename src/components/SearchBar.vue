@@ -70,7 +70,6 @@
           :close-on-select="false"
         />
       </div>
-      <!-- create a button here to apply filter -->
       <img
         src="@/assets/filter.png"
         alt="Apply Filters"
@@ -106,13 +105,10 @@
 
 <script>
 import { firebaseApp } from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
 import {
   getDoc,
+  getFirestore,
   doc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
   getDocs,
   collection,
 } from "firebase/firestore";
@@ -192,7 +188,6 @@ export default {
       this.options_location.push(obj);
     });
     this.applyFilters();
-    // console.log("mounted running")
   },
   methods: {
     gotoCreateGroup() {
@@ -212,7 +207,6 @@ export default {
         let size = groupData.Size;
         let not_full = num_of_member != size;
         let user_not_in_group = !groupData.Members.includes(this.email);
-        // console.log(user_not_in_group)
         if (
           (description.toLowerCase().includes(text) ||
             group_name.toLowerCase().includes(text)) &&
@@ -347,7 +341,7 @@ export default {
     gotoVisitorPage(name) {
       if (!name) {
         console.error("Empty parameter passed for 'name'.");
-        return; // Optionally, throw an error or log a warning message
+        return; 
       }
 
       this.$router.push({
@@ -383,20 +377,20 @@ h1, h2, h3, h4, h5, h6, p {
 .dropdown_list {
   width: calc(
     33.33% - 20px
-  ); /* Subtracting 20px to account for potential margins */
-  margin-right: 10px; /* Add a margin to the right of each dropdown list */
+  );
+  margin-right: 10px; 
 }
 
 .dropdown_list:last-child {
-  margin-right: 0; /* Ensure the last dropdown doesn't have a right margin */
+  margin-right: 0; 
 }
 
 .clickable-image {
   height: 40px;
   width: 40px;
-  cursor: pointer; /* Makes the cursor indicate clickable */
-  align-self: center; /* Aligns the image vertically inside the flex container */
-  margin-left: auto; /* Pushes the image to the right */
+  cursor: pointer; 
+  align-self: center; 
+  margin-left: auto; 
 }
 
 .search-container {
@@ -411,12 +405,12 @@ h1, h2, h3, h4, h5, h6, p {
   padding-left: 50px;
   padding-right: 10px;
   font-size: 16px;
-  width: 200px; /* or any desired width */
+  width: 200px; 
   border-radius: 10px;
   border: 1px solid rgb(82, 77, 77);
   background: #fff;
-  flex-grow: 1; /* Add this line */
-  width: auto; /* Change this line from a fixed width to auto */
+  flex-grow: 1; 
+  width: auto; 
 }
 
 .search-container img {
@@ -430,21 +424,6 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .create-group-button {
-  /* background-color: #ffb904;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  padding: 8px 16px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-weight: bold;
-  white-space: nowrap;
-  transition: background-color 0.3s ease; */
-  /* width: 250px;
-  height: 48px; */
   font-weight: bold;
   padding: 8px 16px;
   flex-shrink: 0;
@@ -455,7 +434,6 @@ h1, h2, h3, h4, h5, h6, p {
   color: #fff;
   text-align: center;
   font-family: ABeeZee;
-  /* font-size: 20px; */
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -468,58 +446,52 @@ h1, h2, h3, h4, h5, h6, p {
 .create-group-button:before {
   content: "+";
   margin-right: 5px;
-  font-size: 22px; /* Adjust to match the size in the image */
+  font-size: 22px; 
   vertical-align: middle;
   color: black;
 }
 
 .groupss {
-  display: flex; /* Use flexbox to lay out children */
-  flex-wrap: wrap; /* Allow children to wrap to next line */
-  gap: 20px; /* Optional: adds space between children */
-  justify-content: center; /* Center children horizontally in the container */
-  align-items: center; /* Center children vertically in the container */
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
 }
 
 .groupDisplay {
-  border-radius: 10px; /* Rounded corners */
-  background-color: #ffde59; /* Background color */
-  padding: 20px; /* Space inside the rectangle */
-  margin-bottom: 10px; /* Space below the rectangle, for when they wrap */
-  box-sizing: border-box; /* Include padding and border in the width and height totals */
+  border-radius: 10px; 
+  background-color: #ffde59; 
+  padding: 20px; 
+  margin-bottom: 10px; 
+  box-sizing: border-box; 
   cursor: pointer;
-  width: 380px; /* Set a specific width */
-  height: 240px; /* Adjust height to auto to fit content */
-  /* Remove flex properties if this is not a flex container */
-  /* font-family: Inter; */
-
-  /* Add text wrapping properties */
+  width: 380px; 
+  height: 240px; 
   word-wrap: break-word;
-
-  display: flex; /* Establish flex container */
-  flex-direction: column; /* Stack children vertically */
+  display: flex; 
+  flex-direction: column; 
   justify-content: space-between;
 }
 
 .members {
-  /* position: absolute; */
-  bottom: 0; /* Aligns the element to the bottom */
+  bottom: 0; 
   width: 100%;
 }
 
 .groupDisplay:hover {
-  background-color: #ffca2c; /* Slightly lighter shade when hovered */
+  background-color: #ffca2c; 
 }
 
 .no_group_at_all {
-  display: inline-flex; /* Establishes a flex container */
-  flex-direction: column; /* Stacks flex items vertically */
-  justify-content: center; /* Centers flex items along the main axis */
-  align-items: center; /* Centers flex items along the cross axis */
+  display: inline-flex; 
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
   width: auto;
   background: #fff;
   border-radius: 20px;
-  padding: 20px; /* Add some padding */
+  padding: 20px; 
 }
 
 .group_description {

@@ -43,9 +43,7 @@
 
 <script>
 import { getAuth, signOut } from "firebase/auth";
-import firebase from "@/uifire.js";
 import "firebase/compat/auth";
-import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 
 export default {
@@ -144,7 +142,4 @@ button {
   margin: 5px 20px 5px 20px;
   float: left;
 }
-/* .flex {
-  flex: 1 1 0;
-} */
 </style>

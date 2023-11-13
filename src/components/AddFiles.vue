@@ -12,9 +12,6 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   ref,
   uploadBytesResumable,
-  getDownloadURL,
-  listAll,
-  updateMetadata,
   getMetadata,
 } from "firebase/storage";
 import { firebaseApp, storage } from "../firebase.js";
@@ -22,9 +19,7 @@ import { arrayUnion, getFirestore } from "firebase/firestore";
 import {
   doc,
   getDoc,
-  setDoc,
   updateDoc,
-  arrayRemove,
 } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
@@ -64,7 +59,7 @@ export default {
     }
         const newMetadata = {
           customMetadata: {
-            uploadedBy: this.userName, // Replace with this.user.name if available
+            uploadedBy: this.userName, 
           },
         };
 
@@ -73,7 +68,6 @@ export default {
           uploadTask.on(
             "state_changed",
             (snapshot) => {
-              // Handle progress
             },
             (error) => {
               // Handle error
@@ -100,7 +94,7 @@ export default {
                   time: this.formatDate(new Date()),
                 };
                 const member = (await getDoc(doc(db, "Group", this.group))).data().Members;
-
+                // add uploaded file activity to the notification bar
                 for (let i = 0; i < member.length; i++) {
                   await updateDoc(doc(db, "User", member[i]), {
                     Notifications: arrayUnion(noti),

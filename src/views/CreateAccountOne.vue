@@ -22,16 +22,6 @@
             />
             <br /><br /><br />
             <label for="gender">Gender: </label>
-            <!-- <Vueform
-              ><SelectElement
-                id="name"
-                required="yes"
-                v-model="gender"
-                :native="false"
-                :items="options_gender"
-                :searchable="true"
-                @input="validateFields"
-            /></Vueform> -->
             <select v-model="gender" id="gender">
               <option v-for="(gender, key) in options_gender" v-bind:key="key">
                 {{ gender.label }}
@@ -74,14 +64,11 @@
 </template>
 
 <script>
-import firebase from "@/uifire.js";
 import { firebaseApp } from "../firebase.js";
 import "firebase/compat/auth";
-import * as firebaseui from "firebaseui";
 import "firebaseui/dist/firebaseui.css";
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
 import { Vueform, useVueform } from "@vueform/vueform";
@@ -89,10 +76,6 @@ import {
   getDoc,
   doc,
   setDoc,
-  updateDoc,
-  arrayUnion,
-  getDocs,
-  collection,
   getFirestore,
 } from "firebase/firestore";
 
@@ -192,10 +175,7 @@ export default {
     Object.keys(data).forEach((key) => {
       let values = data[key];
       let obj = { label: key, options: values };
-      //   console.log(obj);
       this.options_gender.push(obj);
-      //   console.log(this.options_gender);
-      //   console.log(firebase.auth().currentUser);
     });
   },
 };
@@ -230,7 +210,6 @@ body {
   height: 550px;
   border-radius: 20px;
   background: var(--offwhite-background, #f5f5f5);
-  /* margin: auto; */
   position: relative;
 }
 
@@ -262,7 +241,6 @@ select {
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   float: left;
   width: 250px;
-  /* height: 30px; */
   flex-shrink: 0;
   padding: 12px 12px;
   font-size: 15px;
@@ -279,7 +257,6 @@ input::placeholder {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  /* padding: 10px; */
 }
 
 p {

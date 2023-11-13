@@ -22,8 +22,7 @@
 <script>
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { firebaseApp } from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
-import { doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getFirestore, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -82,11 +81,11 @@ export default {
     async fetchData() {
       if (this.email) {
         const check1 = (await getDoc(doc(db, "Group", this.group))).data()
-          .Requests; //
-        const flag1 = check1.includes(this.email); //
+          .Requests; 
+        const flag1 = check1.includes(this.email); 
         const check2 = (await getDoc(doc(db, "Group", this.group))).data()
-          .Members; //
-        const flag2 = check2.includes(this.email); //
+          .Members; 
+        const flag2 = check2.includes(this.email); 
         this.requestPending = flag1 || flag2;
       }
     },

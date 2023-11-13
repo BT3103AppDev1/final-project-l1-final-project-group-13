@@ -18,9 +18,6 @@ export default {
   color: #000000;
   width: 100vw;
   height: auto;
-  /* margin-top: -8px;
-  margin-left: -8px;
-  margin-bottom: -8px; */
 }
 
 main {
@@ -30,11 +27,6 @@ main {
   height: auto;
   min-height: 100vh;
   background: var(--background-color, #f5f5f5);
-
-  /* @media (max-width: 768px) {
-    margin-left: -1000px;
-    position: fixed;
-  } */
 }
 
 .PageBody {

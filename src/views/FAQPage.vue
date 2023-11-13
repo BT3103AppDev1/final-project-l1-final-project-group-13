@@ -43,13 +43,13 @@ h1, h2, h3, h4, h5, h6, p {
   position: sticky;
   top: 0;
   height: 100vh;
-  z-index: 1; /* Adjust the z-index as needed */
+  z-index: 1; 
 }
 
 .notification-wrapper {
   position: absolute;
-  top: 10px; /* Adjust the top position as needed */
-  right: 10px; /* Adjust the right position as needed */
+  top: 10px; 
+  right: 10px; 
   z-index: 3;
 }
 

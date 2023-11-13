@@ -93,42 +93,38 @@ h1, h2, h3, h4, h5, h6, p {
   font-weight: 400;
 }
 .layout {
-    display: flex;        /* Establishes a flex container */
-    flex-direction: column;/* Stacks flex items vertically */
-    justify-content: center;/* Centers flex items along the main axis */
-    align-items: center;  /* Centers flex items along the cross axis */
+    display: flex;       
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
     width: 100%;
     background: #FFF;
     border-radius: 20px;
-    padding: 20px;       /* Add some padding */
+    padding: 20px;       
   }
-  
-  /* If .layout is not the direct parent of the items you want to center,
-     you may need to apply display: flex; justify-content: center; and
-     align-items: center; to the direct parent elements as well. */
   
   .title {
     text-align: left;
-    width: 100%;        /* Full width to center the text block */
+    width: 100%;        
   }
 
   .sub-title {
     text-align: left;
-    width: 100%;        /* Full width to center the text block */
+    width: 100%;        
   }
   
   .accordion {
-    width: 80%;          /* Set a width */
+    width: 80%;          
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
     background: #F5F5F5;
     border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add a subtle shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
   
   .accordion__question p {
-    text-align: center; /* Center the text inside each paragraph */
+    text-align: center; 
     font-size: large;
   }
   

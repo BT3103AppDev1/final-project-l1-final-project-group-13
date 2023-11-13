@@ -41,9 +41,6 @@ import { firebaseApp } from "../firebase.js";
 import {
   getDoc,
   getFirestore,
-  updateDoc,
-  arrayRemove,
-  arrayUnion,
   doc,
 } from "firebase/firestore";
 
@@ -108,7 +105,7 @@ h1, h2, h3, h4, h5, h6, p {
 .notification-container {
   position: relative;
   display: flex;
-  z-index: 999; /* Set a high z-index value to ensure the notification bar appears in front of the page content */
+  z-index: 999; 
 }
 
 .notification-bar {
@@ -116,12 +113,12 @@ h1, h2, h3, h4, h5, h6, p {
   top: 0;
   right: 0;
   height: 100%;
-  width: 350px; /* Adjust the width as needed */
+  width: 350px; 
   background-color: #f1f1f1;
   overflow-y: auto;
   transition: transform 0.3s ease-in-out;
   transform: translateX(100%);
-  z-index: 1000; /* Set a z-index higher than the page content */
+  z-index: 1000; 
 }
 #bell-icon {
   font-size: 2rem;
@@ -161,10 +158,10 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .notification-item {
-  background-color: #ffffff; /* White background color */
+  background-color: #ffffff; 
   padding: 15px;
-  border-radius: 10px; /* Optional: Add rounded corners */
-  margin-bottom: 10px; /* Optional: Add margin between cards */
+  border-radius: 10px; 
+  margin-bottom: 10px; 
   margin-left: 10px;
   margin-right: 10px;
 }

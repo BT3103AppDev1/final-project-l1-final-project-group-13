@@ -55,28 +55,28 @@ h1, h2, h3, h4, h5, h6, p {
 }
 .PageBody {
   display: flex;
-  width: 100%; /* Set width to 100% to occupy the remaining space */
+  width: 100%; 
 }
 
 .container {
   display: flex;
-  position: relative; /* Set the position to relative to establish a new containing block for the sticky element */
+  position: relative;
 }
 
 .sidebar {
   position: sticky;
-  top: 0; /* Set the top to 0 to keep the sidebar at the top of the screen */
-  height: 100vh; /* Set the height to 100vh for the sidebar to occupy the entire height of the viewport */
+  top: 0; 
+  height: 100vh; 
 }
 
 .notification-wrapper {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 3; /* Set a higher z-index value for the notification wrapper to ensure it appears above the profile section */
+  z-index: 3; 
 }
 
 .PageBody {
-  flex: 1; /* Set flex to 1 to make it occupy the remaining space */
+  flex: 1; 
 }
 </style>

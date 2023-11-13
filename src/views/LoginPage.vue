@@ -33,7 +33,6 @@ export default {
   );
   height: 100vh;
   width: 100vw;
-  /* position: relative; */
 }
 
 .body {
