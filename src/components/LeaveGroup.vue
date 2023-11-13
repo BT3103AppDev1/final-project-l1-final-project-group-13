@@ -15,6 +15,7 @@ import {
   setDoc,
   updateDoc,
   arrayRemove,
+  deleteDoc
 } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
@@ -64,7 +65,7 @@ export default {
             const docS = await getDoc(doc(db, "Group", this.group));
             console.log(docS.data().NumberOfMembers);
             const docRef = await updateDoc(doc(db, "Group", this.group), {
-              Members: arrayRemove(this.email), //this.email
+              Members: arrayRemove(this.email), 
               NumberOfMembers: docS.data().Members.length - 1,
             });
             await updateDoc(doc(db, "User", this.email), {
@@ -74,6 +75,12 @@ export default {
             alert("Left group successfully!");
             this.$emit("leaved");
             this.$router.push("/home");
+            const groupSize = (await getDoc(doc(db, "Group", this.group))).data().NumberOfMembers
+            if (groupSize == 0) {
+              await deleteDoc(doc(db, "Group", this.group))
+            }
+
+
           }
         } catch (error) {
           console.error("Error leaving group: ", error);

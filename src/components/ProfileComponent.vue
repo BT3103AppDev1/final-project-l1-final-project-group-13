@@ -98,6 +98,7 @@ export default {
 <style scoped>
 main {
   background: var(--background-color, #f5f5f5);
+  overflow-x: auto;
   /* width: 100%;
   height: 100vh;
   position: relative;

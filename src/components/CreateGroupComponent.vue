@@ -23,7 +23,7 @@
             <input
               type="number"
               id="groupSize"
-              placeholder=""
+              placeholder="Maximum group size is 10"
               required=""
               v-model="groupSize"
               @input="validateFields"
@@ -98,14 +98,16 @@ export default {
 
   methods: {
     validateFields() {
-      if (!this.groupName || !this.groupSize || !this.groupDescription) {
-        this.errorMessage = "Please fill in all required fields";
-        return false;
-      } else if (this.groupSize > 10) {
+      if (this.groupSize > 10) {
         this.errorMessage = "Maximum group size is 10";
         return false;
-      } else if (this.groupSize <= 0) {
+      }
+      else if (this.groupSize < 2) {
         this.errorMessage = "Please enter a valid size";
+        return false;
+      }
+       else if (!this.groupName || !this.groupSize || !this.groupDescription) {
+        this.errorMessage = "Please fill in all required fields";
         return false;
       } else {
         this.errorMessage = "";
