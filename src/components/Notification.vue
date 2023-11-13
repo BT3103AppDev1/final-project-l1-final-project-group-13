@@ -18,6 +18,9 @@
         <br />
       </div>
       <br>
+      <div v-if="this.notifications.length == 0" class = "noNotifications">
+     <h4> No notifications yet </h4>
+      </div>
       <div
         v-for="notification in notifications"
         :key="notification.id"
@@ -159,6 +162,14 @@ h1, h2, h3, h4, h5, h6, p {
 
 .notification-item {
   background-color: #ffffff; 
+  padding: 15px;
+  border-radius: 10px; 
+  margin-bottom: 10px; 
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.noNotifications {
   padding: 15px;
   border-radius: 10px; 
   margin-bottom: 10px; 
