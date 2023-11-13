@@ -105,12 +105,17 @@ export default {
               timeCreated: formattedDate,
               customMetadata: metadata.customMetadata,
               url: downloadURL,
+              date: date
             });
             console.log(itemRef);
           })
         );
         this.files.sort((a, b) => {
-          return new Date(a.timeCreated) - new Date(b.timeCreated);
+          const timeA = new Date(a.date);
+        const timeB = new Date(b.date);
+        if (timeA > timeB) return 1;
+        if (timeB >= timeA) return -1;
+        return 0;
         });
       } catch (error) {
         console.error("Error listing files:", error);
