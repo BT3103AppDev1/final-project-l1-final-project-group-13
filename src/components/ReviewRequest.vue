@@ -1,55 +1,53 @@
 <template>
-    <div id = "description">
+  <div id="description">
     <h3>{{ num }} request(s) to join the group:</h3>
   </div>
-    <br />
-    <table id="table">
-      <tr v-for="(row, rowIndex) in groupedUsers" :key="rowIndex">
-        <td v-for="(user, userIndex) in row" :key="user.Email">
-          <div class="card">
-            <div class="profile">
-              <div class="picture">
-                <br />
-                <img
-                  class="img"
-                  src="@/assets/profileIcon.png"
-                  alt="Profile picture"
-                />
-              </div>
-              <div class="account">
-                <h4>
-                  <strong>{{ user.Name }} </strong>
-                </h4>
-                <p>{{ user.Email }}</p>
-                <p>{{ user.TelegramHandle }}</p>
-              </div>
+  <br />
+  <table id="table">
+    <tr v-for="(row, rowIndex) in groupedUsers" :key="rowIndex">
+      <td v-for="(user, userIndex) in row" :key="user.Email">
+        <div class="card">
+          <div class="profile">
+            <div class="picture">
+              <br />
+              <img
+                class="img"
+                src="@/assets/profileIcon.png"
+                alt="Profile picture"
+              />
             </div>
-            <p>{{ formatCourses(user.Major) }}</p>
-            <p>{{ formatCourses(user.Courses) }}</p>
-            <p>{{ formatCourses(user.Timing) }}</p>
-            <p>{{ formatCourses(user.Location) }}</p>
-            <br />
-            <div id="buttons">
-              <img
-                id="accept"
-                src="@/assets/acceptIcon.png"
-                alt="Accept Request"
-                @click="accept(user.Email)"
-              />
-              <img
-                style="margin-left: 2em"
-                id="reject"
-                src="@/assets/rejectIcon.png"
-                alt="Reject Request"
-                @click="reject(user.Email)"
-              />
+            <div class="account">
+              <h4>
+                <strong>{{ user.Name }} </strong>
+              </h4>
+              <p>{{ user.Email }}</p>
+              <p>{{ user.TelegramHandle }}</p>
             </div>
           </div>
-        </td>
-      </tr>
-    </table>
-
-
+          <p>{{ formatCourses(user.Major) }}</p>
+          <p>{{ formatCourses(user.Courses) }}</p>
+          <p>{{ formatCourses(user.Timing) }}</p>
+          <p>{{ formatCourses(user.Location) }}</p>
+          <br />
+          <div id="buttons">
+            <img
+              id="accept"
+              src="@/assets/acceptIcon.png"
+              alt="Accept Request"
+              @click="accept(user.Email)"
+            />
+            <img
+              style="margin-left: 2em"
+              id="reject"
+              src="@/assets/rejectIcon.png"
+              alt="Reject Request"
+              @click="reject(user.Email)"
+            />
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
 </template>
 
 <script>
@@ -131,30 +129,34 @@ export default {
         try {
           const docS = await getDoc(doc(db, "Group", this.group));
           console.log(docS.data().NumberOfMembers);
-          const docRef = await updateDoc(doc(db, "Group", this.group), {
-            Members: arrayUnion(email),
-            Requests: arrayRemove(email),
-            NumberOfMembers: docS.data().Members.length + 1,
-          });
-
-          await updateDoc(doc(db, "User", email), {
-            Groups: arrayUnion(this.group),
-          });
-          let memberName = (await getDoc(doc(db, "User", email))).data().Name;
-          alert("Accepted!");
-          const noti = {
-            title: memberName + " has joined " + this.group + " study group",
-            time: this.formatDate(new Date()),
-          };
-          const member = (await getDoc(doc(db, "Group", this.group))).data()
-            .Members;
-          console.log(5);
-          for (let i = 0; i < member.length; i++) {
-            await updateDoc(doc(db, "User", member[i]), {
-              Notifications: arrayUnion(noti),
+          if (docS.data().Members.length >= docS.data().Size) {
+            alert("Group has already reached maximum capacity!");
+          } else {
+            const docRef = await updateDoc(doc(db, "Group", this.group), {
+              Members: arrayUnion(email),
+              Requests: arrayRemove(email),
+              NumberOfMembers: docS.data().Members.length + 1,
             });
+
+            await updateDoc(doc(db, "User", email), {
+              Groups: arrayUnion(this.group),
+            });
+            let memberName = (await getDoc(doc(db, "User", email))).data().Name;
+            alert("Accepted!");
+            const noti = {
+              title: memberName + " has joined " + this.group + " study group",
+              time: this.formatDate(new Date()),
+            };
+            const member = (await getDoc(doc(db, "Group", this.group))).data()
+              .Members;
+            console.log(5);
+            for (let i = 0; i < member.length; i++) {
+              await updateDoc(doc(db, "User", member[i]), {
+                Notifications: arrayUnion(noti),
+              });
+            }
+            this.$emit("reviewed");
           }
-          this.$emit("reviewed");
         } catch (error) {
           console.error("Error accepting request: ", error);
         }
@@ -218,7 +220,13 @@ export default {
 </script>
 
 <style scoped>
-h1, h2, h3, h4, h5, h6, p {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   color: #000;
   font-family: ABeeZee;
   font-style: normal;
@@ -226,11 +234,11 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 #description {
-  text-align: left; 
-  margin-bottom: 20px; 
+  text-align: left;
+  margin-bottom: 20px;
   margin-left: 20px;
 }
-.card{
+.card {
   border: 1px solid #ffde59;
   border-radius: 20px;
   padding: 3px 10px 3px 10px;
@@ -241,7 +249,7 @@ h1, h2, h3, h4, h5, h6, p {
   margin-left: auto;
   margin-right: auto;
   margin: 15px;
-  position: relative; 
+  position: relative;
 }
 
 td,
@@ -269,10 +277,10 @@ tr {
 
 .account {
   flex-grow: 1;
-  white-space: nowrap; 
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
-  max-width: 200px; 
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 #requests {
@@ -296,11 +304,10 @@ tr {
 }
 
 #buttons {
-  position: absolute; 
-  bottom: 10px; 
-  left: 50%; 
-  transform: translateX(-50%); 
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
 }
-
 </style>

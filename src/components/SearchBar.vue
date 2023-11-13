@@ -206,14 +206,12 @@ export default {
         let num_of_member = groupData.NumberOfMembers;
         let size = groupData.Size;
         let not_full = num_of_member != size;
-        let fullSize = (groupData.Members.length + groupData.Requests.length) >= size
         let user_not_in_group = !groupData.Members.includes(this.email);
         if (
           (description.toLowerCase().includes(text) ||
             group_name.toLowerCase().includes(text)) &&
           not_full &&
-          user_not_in_group &&
-          !fullSize
+          user_not_in_group
         ) {
           valid_groups.push(groupData);
         }
